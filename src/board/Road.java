@@ -12,7 +12,7 @@ public class Road {
 	private int xCoord,
 				yCoord,
 				orientation;
-	
+
 
 	/**
 	 * Constructor takes three params for its three int fields

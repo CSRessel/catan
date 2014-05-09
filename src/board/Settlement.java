@@ -48,8 +48,9 @@ public class Settlement implements Structure {
 	 * @param p the <code>Player</code> to set the field to
 	 */
 	public void setPlayer(Player p) {
-		if (null == owner)
+		if (null == owner) {
 			owner = p;
+		}
 	}
 	
 	/**
@@ -59,5 +60,4 @@ public class Settlement implements Structure {
 	public Player getPlayer() {
 		return owner;
 	}
-
 }

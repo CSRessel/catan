@@ -49,5 +49,4 @@ public class City implements Structure {
 	public Player getPlayer() {
 		return owner;
 	}
-
 }
