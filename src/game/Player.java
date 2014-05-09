@@ -2,11 +2,12 @@ package game;
 
 import java.awt.Color;
 
+
 public class Player {
 	
 	private String name;
 	private Color color;
-
+	
 	
 	/**
 	 * Constructor takes params for assignment to fields
