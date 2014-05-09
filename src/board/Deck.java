@@ -15,7 +15,16 @@ public class Deck {
 	public Deck() {
 		cards = new ArrayList<Card>(25);
 		
-		//TODO
+		for (int i = 0; i < 14; i++)
+			cards.add(new Card("Knight"));
+		cards.add(new Card("Progress", "Road Building"));
+		cards.add(new Card("Progress", "Road Building"));
+		cards.add(new Card("Progress", "Year of plenty"));
+		cards.add(new Card("Progress", "Year of plenty"));
+		cards.add(new Card("Progress", "Monopoly"));
+		cards.add(new Card("Progress", "Monopoly"));
+		for (int i = 0; i < 5; i++)
+			cards.add(new Card("Victory Point"));
 		
 		Collections.shuffle(cards);
 	}
