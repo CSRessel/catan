@@ -1,8 +1,11 @@
-
 package board;
 
 import game.Player;
 
+
+/**
+ * The <code>Settlement</code> class models a Settlement from settlers of Catan
+ */
 public class City implements Structure {
 
 	private Player owner;

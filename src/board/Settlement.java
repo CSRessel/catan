@@ -4,7 +4,7 @@ import game.Player;
 
 
 /**
- * The <code>Settlement</code> class models a Settlement from settlers of Catan
+ * The <code>Settlement</code> class models a settlement from Settlers of Catan
  */
 public class Settlement implements Structure {
 
