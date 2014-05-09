@@ -1,4 +1,4 @@
-# Copied from teh interwebz
+# Copied from the internet.
 
 *target*
 *.jar
@@ -27,3 +27,4 @@ local.properties
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+/bin/
