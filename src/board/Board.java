@@ -77,7 +77,13 @@ public class Board {
 			}
 		}
 		
-
+		for (int row = 0; row < structures.length; row++) {
+			for (int col = 0; col < structures[0].length; col++) {
+				for (int ori = 0; ori < structures[0][0].length; ori++) {
+					structures[row][col][ori] = new Settlement(col, row, ori);
+				}
+			}
+		}
 	}
 
 }

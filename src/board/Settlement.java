@@ -11,7 +11,7 @@ public class Settlement implements Structure {
 	private Player owner;
 	private int xCoord,
 				yCoord,
-				orientation;
+				orientation; //0 = top, 1 = bottom
 	
 	
 	/**
