@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * Board represents the board in Settlers of Catan, and contains the grids for tiles, structures, and roads.
+ */
+
 public class Board {
 
 	private Tile[][] tiles;
 	private Structure[][][] structures;
 	private Road[][][] roads;
 
+	/**
+	 * Constructor for Board, creates the hexagonal grid for the tiles, with arbitrary third axis for structures and roads.
+	 * Tiles randomly placed, and assigned numbers according to the Settlers of Catan rulebook, going in a spiral fashion and skipping the desert.
+	 * Settlements and Roads are placed at every vertex and edge, respectively, with unassigned players.
+	 */
 	public Board() {
 		tiles = new Tile[7][7];
 		structures = new Structure[7][7][2];
@@ -81,6 +90,14 @@ public class Board {
 			for (int col = 0; col < structures[0].length; col++) {
 				for (int ori = 0; ori < structures[0][0].length; ori++) {
 					structures[row][col][ori] = new Settlement(col, row, ori);
+				}
+			}
+		}
+		
+		for (int row = 0; row < roads.length; row++) {
+			for (int col = 0; col < roads[0].length; col++) {
+				for (int ori = 0; ori < roads[0][0].length; ori++) {
+					roads[row][col][ori] = new Road(col, row, ori);
 				}
 			}
 		}

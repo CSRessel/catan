@@ -11,7 +11,7 @@ public class Road {
 	private Player owner;
 	private int xCoord,
 				yCoord,
-				orientation;
+				orientation; //0 = top left, 1 = top right, 2 = right
 
 
 	/**
