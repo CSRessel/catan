@@ -11,7 +11,7 @@ public class Tile {
 	private int xCoord,
 				yCoord,
 				number;
-	private boolean hasRobber;
+	private boolean hasRobber = false;
 	private final String type;
 		/*
 		 * Possible values:
@@ -30,6 +30,49 @@ public class Tile {
 		yCoord = y;
 		number = n;
 		type = str;
+	}
+	
+	/**
+	 * Constructor, only initializing type
+	 * @param str the resource type
+	 */
+	public Tile(String str) {
+		type = str;
+	}
+	
+	/**
+	 * Constructor, only initializing type and hasRobber
+	 * @param str the resource type
+	 * @param boolean whether tile has robber
+	 */
+	public Tile(String str, boolean b) {
+		type = str;
+		hasRobber = b;
+	}
+	
+	/**
+	 * Modifier for Tile's coordinates
+	 * @param col the x coordinate
+	 * @param row the y coordinate
+	 */
+	public void setCoords(int col, int row) {
+		xCoord = col;
+		yCoord = row;
+	}
+	
+	/**
+	 * Modifier for Tile's number
+	 * @param n the tile's number
+	 */
+	public void setNumber(int n) {
+		number = n;
+	}
+	/**
+	 * Accessor for the Tile's number
+	 * @return number the tile's number
+	 */
+	public int getNumber() {
+		return number;
 	}
 	
 	/**
