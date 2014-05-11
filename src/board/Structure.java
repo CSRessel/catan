@@ -4,25 +4,50 @@ import game.Player;
 
 
 /**
- * <code>Structure</code> is an interface for the classes <code>Settlement</code> and <code>City</code>
+ * This is a superclass for Settlement and City
  */
-public interface Structure {
+public abstract class Structure {
+	
+	private Player owner;
+	private VertexLocation location;
 	
 	/**
-	 * Gives resources to the player in the <code>owner</code> field of the <code>Structure</code>
+	 * This method will give resources of type resType to the owner of the Structure
+	 * @param resType the type of resource to be given to the owner
 	 */
-	void giveResources();
+	public abstract void giveResources(String resType);
+
+	/**
+	 * Setter for the Structure's owner
+	 * Can only be set if Structure is unowned (only settable once)
+	 * @param p the new owner of the Structure
+	 */
+	public void setPlayer(Player p) {
+		if (null == owner)
+			owner = p;
+	}
+
+	/**
+	 * Getter for the Structure's owner
+	 * @return the Structure's owner
+	 */
+	public Player getPlayer() {
+		return owner;
+	}
 	
 	/**
-	 * Set's the final field <code>owner</code> to the given <code>Player</code>
-	 * @param p the <code>Player</code> to set the field to
+	 * Setter for the Structure's location
+	 * @param loc the new value for the Structure's location
 	 */
-	void setPlayer(Player p);
-	
+	public void setLocation(VertexLocation loc) {
+		location = loc;
+	}
+
 	/**
-	 * Accessor for the <code>Structure</code>'s <code>Player</code> field
-	 * @return the class's <code>Player</code>
+	 * Getter for the Structure's location
+	 * @return the Structure's location
 	 */
-	Player getPlayer();
-	
+	public VertexLocation getLocation() {
+		return location;
+	}
 }

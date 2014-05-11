@@ -4,13 +4,12 @@ import java.util.ArrayList;
 
 
 /**
- * Tile represents a single tile
+ * Tile represents a single tile in a hexagonal grid
  */
 public class Tile {
 	
-	private int xCoord,
-				yCoord,
-				number;
+	private int number;
+	private Location location;
 	private boolean hasRobber = false;
 	private final String type;
 		/*
@@ -27,8 +26,7 @@ public class Tile {
 	 * @param str the resource type of the Tile
 	 */
 	public Tile(int x, int y, int n, String str) {
-		xCoord = x;
-		yCoord = y;
+		location = new Location(x, y);
 		number = n;
 		type = str;
 	}
@@ -52,24 +50,23 @@ public class Tile {
 	}
 	
 	/**
-	 * Modifier for Tile's coordinates
+	 * Setter for Tile's coordinates
 	 * @param col the x coordinate
 	 * @param row the y coordinate
 	 */
 	public void setCoords(int col, int row) {
-		xCoord = col;
-		yCoord = row;
+		location = new Location(col, row);
 	}
 	
 	/**
-	 * Modifier for Tile's number
+	 * Setter for Tile's number
 	 * @param n the tile's number
 	 */
 	public void setNumber(int n) {
 		number = n;
 	}
 	/**
-	 * Accessor for the Tile's number
+	 * Getter for the Tile's number
 	 * @return number the tile's number
 	 */
 	public int getNumber() {
@@ -80,32 +77,36 @@ public class Tile {
 	 * Calls each settlement to give the appropriate resource to its owner
 	 */
 	public void giveResources() {
+		ArrayList<Structure> structures = findAdjacentStructures();
 		
+		for (Structure s : structures) {
+			s.giveResources(type);
+		}
 	}
 	
 	/**
 	 * Finds all settlements next to this tile
 	 * @return ArrayList of adjacent Settlements
 	 */
-	private ArrayList<Settlement> findAdjacentSettlements() {
-		ArrayList<Settlement> settlements = new ArrayList<Settlement>();
+	private ArrayList<Structure> findAdjacentStructures() {
+		ArrayList<Structure> structures = new ArrayList<Structure>();
 		
 		//TODO
 		
-		return settlements;
+		return structures;
 	}
 	
 	/**
-	 * Returns this tile's resource type
-	 * @return String of resource type this tile is
+	 * Getter for this tile's resource type
+	 * @return String resource type this tile is
 	 */
 	public String getType() {
 		return type;
 	}
 	
 	/**
-	 * Accessor for the boolean field determining whether class has Robber or not
-	 * @return boolean of whether Tile has Robber or not
+	 * Getter for boolean field determining whether class has Robber or not
+	 * @return boolean whether Tile has Robber or not
 	 */
 	public boolean hasRobber() {
 		return hasRobber;

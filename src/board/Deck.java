@@ -3,7 +3,9 @@ package board;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * This class models the deck of dev cards from Settlers of Catan
+ */
 public class Deck {
 
 	private ArrayList<DevCard> cards;

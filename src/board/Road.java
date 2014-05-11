@@ -2,44 +2,49 @@ package board;
 
 import game.Player;
 
-
 /**
- * The <code>Road</code> class models a road from Settlers of Catan
+ * This class models a road from Settlers of Catan
+ * @author clifford
+ *
  */
 public class Road {
 
 	private Player owner;
-	private int xCoord,
-				yCoord,
-				orientation; //0 = top left, 1 = top right, 2 = right
+	private EdgeLocation location;
 
 
 	/**
-	 * Constructor takes three params for its three int fields
-	 * @param x gets set to xCoord
-	 * @param y gets set to yCoord
-	 * @param o gets set to orientation;
+	 * Constructor for the Road
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 * @param o the orienation
 	 */
 	public Road(int x, int y, int o) {
-		xCoord = x;
-		yCoord = y;
-		orientation = o;
+		location = new EdgeLocation(x, y, o);
 	}
 
 	/**
-	 * Set's the field <code>owner</code> to the given <code>Player</code>
-	 * @param p the <code>Player</code> to set the field to
+	 * Setter for the Road's owner (only settable if no current owner; i.e. only settable once)
+	 * @param p the new owner
 	 */
 	public void setPlayer(Player p) {
 		if (null == owner)
 			owner = p;
 	}
-	
+
 	/**
-	 * Accessor for the <code>Road</code>'s <code>Player</code> field
-	 * @return the class's <code>Player</code>
+	 * Getter for the Road's owner
+	 * @return the owner
 	 */
 	public Player getPlayer() {
 		return owner;
+	}
+	
+	/**
+	 * Getter for the Road's location
+	 * @return the location
+	 */
+	public EdgeLocation getLocation() {
+		return location;
 	}
 }

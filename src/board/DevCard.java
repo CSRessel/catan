@@ -2,7 +2,7 @@ package board;
 
 
 /**
- * Card models a development (dev) card from Settler of Catan
+ * Card models a dev card from Settler of Catan
  */
 public class DevCard {
 
@@ -51,7 +51,7 @@ public class DevCard {
 	}
 	
 	/**
-	 * Accessor for the field indicating the type of the Card
+	 * Getter for the type of the Card
 	 * @return the main type of the Card (Knight, Progress, or Victory Point)
 	 */
 	public String getType() {
@@ -59,8 +59,8 @@ public class DevCard {
 	}
 	
 	/**
-	 * Accessor for the field indicating the sub type for Cards of main type "Progress"
-	 * @return the sub type of the Card ("Road Building", "Year of Plenty", "Monopoly" for cardType="Progress", null otherwise)
+	 * Getter for the sub type for Cards of main type "Progress"
+	 * @return the sub type of the Card ("Road Building", "Year of Plenty", or "Monopoly" for cardType="Progress", null otherwise)
 	 */
 	public String getSubType() {
 		return subType;

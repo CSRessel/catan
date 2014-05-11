@@ -4,60 +4,36 @@ import game.Player;
 
 
 /**
- * The <code>Settlement</code> class models a settlement from Settlers of Catan
+ * This class models a settlement in Settlers of Catan
  */
-public class Settlement implements Structure {
+public class Settlement extends Structure {
 
-	private Player owner;
-	private int xCoord,
-				yCoord,
-				orientation; //0 = top, 1 = bottom
-	
-	
 	/**
-	 * Constructor takes three params for its three int fields
-	 * @param x gets set to xCoord
-	 * @param y gets set to yCoord
-	 * @param o gets set to orientation;
+	 * Constructor with three values to be used for the Settlement's location
+	 * @param x the x coordinate of the location
+	 * @param y the y coordinate of the location
+	 * @param o the orientation of the location
 	 */
 	public Settlement(int x, int y, int o) {
-		xCoord = x;
-		yCoord = y;
-		orientation = o;
+		setLocation(new VertexLocation(x, y, o));
 	}
 	
 	/**
-	 * Gives 1 resource to the player in the <code>owner</code> field of the <code>Settlement</code>
+	 * Gives one resource of type resType to the owner of the Settlement
+	 * @param resType the type of resource to be given
 	 */
-	public void giveResources() {
+	public void giveResources(String resType) {
 		//TODO
 	}
-	
+
 	/**
-	 * Replaces this <code>Settlement</code> with a <code>City</code>
+	 * Creates and returns a new City with the same fields to replace this settlement
+	 * @return a new City with the same fields
 	 */
 	public City upgrade() {
-		City upgraded = new City (xCoord, yCoord, orientation);
-		upgraded.setPlayer(owner);
+		City upgraded = new City(getLocation());
+		upgraded.setPlayer(getPlayer());
 		
 		return upgraded;
-	}
-	
-	/**
-	 * Set's the final field <code>owner</code> to the given <code>Player</code>
-	 * @param p the <code>Player</code> to set the field to
-	 */
-	public void setPlayer(Player p) {
-		if (null == owner) {
-			owner = p;
-		}
-	}
-	
-	/**
-	 * Accessor for the <code>Settlement</code>'s <code>Player</code> field
-	 * @return the class's <code>Player</code>
-	 */
-	public Player getPlayer() {
-		return owner;
 	}
 }
