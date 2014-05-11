@@ -18,6 +18,7 @@ public class Tile {
 		 * DESERT, BRICK, SHEEP, TIMBER, WHEAT, ORE
 		 */
 	
+	
 	/**
 	 * Constructor, with given params for its fields
 	 * @param x the x coordinate

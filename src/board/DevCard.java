@@ -4,7 +4,7 @@ package board;
 /**
  * Card models a development (dev) card from Settler of Catan
  */
-public class Card {
+public class DevCard {
 
 	private final String cardType;
 		/*
@@ -35,7 +35,7 @@ public class Card {
 	 * Creates a dev card with one param as main type of Card
 	 * @param cT the main type of the Card (Knight, Progress, or Victory Point)
 	 */
-	public Card(String cT) {
+	public DevCard(String cT) {
 		cardType = cT;
 		subType = null;
 	}
@@ -45,7 +45,7 @@ public class Card {
 	 * @param cT the main type of the Card (Knight, Progress, or Victory Point)
 	 * @param sT the sub type of the Card (read comments)
 	 */
-	public Card(String cT, String sT) {
+	public DevCard(String cT, String sT) {
 		cardType = cT;
 		subType = sT;
 	}

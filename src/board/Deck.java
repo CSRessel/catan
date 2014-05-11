@@ -6,25 +6,26 @@ import java.util.Collections;
 
 public class Deck {
 
-	private ArrayList<Card> cards;
+	private ArrayList<DevCard> cards;
 
 
 	/**
 	 * Constructor for the deck of the game; adds all the Cards then shuffles the deck
 	 */
 	public Deck() {
-		cards = new ArrayList<Card>(25);
+		cards = new ArrayList<DevCard>(25);
 		
 		for (int i = 0; i < 14; i++)
-			cards.add(new Card("Knight"));
-		cards.add(new Card("Progress", "Road Building"));
-		cards.add(new Card("Progress", "Road Building"));
-		cards.add(new Card("Progress", "Year of plenty"));
-		cards.add(new Card("Progress", "Year of plenty"));
-		cards.add(new Card("Progress", "Monopoly"));
-		cards.add(new Card("Progress", "Monopoly"));
+			cards.add(new DevCard("Knight"));
+		cards.add(new DevCard("Progress", "Road Building"));
+		cards.add(new DevCard("Progress", "Road Building"));
+		cards.add(new DevCard("Progress", "Year of plenty"));
+		cards.add(new DevCard("Progress", "Year of plenty"));
+		cards.add(new DevCard("Progress", "Monopoly"));
+		cards.add(new DevCard("Progress", "Monopoly"));
 		for (int i = 0; i < 5; i++)
-			cards.add(new Card("Victory Point"));
+			cards.add(new DevCard("Victory Point"));
+		
 		
 		Collections.shuffle(cards);
 	}
@@ -33,7 +34,7 @@ public class Deck {
 	 * Draws the "top" Card of the deck
 	 * @return Card a random Card of the deck
 	 */
-	public Card draw() {
+	public DevCard draw() {
 		if (cards.size() > 0)
 			return cards.remove(cards.size());
 		else

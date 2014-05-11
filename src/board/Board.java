@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+
 /**
  * Board represents the board in Settlers of Catan, and contains the grids for tiles, structures, and roads.
  */
-
 public class Board {
 
 	private Tile[][] tiles;
 	private Structure[][][] structures;
 	private Road[][][] roads;
 
+	
 	/**
 	 * Constructor for Board, creates the hexagonal grid for the tiles, with arbitrary third axis for structures and roads.
 	 * Tiles randomly placed, and assigned numbers according to the Settlers of Catan rulebook, going in a spiral fashion and skipping the desert.
 	 * Settlements and Roads are placed at every vertex and edge, respectively, with unassigned players.
 	 */
 	public Board() {
+		
 		tiles = new Tile[7][7];
 		structures = new Structure[7][7][2];
 		roads = new Road[7][7][3];
@@ -33,8 +35,7 @@ public class Board {
 		tileList.add(new Tile("Ore")); tileList.add(new Tile("Ore")); tileList.add(new Tile("Ore"));tileList.add(new Tile("Ore"));
 		tileList.add(new Tile("Desert", true)); 
 
-		long seed = System.nanoTime();
-		Collections.shuffle(tileList, new Random(seed));
+		Collections.shuffle(tileList);
 
 		for (int i = 0; i < tileList.size(); i++) {					
 			for (int row = 1; row < 6; row ++) {
@@ -77,10 +78,11 @@ public class Board {
 		int[] numberOrder = {5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11};
 		int[] tileOrder = {3,5, 2,4, 1,3, 1,2, 1,1, 2,1, 3,1, 4,2, 5,3, 5,4, 5,5, 4,5, 3,4, 2,3, 2,2, 3,2, 4,3, 4,4, 3,3};
 		int numberTile = 0;
-		for (int n = 0; n < tileOrder.length - 1; n+=2){
-			if (tiles[tileOrder[n+1]][tileOrder[n]].getType().equals("Desert")){
+		
+		for (int n = 0; n < tileOrder.length - 1; n+=2) {
+			if (tiles[tileOrder[n+1]][tileOrder[n]].getType().equals("Desert")) {
 			}
-			else{
+			else {
 				tiles[tileOrder[n+1]][tileOrder[n]].setNumber(numberOrder[numberTile]);
 				numberTile++;
 			}
