@@ -1,8 +1,8 @@
 package board;
 
+import game.Player;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 
 /**
@@ -35,44 +35,49 @@ public class Board {
 		tileList.add(new Tile("Ore")); tileList.add(new Tile("Ore")); tileList.add(new Tile("Ore"));tileList.add(new Tile("Ore"));
 		tileList.add(new Tile("Desert", true)); 
 
-		Collections.shuffle(tileList);
-
-		for (int i = 0; i < tileList.size(); i++) {					
+		Collections.shuffle(tileList);		
+		
+		int count = 0;
 			for (int row = 1; row < 6; row++) {
 				switch (row) {
 				case 1:
 					for (int col = 1; col < 4; col++) {
-						tiles[row][col] = tileList.get(i);
-						tiles[row][col].setCoords(col, row);
+						tiles[col][row] = tileList.get(count);
+						tiles[col][row].setCoords(col, row);
+						count++;
 					}
 					break;
 				case 2:
 					for (int col = 1; col < 5; col++) {
-						tiles[row][col] = tileList.get(i);
-						tiles[row][col].setCoords(col, row);
+						tiles[col][row] = tileList.get(count);
+						tiles[col][row].setCoords(col, row);
+						count++;
 					}
 					break;
 				case 3:
 					for (int col = 1; col < 6; col++) {
-						tiles[row][col] = tileList.get(i);
-						tiles[row][col].setCoords(col, row);
+						tiles[col][row] = tileList.get(count);
+						tiles[col][row].setCoords(col, row);
+						count++;
 					}
 					break;
 				case 4:
 					for (int col = 2; col < 6; col++) {
-						tiles[row][col] = tileList.get(i);
-						tiles[row][col].setCoords(col, row);
+						tiles[col][row] = tileList.get(count);
+						tiles[col][row].setCoords(col, row);
+						count++;
 					}
 					break;
 				case 5:
 					for (int col = 3; col < 6; col++) {
-						tiles[row][col] = tileList.get(i);
-						tiles[row][col].setCoords(col, row);
+						tiles[col][row] = tileList.get(count);
+						tiles[col][row].setCoords(col, row);
+						count++;
 					}
 					break;
 				}
 
-			}
+			
 		}
 
 		int[] numberOrder = {5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11};
@@ -80,10 +85,10 @@ public class Board {
 		int numberTile = 0;
 		
 		for (int n = 0; n < tileOrder.length - 1; n+=2) {
-			if (tiles[tileOrder[n+1]][tileOrder[n]].getType().equals("Desert")) {
+			if (tiles[tileOrder[n]][tileOrder[n+1]].getType().equals("Desert")) {
 			}
 			else {
-				tiles[tileOrder[n+1]][tileOrder[n]].setNumber(numberOrder[numberTile]);
+				tiles[tileOrder[n]][tileOrder[n+1]].setNumber(numberOrder[numberTile]);
 				numberTile++;
 			}
 		}
@@ -91,7 +96,7 @@ public class Board {
 		for (int row = 0; row < structures.length; row++) {
 			for (int col = 0; col < structures[0].length; col++) {
 				for (int ori = 0; ori < structures[0][0].length; ori++) {
-					structures[row][col][ori] = new Settlement(col, row, ori);
+					structures[col][row][ori] = new Settlement(col, row, ori);
 				}
 			}
 		}
@@ -99,7 +104,7 @@ public class Board {
 		for (int row = 0; row < roads.length; row++) {
 			for (int col = 0; col < roads[0].length; col++) {
 				for (int ori = 0; ori < roads[0][0].length; ori++) {
-					roads[row][col][ori] = new Road(col, row, ori);
+					roads[col][row][ori] = new Road(col, row, ori);
 				}
 			}
 		}
@@ -149,5 +154,30 @@ public class Board {
 		}
 		return rollTiles;
 		
+	}
+	
+	/**
+	 * Checks location for validity for given player, then assigns the settlement to the given player
+	 * @param loc Location of settlement
+	 * @param player Player placing the settlement
+	 * @return Settlement placed
+	 */
+	public Structure placeStructure(VertexLocation loc, Player player) {
+		
+		structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+		return structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];
+		
+	}
+	
+	/**
+	 * Checks location for validity for given player, the assigns the road to the given player
+	 * @param loc Location of road
+	 * @param player Player placing the road
+	 * @return Road placed
+	 */
+	public Road placeRoad(EdgeLocation loc, Player player) {
+		
+		roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+		return roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];
 	}
 }

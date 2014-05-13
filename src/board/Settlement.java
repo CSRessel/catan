@@ -12,7 +12,7 @@ public class Settlement extends Structure {
 	 * @param y the y coordinate of the location
 	 * @param o the orientation of the location
 	 */
-	public Settlement(int x, int y, int o) {
+	public Settlement(int y, int x, int o) {
 		setLocation(new VertexLocation(x, y, o));
 	}
 	
