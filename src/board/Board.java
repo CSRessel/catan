@@ -106,17 +106,47 @@ public class Board {
 	}
 	
 	/**
+	 * Distributes resources to all Players with a Structure bordering Tiles with number roll
+	 * @param roll the value of the Tiles that have produced
+	 */
+	public void distributeResources(int roll) {
+		
+		ArrayList<Tile> rollTiles = getTilesWithNumber(roll);
+		
+		for (Tile t : rollTiles) {
+			
+			ArrayList<Structure> rollStructures = new ArrayList<Structure>();
+			
+			Location loc = t.getLocation();
+			
+			//TODO
+			// Add all the six structures to the ArrayList (ex below)
+			// Discuss orientation of axises with Allen
+			rollStructures.add(structures[loc.getXCoord()][loc.getYCoord()][0]);
+			rollStructures.add(structures[loc.getXCoord()][loc.getYCoord()][1]);
+			
+			for (Structure s : rollStructures) {
+				if (null != s.getOwner())
+					s.giveResources(t.getType());
+			}
+		}
+	}
+	
+	/**
 	 * Searches the Board for any Tiles with the value of the param and returns an ArrayList of them
 	 * @param numb the roll number to be found on the Tile
 	 * @return an ArrayList of found Tiles
 	 */
-	public ArrayList<Tile> getTilesWithNumber(int numb) {
+	private ArrayList<Tile> getTilesWithNumber(int numb) {
 		
 		ArrayList<Tile> rollTiles = new ArrayList<Tile>();
 		
-		//TODO
-		// Add all tiles with value numb to rollTiles
-		
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[i].length; i++) {
+				if (tiles[i][j].getNumber() == numb)
+					rollTiles.add(tiles[i][j]);
+			}
+		}
 		return rollTiles;
 		
 	}

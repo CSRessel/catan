@@ -4,8 +4,6 @@ import game.Player;
 
 /**
  * This class models a road from Settlers of Catan
- * @author clifford
- *
  */
 public class Road {
 

@@ -3,7 +3,9 @@ package game;
 import java.awt.Color;
 import java.util.HashMap;
 
-
+/**
+ * This class is a Player in the game Settlers of Catan
+ */
 public class Player {
 	
 	private final String name;

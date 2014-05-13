@@ -80,31 +80,7 @@ public class Tile {
 	public int getNumber() {
 		return number;
 	}
-	
-	/**
-	 * Calls each settlement to give the appropriate resource to its owner
-	 */
-	public void giveResources() {
-		// Call give resources for every adjacent Structure
-		for (Structure s : findAdjacentStructures()) {
-			s.giveResources(type);
-		}
-	}
-	
-	/**
-	 * Finds all settlements next to this tile
-	 * @return ArrayList of adjacent Settlements
-	 */
-	private ArrayList<Structure> findAdjacentStructures() {
-		
-		ArrayList<Structure> structures = new ArrayList<Structure>();
-		
-		//TODO
-		// Add all Structures boarding this tile to structures
-		
-		return structures;
-	}
-	
+
 	/**
 	 * Getter for this tile's resource type
 	 * @return String resource type this tile is

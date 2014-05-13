@@ -102,9 +102,7 @@ public class Game {
 		int roll = (int)(Math.random() * 6 + 1) + (int)(Math.random() * 6 + 1);
 		
 		// Distribute resources
-		for (Tile t : board.getTilesWithNumber(roll)) {
-			t.giveResources();
-		}
+		board.distributeResources(roll);
 	}
 	
 	/**
