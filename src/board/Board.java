@@ -29,12 +29,12 @@ public class Board {
 
 		// Create the ArrayList of all the tiles to be put in the board, with resource type defined
 		ArrayList<Tile> tileList = new ArrayList<Tile>();
-		tileList.add(new Tile("Lumber")); tileList.add(new Tile("Lumber")); tileList.add(new Tile("Lumber")); tileList.add(new Tile("Lumber"));
-		tileList.add(new Tile("Brick")); tileList.add(new Tile("Brick")); tileList.add(new Tile("Brick")); 
-		tileList.add(new Tile("Wheat")); tileList.add(new Tile("Wheat")); tileList.add(new Tile("Wheat")); tileList.add(new Tile("Wheat")); 
-		tileList.add(new Tile("Sheep")); tileList.add(new Tile("Sheep")); tileList.add(new Tile("Sheep")); tileList.add(new Tile("Sheep"));
-		tileList.add(new Tile("Ore")); tileList.add(new Tile("Ore")); tileList.add(new Tile("Ore"));tileList.add(new Tile("Ore"));
-		tileList.add(new Tile("Desert", true)); 
+		tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER"));
+		tileList.add(new Tile("BRICK")); tileList.add(new Tile("BRICK")); tileList.add(new Tile("BRICK")); 
+		tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN")); 
+		tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL"));
+		tileList.add(new Tile("ORE")); tileList.add(new Tile("ORE")); tileList.add(new Tile("ORE"));tileList.add(new Tile("ORE"));
+		tileList.add(new Tile("DESERT", true)); 
 
 		// Create random order
 		Collections.shuffle(tileList);
