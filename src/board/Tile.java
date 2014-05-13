@@ -50,7 +50,15 @@ public class Tile {
 	}
 	
 	/**
-	 * Setter for Tile's coordinates
+	 * Getter for the Tile's location
+	 * @return the Tile's location
+	 */
+	public Location getLocation() {
+		return location;
+	}
+	
+	/**
+	 * Setter for Tile's location
 	 * @param col the x coordinate
 	 * @param row the y coordinate
 	 */
@@ -77,9 +85,8 @@ public class Tile {
 	 * Calls each settlement to give the appropriate resource to its owner
 	 */
 	public void giveResources() {
-		ArrayList<Structure> structures = findAdjacentStructures();
-		
-		for (Structure s : structures) {
+		// Call give resources for every adjacent Structure
+		for (Structure s : findAdjacentStructures()) {
 			s.giveResources(type);
 		}
 	}
@@ -89,9 +96,11 @@ public class Tile {
 	 * @return ArrayList of adjacent Settlements
 	 */
 	private ArrayList<Structure> findAdjacentStructures() {
+		
 		ArrayList<Structure> structures = new ArrayList<Structure>();
 		
 		//TODO
+		// Add all Structures boarding this tile to structures
 		
 		return structures;
 	}

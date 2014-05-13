@@ -1,7 +1,5 @@
 package board;
 
-import game.Player;
-
 
 /**
  * This class models a city from Settlers of Catan
@@ -21,6 +19,7 @@ public class City extends Structure {
 	 * @param resType the type of resources to be given
 	 */
 	public void giveResources(String resType) {
-		//TODO
+		// Increment int associated with String resType in owner's hashmap of resources by two
+		getOwner().setNumberResourcesType(resType, getOwner().getNumberResourcesType(resType) + 2);
 	}
 }

@@ -22,7 +22,7 @@ public abstract class Structure {
 	 * Can only be set if Structure is unowned (only settable once)
 	 * @param p the new owner of the Structure
 	 */
-	public void setPlayer(Player p) {
+	public void setOwner(Player p) {
 		if (null == owner)
 			owner = p;
 	}
@@ -31,7 +31,7 @@ public abstract class Structure {
 	 * Getter for the Structure's owner
 	 * @return the Structure's owner
 	 */
-	public Player getPlayer() {
+	public Player getOwner() {
 		return owner;
 	}
 	

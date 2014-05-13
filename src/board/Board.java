@@ -38,33 +38,33 @@ public class Board {
 		Collections.shuffle(tileList);
 
 		for (int i = 0; i < tileList.size(); i++) {					
-			for (int row = 1; row < 6; row ++) {
+			for (int row = 1; row < 6; row++) {
 				switch (row) {
-				case 1: 
+				case 1:
 					for (int col = 1; col < 4; col++) {
 						tiles[row][col] = tileList.get(i);
 						tiles[row][col].setCoords(col, row);
 					}
 					break;
-				case 2: 
+				case 2:
 					for (int col = 1; col < 5; col++) {
 						tiles[row][col] = tileList.get(i);
 						tiles[row][col].setCoords(col, row);
 					}
 					break;
-				case 3: 
+				case 3:
 					for (int col = 1; col < 6; col++) {
 						tiles[row][col] = tileList.get(i);
 						tiles[row][col].setCoords(col, row);
 					}
 					break;
-				case 4: 
+				case 4:
 					for (int col = 2; col < 6; col++) {
 						tiles[row][col] = tileList.get(i);
 						tiles[row][col].setCoords(col, row);
 					}
 					break;
-				case 5: 
+				case 5:
 					for (int col = 3; col < 6; col++) {
 						tiles[row][col] = tileList.get(i);
 						tiles[row][col].setCoords(col, row);
@@ -103,5 +103,21 @@ public class Board {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Searches the Board for any Tiles with the value of the param and returns an ArrayList of them
+	 * @param numb the roll number to be found on the Tile
+	 * @return an ArrayList of found Tiles
+	 */
+	public ArrayList<Tile> getTilesWithNumber(int numb) {
+		
+		ArrayList<Tile> rollTiles = new ArrayList<Tile>();
+		
+		//TODO
+		// Add all tiles with value numb to rollTiles
+		
+		return rollTiles;
+		
 	}
 }
