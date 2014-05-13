@@ -14,7 +14,7 @@ public class Tile {
 	private final String type;
 		/*
 		 * Possible values:
-		 * DESERT, BRICK, SHEEP, TIMBER, WHEAT, ORE
+		 * DESERT, BRICK, WOOL, LUMBER, GRAIN, ORE
 		 */
 	
 	
