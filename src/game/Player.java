@@ -1,7 +1,10 @@
 package game;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import board.DevCard;
 
 /**
  * This class is a Player in the game Settlers of Catan
@@ -12,6 +15,7 @@ public class Player {
 	private final Color color;
 	private int victoryPoints;
 	private HashMap<String, Integer> resources;
+	private ArrayList<DevCard> hand;
 	
 	
 	/**
@@ -31,6 +35,8 @@ public class Player {
 		resources.put("TIMBER", 0);
 		resources.put("WHEAT", 0);
 		resources.put("ORE", 0);
+		
+		hand = new ArrayList<DevCard>();
 	}
 	
 	/**
@@ -84,11 +90,10 @@ public class Player {
 	}
 	
 	/**
-	 * Utility method to add resources
-	 * @param str resource to work with
-	 * @param n number of resources to add of type str
+	 * Adds given DevCard to this Player's hand of DevCards
+	 * @param dC the DevCard to give to this Player
 	 */
-	public void addNumberResourcesType(String str, int n) {
-		setNumberResourcesType(str, getNumberResourcesType(str) + n);
+	public void addDevCard(DevCard dC) {
+		hand.add(dC);
 	}
 }
