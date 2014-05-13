@@ -23,7 +23,7 @@ public abstract class Structure {
 	 * @param p the new owner of the Structure
 	 */
 	public void setOwner(Player p) {
-		if (null == owner)
+		if (owner == null)
 			owner = p;
 	}
 

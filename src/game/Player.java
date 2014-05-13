@@ -82,4 +82,13 @@ public class Player {
 	public void setNumberResourcesType(String str, int n) {
 		resources.put(str, Integer.valueOf(n));
 	}
+	
+	/**
+	 * Utility method to add resources
+	 * @param str resource to work with
+	 * @param n number of resources to add of type str
+	 */
+	public void addNumberResourcesType(String str, int n) {
+		setNumberResourcesType(str, getNumberResourcesType(str) + n);
+	}
 }

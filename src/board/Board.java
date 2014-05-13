@@ -157,12 +157,12 @@ public class Board {
 	}
 	
 	/**
-	 * Checks location for validity for given player, then assigns the settlement to the given player
+	 * Assigns the settlement to the given player
 	 * @param loc Location of settlement
 	 * @param player Player placing the settlement
 	 * @return Settlement placed
 	 */
-	public Structure placeStructure(VertexLocation loc, Player player) {
+	public Structure placeStructureNoRestrict(VertexLocation loc, Player player) {
 		
 		structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 		return structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];
@@ -170,14 +170,102 @@ public class Board {
 	}
 	
 	/**
+	 * Checks location for validity for given player, then assigns the settlement to the given player
+	 * @param loc Location of settlement
+	 * @param player Player placing the settlement
+	 * @return boolean true if successful
+	 */
+	public boolean placeStructure(VertexLocation loc, Player player) {
+		
+		if (loc.getOrientation() == 0) {
+			if (player.equals(roads[loc.getXCoord()][loc.getYCoord()][0].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord()][1].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord() + 1][2].getOwner())) 
+			{
+				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		else {
+			if (player.equals(roads[loc.getXCoord()][loc.getYCoord() - 1 ][0].getOwner()) ||
+				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord() - 1][1].getOwner()) ||
+				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord() - 1][2].getOwner())) 
+			{
+				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+			
+			
+		//structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+		
+	}
+	
+	/**
 	 * Checks location for validity for given player, the assigns the road to the given player
 	 * @param loc Location of road
 	 * @param player Player placing the road
-	 * @return Road placed
+	 * @return boolean true if successful
 	 */
-	public Road placeRoad(EdgeLocation loc, Player player) {
+	public boolean placeRoad(EdgeLocation loc, Player player) {
 		
-		roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
-		return roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];
+		if (loc.getOrientation() == 0) {
+			if (player.equals(structures[loc.getXCoord()][loc.getYCoord() + 1][1].getOwner()) ||
+				player.equals(structures[loc.getXCoord()][loc.getYCoord()][0].getOwner()) ||
+				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord()][1].getOwner()) ||
+				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord()][2].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord() + 1 ][2].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord()][1].getOwner())) 
+			{
+				roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		else if (loc.getOrientation() == 1) {
+			if (player.equals(structures[loc.getXCoord()][loc.getYCoord()][0].getOwner()) ||
+				player.equals(structures[loc.getXCoord() + 1][loc.getYCoord() + 1][1].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord()][0].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord() + 1][2].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord()][2].getOwner()) ||
+				player.equals(roads[loc.getXCoord() + 1][loc.getYCoord()][0].getOwner())) 
+			{
+				roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		else {
+			if (player.equals(structures[loc.getXCoord()][loc.getYCoord() - 1][0].getOwner()) ||
+				player.equals(structures[loc.getXCoord() + 1][loc.getYCoord() + 1][1].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord()][1].getOwner()) ||
+				player.equals(roads[loc.getXCoord() + 1][loc.getYCoord()][0].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord() - 1][0].getOwner()) ||
+				player.equals(roads[loc.getXCoord()][loc.getYCoord() - 1][1].getOwner())) 
+			{
+				roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+					
+			
+		//roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+		
 	}
 }
