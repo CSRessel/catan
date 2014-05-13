@@ -133,7 +133,14 @@ public class Game {
 			 * 1 - buy
 			 * 2 - end turn
 			 */
-		boolean success;
+		
+		int success;
+			/* Possible values:
+			 * 0 - all went well
+			 * 1 - insufficient resources
+			 * 2 - already own too many
+			 */
+		
 		if (input == 1) {
 			success = buy(p);
 		}
@@ -148,7 +155,7 @@ public class Game {
 	 * @param p the Player doing the buying
 	 * @return whether the buying succeeded or not
 	 */
-	private boolean buy(Player p) {
+	private int buy(Player p) {
 		
 		int input = 0; //TODO: input
 			/* Possibe values:
@@ -162,7 +169,19 @@ public class Game {
 		switch (input) {
 		case 1:
 			if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("LUMBER") < 1)
-				return false;
+				return 1;
+			
+			int numbRoads = 0;
+			for (int i = 0; i < 7; i++) {
+				for (int j = 0; j < 7; j++) {
+					for (int k = 0; k < 3; k++) {
+						if (board.getRoad(new EdgeLocation(i, j, k)).getOwner().equals(p))
+							numbRoads++;
+					}
+				}
+			}
+			if (numbRoads >= 15)
+				return 2;
 			
 			// Place the Settlement
 			buyObject(p, input);
@@ -173,7 +192,20 @@ public class Game {
 			break;
 		case 2:
 			if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("GRAIN") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("LUMBER") < 1)
-				return false;
+				return 1;
+			
+			int numbSettlements = 0;
+			for (int i = 0; i < 7; i++) {
+				for (int j = 0; j < 7; j++) {
+					for (int k = 0; k < 2; k++) {
+						if (board.getStructure(new VertexLocation(i, j, k)).getType() == 0 && board.getStructure(new VertexLocation(i, j, k)).getOwner().equals(p))
+							numbSettlements++;
+					}
+				}
+			}
+			if (numbSettlements >= 5)
+				return 2;
+			
 			
 			// Place the Settlement
 			buyObject(p, input);
@@ -186,7 +218,19 @@ public class Game {
 			break;
 		case 3:
 			if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3)
-				return false;
+				return 1;
+			
+			int numbCities = 0;
+			for (int i = 0; i < 7; i++) {
+				for (int j = 0; j < 7; j++) {
+					for (int k = 0; k < 2; k++) {
+						if (board.getStructure(new VertexLocation(i, j, k)).getType() == 1 && board.getStructure(new VertexLocation(i, j, k)).getOwner().equals(p))
+							numbCities++;
+					}
+				}
+			}
+			if (numbCities >= 4)
+				return 2;
 			
 			// Upgrade the settlement
 			buyObject(p, input);
@@ -197,7 +241,7 @@ public class Game {
 			break;
 		case 4:
 			if (p.getNumberResourcesType("ORE") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("GRAIN") < 1)
-				return false;
+				return 1;
 			
 			// Assign the DevCard to the Player
 			buyObject(p, input);
@@ -208,12 +252,12 @@ public class Game {
 
 			break;
 		case 5:
-			return true;
+			return 0;
 			
 		default:
 			throw new IllegalArgumentException("Invalid buy choice");
 		}
-		return true;
+		return 0;
 	}
 	
 	/**

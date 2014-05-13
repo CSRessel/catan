@@ -12,6 +12,7 @@ public class City extends Structure {
 	 */
 	public City(VertexLocation loc) {
 		setLocation(loc);
+		setType(1);
 	}
 
 	/**

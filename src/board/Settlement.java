@@ -14,6 +14,7 @@ public class Settlement extends Structure {
 	 */
 	public Settlement(int y, int x, int o) {
 		setLocation(new VertexLocation(x, y, o));
+		setType(0);
 	}
 	
 	/**

@@ -166,16 +166,30 @@ public class Board {
 	}
 	
 	/**
-	 * Finds and returns the Structure (always used for a Settlement) at given location
-	 * @param loc the Location of the Structure
-	 * @return the Structure at the Location
+	 * Getter for the Structure at the given location
+	 * @param loc the location to retrieve from
+	 * @return the Structure from that place
 	 */
 	public Structure getStructure(VertexLocation loc) {
 		return structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];
 	}
 	
+	/**
+	 * Setter for the Structure at given location
+	 * @param loc the location to change
+	 * @param s the Structure to set it to
+	 */
 	public void setStructure(VertexLocation loc, Structure s) {
 		structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()] = s;
+	}
+	
+	/**
+	 * Getter for the Road at the given location
+	 * @param loc the location to retrieve from
+	 * @return the Road from that place
+	 */
+	public Road getRoad(EdgeLocation loc) {
+		return roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];
 	}
 	
 	/**
@@ -187,8 +201,8 @@ public class Board {
 	public Structure placeStructureNoRestrict(VertexLocation loc, Player player) {
 		
 		structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
-		return structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];
 		
+		return structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];	
 	}
 	
 	/**
@@ -200,9 +214,13 @@ public class Board {
 	public boolean placeStructure(VertexLocation loc, Player player) {
 		
 		if (loc.getOrientation() == 0) {
-			if (player.equals(roads[loc.getXCoord()][loc.getYCoord()][0].getOwner()) ||
+			if ((player.equals(roads[loc.getXCoord()][loc.getYCoord()][0].getOwner()) ||
 				player.equals(roads[loc.getXCoord()][loc.getYCoord()][1].getOwner()) ||
-				player.equals(roads[loc.getXCoord()][loc.getYCoord() + 1][2].getOwner())) 
+				player.equals(roads[loc.getXCoord()][loc.getYCoord() + 1][2].getOwner()))
+				&&
+				(structures[loc.getXCoord()][loc.getYCoord()+1][1].notOwnedByAnother(player) &&
+				structures[loc.getXCoord()+1][loc.getYCoord()+1][1].notOwnedByAnother(player) &&
+				structures[loc.getXCoord()+1][loc.getYCoord()+2][1].notOwnedByAnother(player)))
 			{
 				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 				return true;
@@ -211,11 +229,14 @@ public class Board {
 				return false;
 			}
 		}
-		
 		else {
-			if (player.equals(roads[loc.getXCoord()][loc.getYCoord() - 1 ][0].getOwner()) ||
+			if ((player.equals(roads[loc.getXCoord()][loc.getYCoord() - 1 ][0].getOwner()) ||
 				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord() - 1][1].getOwner()) ||
-				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord() - 1][2].getOwner())) 
+				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord() - 1][2].getOwner()))
+				&&
+				(structures[loc.getXCoord()][loc.getYCoord()-1][0].notOwnedByAnother(player) &&
+				structures[loc.getXCoord()-1][loc.getYCoord()-1][0].notOwnedByAnother(player) &&
+				structures[loc.getXCoord()-1][loc.getYCoord()-2][0].notOwnedByAnother(player)))
 			{
 				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 				return true;
@@ -223,11 +244,8 @@ public class Board {
 			else {
 				return false;
 			}
-		}
-			
-			
+		}		
 		//structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
-		
 	}
 	
 	/**
@@ -253,7 +271,6 @@ public class Board {
 				return false;
 			}
 		}
-		
 		else if (loc.getOrientation() == 1) {
 			if (player.equals(structures[loc.getXCoord()][loc.getYCoord()][0].getOwner()) ||
 				player.equals(structures[loc.getXCoord() + 1][loc.getYCoord() + 1][1].getOwner()) ||
@@ -285,9 +302,6 @@ public class Board {
 				return false;
 			}
 		}
-					
-			
 		//roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
-		
 	}
 }

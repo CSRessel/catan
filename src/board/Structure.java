@@ -10,6 +10,8 @@ public abstract class Structure {
 	
 	private Player owner;
 	private VertexLocation location;
+	private int type;
+		// Either 0 (Settlement), or 1 (City)
 	
 	/**
 	 * This method will give resources of type resType to the owner of the Structure
@@ -23,7 +25,7 @@ public abstract class Structure {
 	 * @param p the new owner of the Structure
 	 */
 	public void setOwner(Player p) {
-		if (owner == null)
+		if (null == owner)
 			owner = p;
 	}
 
@@ -49,5 +51,28 @@ public abstract class Structure {
 	 */
 	public VertexLocation getLocation() {
 		return location;
+	}
+	
+	/**
+	 * Getter for the Structure'ss type
+	 * @return the Structure's type
+	 */
+	public int getType() {
+		return type;
+	}
+	
+	/**
+	 * Setter for the Structure's type
+	 * @param t the new type of the Structure
+	 */
+	public void setType(int t) {
+		type = t;
+	}
+	
+	public boolean notOwnedByAnother(Player p) {
+		if (this.owner.equals(p) || null == owner)
+			return true;
+		else
+			return false;
 	}
 }
