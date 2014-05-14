@@ -96,4 +96,12 @@ public class Player {
 	public void addDevCard(DevCard dC) {
 		hand.add(dC);
 	}
+	
+	/**
+	 * Getter for this Player's hand of DevCards
+	 * @return an ArrayList of DevCards owned by this Player
+	 */
+	public ArrayList<DevCard> getHand() {
+		return hand;
+	}
 }
