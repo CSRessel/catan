@@ -4,10 +4,10 @@ To Be Completed:
 
 Logic
 -----
--Setup phase
--Dev Cards
--Trading
--Longest road
+- Setup phase
+- Dev Cards
+- Trading
+- Longest road
 
 
 GUI
