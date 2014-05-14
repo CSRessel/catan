@@ -13,6 +13,7 @@ public class Board {
 	private Tile[][] tiles;
 	private Structure[][][] structures;
 	private Road[][][] roads;
+	private Location robberLoc;
 		// Board is slanted backwards, i.e.  \##\
 
 	
@@ -26,7 +27,8 @@ public class Board {
 		tiles = new Tile[7][7];
 		structures = new Structure[7][7][2];
 		roads = new Road[7][7][3];
-
+		Tile desert = new Tile("DESERT", true);
+		
 		// Create the ArrayList of all the tiles to be put in the board, with resource type defined
 		ArrayList<Tile> tileList = new ArrayList<Tile>();
 		tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER"));
@@ -34,7 +36,7 @@ public class Board {
 		tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN")); 
 		tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL"));
 		tileList.add(new Tile("ORE")); tileList.add(new Tile("ORE")); tileList.add(new Tile("ORE"));tileList.add(new Tile("ORE"));
-		tileList.add(new Tile("DESERT", true)); 
+		tileList.add(new Tile("DESERT", true));
 
 		// Create random order
 		Collections.shuffle(tileList);
@@ -80,6 +82,8 @@ public class Board {
 				}
 				break;
 			}
+			
+			robberLoc = desert.getLocation();
 		}
 
 		// The order of the numbers to be assigned to the tiles, followed by an int to be used as an index
@@ -127,6 +131,9 @@ public class Board {
 		ArrayList<Tile> rollTiles = getTilesWithNumber(roll);
 		
 		for (Tile t : rollTiles) {
+			if (t.hasRobber() || t.getType().equals("DESERT")) {
+				continue;
+			}
 			
 			ArrayList<Structure> rollStructures = new ArrayList<Structure>();
 			
@@ -303,5 +310,30 @@ public class Board {
 			}
 		}
 		//roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+	}
+	
+	/**
+	 * Getter for the Location of the Robber
+	 * @return loc the current Location of the Robber in this board
+	 */
+	public Location getRobberLocation() {
+		return robberLoc;
+	}
+	
+	/**
+	 * Setter for the Location of the Robber
+	 * @param loc the new Location of Robber
+	 */
+	public void setRobberLocation(Location loc) {
+		robberLoc = loc;
+	}
+	
+	/**
+	 * Getter for the Tile at the given Location
+	 * @param loc the Location to retrieve from
+	 * @return the Tile there
+	 */
+	public Tile getTile(Location loc) {
+		return tiles[loc.getXCoord()][loc.getYCoord()];
 	}
 }
