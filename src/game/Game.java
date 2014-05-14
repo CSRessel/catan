@@ -60,9 +60,9 @@ public class Game {
 	 */
 	private void play() {
 		
-		boolean gameOver = false;
+		boolean gameOver;
 		
-		while (!gameOver) {
+		do {
 			
 			// Check if the game is over
 			
@@ -79,11 +79,7 @@ public class Game {
 					secondMaxVictoryPoints = victoryPoints;
 				}
 			}
-			
-			if (maxVictoryPoints >= 10 && maxVictoryPoints > secondMaxVictoryPoints) {
-				gameOver = true;
-			}
-			
+			gameOver = maxVictoryPoints >= 10 && maxVictoryPoints > secondMaxVictoryPoints;
 			
 			// For each player execute the phases of their turn (roll, trade, build)
 			
@@ -91,7 +87,7 @@ public class Game {
 				roll(p);
 				tradeAndBuild(p);
 			}
-		}
+		} while (!gameOver);
 		
 	}
 	
@@ -101,7 +97,7 @@ public class Game {
 	 */
 	private void roll(Player p) {
 		
-		int input = 1;
+		int input;
 			/* Possible values:
 			 * 0 - play dev card
 			 * 1 - continue
@@ -129,7 +125,10 @@ public class Game {
 		ArrayList<DevCard> cards = p.getHand();
 		
 		int input = 0; //TODO: input
-		
+			/* Possible values:
+			 * any index within ArrayList cards
+			 */
+	
 		if (input >= 0 && input < cards.size()) {
 			DevCard dC = cards.remove(input);
 			//TODO: dev card functionality here
@@ -145,7 +144,7 @@ public class Game {
 	 */
 	private void tradeAndBuild(Player p) {
 		
-		int input = 3;
+		int input;
 			/* Possible values:
 			 * 0 - trade
 			 * 1 - buy
@@ -165,7 +164,9 @@ public class Game {
 			else if (input == 2) {
 				playDevCard(p);
 			}
-			
+			else {
+				//TODO: throw error about invalid action selection
+			}
 		} while (input != 3);
 	}
 	
@@ -193,7 +194,7 @@ public class Game {
 	 */
 	private void buy(Player p) {
 		
-		int input = 5; //TODO: input
+		int input; //TODO: input
 			/* Possibe values:
 			 * 1 - road
 			 * 2 - settlement
@@ -204,12 +205,15 @@ public class Game {
 		
 		do {
 			input = 5; //TODO: input
+			
 			switch (input) {
 			case 1:
+				
 				if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
 					//TODO: throw error about not enough resources
 				}
 				
+				// Check Player has not exceeded capacity for object
 				int numbRoads = 0;
 				for (int i = 0; i < 7; i++) {
 					for (int j = 0; j < 7; j++) {
@@ -233,10 +237,13 @@ public class Game {
 	
 				break;
 			case 2:
+				
+				// Check Player has sufficient resources
 				if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("GRAIN") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
 					//TODO: throw error about not enough resources
 				}
 				
+				// Check Player has not exceeded capacity for object
 				int numbSettlements = 0;
 				for (int i = 0; i < 7; i++) {
 					for (int j = 0; j < 7; j++) {
@@ -263,10 +270,13 @@ public class Game {
 	
 				break;
 			case 3:
+				
+				// Check Player has sufficient resources
 				if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3) {
 					//TODO: throw error about not enough resources
 				}
 				
+				// Check Player has not exceeded capacity for object
 				int numbCities = 0;
 				for (int i = 0; i < 7; i++) {
 					for (int j = 0; j < 7; j++) {
@@ -290,6 +300,8 @@ public class Game {
 	
 				break;
 			case 4:
+				
+				// Check Player has sufficient resources
 				if (p.getNumberResourcesType("ORE") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("GRAIN") < 1) {
 					//TODO: throw error about not enough resources
 				}
@@ -388,7 +400,13 @@ public class Game {
 			}
 		}
 		else if (choice == 4) {
-			p.addDevCard(deck.draw());
+			DevCard dC = deck.draw();
+			if (null != dC) {
+				p.addDevCard(dC);
+			}
+			else {
+				//TODO: throw error about no dev cards left
+			}
 		}
 	}
 }
