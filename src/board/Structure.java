@@ -1,5 +1,7 @@
 package board;
 
+import java.util.ArrayList;
+
 import game.Player;
 
 
@@ -69,10 +71,4 @@ public abstract class Structure {
 		type = t;
 	}
 	
-	public boolean notOwnedByAnother(Player p) {
-		if (this.owner.equals(p) || null == owner)
-			return true;
-		else
-			return false;
-	}
 }

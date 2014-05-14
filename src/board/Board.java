@@ -1,6 +1,7 @@
 package board;
 
 import game.Player;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -26,7 +27,7 @@ public class Board {
 		tiles = new Tile[7][7];
 		structures = new Structure[7][7][2];
 		roads = new Road[7][7][3];
-
+		
 		// Create the ArrayList of all the tiles to be put in the board, with resource type defined
 		ArrayList<Tile> tileList = new ArrayList<Tile>();
 		tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER")); tileList.add(new Tile("LUMBER"));
@@ -193,16 +194,37 @@ public class Board {
 	}
 	
 	/**
-	 * Assigns the settlement to the given player
+	 * Assigns the settlement to the given player, even without a road
 	 * @param loc Location of settlement
 	 * @param player Player placing the settlement
-	 * @return Settlement placed
+	 * @return boolean true if successful
 	 */
-	public Structure placeStructureNoRestrict(VertexLocation loc, Player player) {
+	public boolean placeStructureNoRoad(VertexLocation loc, Player player) {
 		
-		structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
-		
-		return structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()];	
+		if (loc.getOrientation() == 0) {
+			if (structures[loc.getXCoord()][loc.getYCoord()+1][1].getOwner() == null &&
+				structures[loc.getXCoord()+1][loc.getYCoord()+1][1].getOwner() == null &&
+				!(loc.getYCoord() + 2 <=6 && !(structures[loc.getXCoord()+1][loc.getYCoord()+2][1].getOwner() == null)))
+			{
+				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			if (structures[loc.getXCoord()][loc.getYCoord()-1][0].getOwner() == null &&
+				structures[loc.getXCoord()-1][loc.getYCoord()-1][0].getOwner() == null &&
+				!(loc.getYCoord() - 2 >=0 && !(structures[loc.getXCoord()-1][loc.getYCoord()-2][0].getOwner() == null)))
+			{
+				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}		
 	}
 	
 	/**
@@ -218,9 +240,9 @@ public class Board {
 				player.equals(roads[loc.getXCoord()][loc.getYCoord()][1].getOwner()) ||
 				player.equals(roads[loc.getXCoord()][loc.getYCoord() + 1][2].getOwner()))
 				&&
-				(structures[loc.getXCoord()][loc.getYCoord()+1][1].notOwnedByAnother(player) &&
-				structures[loc.getXCoord()+1][loc.getYCoord()+1][1].notOwnedByAnother(player) &&
-				structures[loc.getXCoord()+1][loc.getYCoord()+2][1].notOwnedByAnother(player)))
+				(structures[loc.getXCoord()][loc.getYCoord()+1][1].getOwner() == null &&
+				structures[loc.getXCoord()+1][loc.getYCoord()+1][1].getOwner() == null &&
+				!(loc.getYCoord() + 2 <=6 && !(structures[loc.getXCoord()+1][loc.getYCoord()+2][1].getOwner() == null))))
 			{
 				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 				return true;
@@ -234,9 +256,9 @@ public class Board {
 				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord() - 1][1].getOwner()) ||
 				player.equals(roads[loc.getXCoord() - 1][loc.getYCoord() - 1][2].getOwner()))
 				&&
-				(structures[loc.getXCoord()][loc.getYCoord()-1][0].notOwnedByAnother(player) &&
-				structures[loc.getXCoord()-1][loc.getYCoord()-1][0].notOwnedByAnother(player) &&
-				structures[loc.getXCoord()-1][loc.getYCoord()-2][0].notOwnedByAnother(player)))
+				(structures[loc.getXCoord()][loc.getYCoord()-1][0].getOwner() == null &&
+				structures[loc.getXCoord()-1][loc.getYCoord()-1][0].getOwner() == null &&
+				!(loc.getYCoord() - 2 >=0 && !(structures[loc.getXCoord()-1][loc.getYCoord()-2][0].getOwner() == null))))
 			{
 				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 				return true;
@@ -303,5 +325,25 @@ public class Board {
 			}
 		}
 		//roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
+	}
+
+	/**
+	 * Gives the tiles adjacent to the given VertexLocation
+	 * @param VertexLocation location being checked
+	 * @return ArrayList<Tile> list of adjacent tiles
+	 */
+	public ArrayList<Tile> getAdjacentTilesStructure(VertexLocation loc){
+		ArrayList<Tile> output = new ArrayList<Tile>();
+		if (loc.getOrientation() == 0){
+			output.add(tiles[loc.getXCoord()][loc.getYCoord()]);
+			output.add(tiles[loc.getXCoord()][loc.getYCoord() + 1]);
+			output.add(tiles[loc.getXCoord() + 1][loc.getYCoord() + 1]);
+		}
+		else{
+			output.add(tiles[loc.getXCoord()][loc.getYCoord()]);
+			output.add(tiles[loc.getXCoord()][loc.getYCoord() - 1]);
+			output.add(tiles[loc.getXCoord() - 1][loc.getYCoord() - 1]);
+		}
+		return output;
 	}
 }

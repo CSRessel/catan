@@ -23,6 +23,8 @@ public class Settlement extends Structure {
 	 */
 	public void giveResources(String resType) {
 		// Increment int associated with String resType in owner's hashmap of resources by one
+		
 		getOwner().setNumberResourcesType(resType, getOwner().getNumberResourcesType(resType) + 1);
 	}
+	
 }
