@@ -45,13 +45,37 @@ public class Game {
 	 */
 	private void setup() {
 		
-		for (int i = 0; i <= 1; i++) {
+		boolean round2 = false;
+		
+		for (int i = 0; i < 2; i++) {
 			for (Player p : players) {
-				//TODO: ask to place settlement and road
+				boolean settSuccess = false;
+				VertexLocation sloc;
+				do{
+					sloc = new VertexLocation(1,1,0);						//TODO user input sloc
+					settSuccess = board.placeStructureNoRoad(sloc, p); 
+					if (round2){
+						ArrayList<Tile> capitolTiles = new ArrayList<Tile>();
+						capitolTiles = board.getAdjacentTilesStructure(sloc);
+						for (Tile t : capitolTiles){
+							
+						}
+					}
+				} while (settSuccess = false);
+				
+				boolean roadSuccess = false;
+				EdgeLocation rloc;
+				do{
+					rloc = new EdgeLocation(3,3,0);							//TODO user input rloc
+					roadSuccess = board.placeRoad(rloc, p); 
+				} while (roadSuccess = false);
+				
 			}
+			Collections.reverse(players);
+			round2 = true;
 		}
 		
-		Collections.reverse(players);
+		
 	}
 	
 	/**
@@ -315,7 +339,7 @@ public class Game {
 	private void buy(Player p) {
 		
 		int input; //TODO: input
-			/* Possibe values:
+			/* Possible values:
 			 * 1 - road
 			 * 2 - settlement
 			 * 3 - city
