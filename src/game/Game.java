@@ -58,7 +58,7 @@ public class Game {
 						ArrayList<Tile> capitolTiles = new ArrayList<Tile>();
 						capitolTiles = board.getAdjacentTilesStructure(sloc);
 						for (Tile t : capitolTiles){
-							
+							board.getStructure(sloc).giveResources(t.getType());
 						}
 					}
 				} while (settSuccess = false);
