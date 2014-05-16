@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import board.DevCard;
+import board.Road;
 
 /**
  * This class is a Player in the game Settlers of Catan
@@ -16,6 +17,7 @@ public class Player {
 	private int victoryPoints;
 	private HashMap<String, Integer> resources;
 	private ArrayList<DevCard> hand;
+	private ArrayList<Road> roads;
 	
 	
 	/**
@@ -103,5 +105,21 @@ public class Player {
 	 */
 	public ArrayList<DevCard> getHand() {
 		return hand;
+	}
+	
+	/**
+	 * Adds given road to list of owned roads
+	 * @param r road added
+	 */
+	public void addRoad(Road r){
+		roads.add(r);
+	}
+	
+	/**
+	 * Getter for this player's roads
+	 * @return ArrayList<Road> list or owned roads
+	 */
+	public ArrayList<Road> getRoads(){
+		return roads;
 	}
 }
