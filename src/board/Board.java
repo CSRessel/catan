@@ -4,6 +4,7 @@ import game.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Stack;
 
 
 /**
@@ -378,4 +379,141 @@ public class Board {
 		}
 		return output;
 	}
+	
+	/**
+	 * Finds the length of the longest chain of roads of the given player
+	 * @param player player's roads to be analyzed
+	 * @return int length of the longest chain of roads
+	 */
+	public int findLongestRoad(Player p){ //TODO test
+		int length = 0;
+		ArrayList<Road> roadList = (ArrayList<Road>) p.getRoads().clone(); //TODO Dubious, check for accuracy
+		
+		while (roadList.size() > 0){
+			ArrayList<Road> connectedRoads = new ArrayList<Road>();
+			connectedRoads.add(roadList.remove(0));
+			Road endpoint = null;
+			
+			for (int i = 0; i <= connectedRoads.size(); i++){
+				ArrayList<Road> adjacentRoads = findAdjacentRoads(connectedRoads.get(i).getLocation());
+				if (adjacentRoads.size() <= 1){
+					endpoint = connectedRoads.get(i);
+				}
+				
+				for (int k = 0; k <= adjacentRoads.size(); k++){
+					for (int g = 0; g <= roadList.size(); g++){
+						inside:
+						if (roadList.get(g).equals(adjacentRoads.get(k))){
+							connectedRoads.add(roadList.remove(g));
+							break inside;
+						}
+					}
+				}
+			}
+			
+			if (endpoint == null){
+				endpoint = connectedRoads.get(0);
+			}
+			
+			Stack<Road> s = new Stack();
+			s.push(endpoint);
+			while (s.empty() == false){
+				Road top = s.pop();
+				
+				
+			}
+			
+		}
+		
+		
+	}
+	
+	
+	/**
+	 * Finds all adjacent and connected roads by longest road standards to the given location
+	 * Prerequesite: Given location has a road that has an owner.
+	 * @param loc location of road
+	 * @return ArrayList<Road> of connected roads
+	 */
+	private ArrayList<Road> findAdjacentRoads(EdgeLocation loc){
+		Road r = roads[loc.getXCoord()][loc.getYCoord()][0];
+		ArrayList<Road> output = new ArrayList<Road>();
+		Player p = r.getOwner();
+		int x = loc.getXCoord();
+		int y = loc.getYCoord();
+		int o = loc.getOrientation();
+		
+		if (o == 0){
+			if (p.equals(structures[x][y + 1][1].getOwner()) || structures[x][y + 1][1].getOwner() == null){
+				if (p.equals(roads[x - 1][y][1].getOwner())){
+					output.add(roads[x - 1][y][1]);
+				}
+				if (p.equals(roads[x - 1][y][2].getOwner())){
+					output.add(roads[x - 1][y][2]);
+				}
+			}
+			if (p.equals(structures[x][y][0].getOwner()) || structures[x][y][0].getOwner() == null){
+				if (p.equals(roads[x][y + 1][2].getOwner())){
+					output.add(roads[x][y + 1][2]);
+				}
+				if (p.equals(roads[x][y][1].getOwner())){
+					output.add(roads[x][y][1]);
+				}
+			}
+		}
+		else if (o == 1){
+			if (p.equals(structures[x + 1][y + 1][1].getOwner()) || structures[x + 1][y + 1][1].getOwner() == null){
+				if (p.equals(roads[x + 1][y][0].getOwner())){
+					output.add(roads[x + 1][y][0]);
+				}
+				if (p.equals(roads[x][y][2].getOwner())){
+					output.add(roads[x][y][2]);
+				}
+			}
+			if (p.equals(structures[x][y][0].getOwner()) || structures[x][y][0].getOwner() == null){
+				if (p.equals(roads[x][y + 1][2].getOwner())){
+					output.add(roads[x][y + 1][2]);
+				}
+				if (p.equals(roads[x][y][0].getOwner())){
+					output.add(roads[x][y][0]);
+				}
+			}
+		}
+		else {
+			if (p.equals(structures[x + 1][y + 1][1].getOwner()) || structures[x + 1][y + 1][1].getOwner() == null){
+				if (p.equals(roads[x + 1][y][0].getOwner())){
+					output.add(roads[x + 1][y][0]);
+				}
+				if (p.equals(roads[x][y][1].getOwner())){
+					output.add(roads[x][y][1]);
+				}
+			}
+			if (p.equals(structures[x][y - 1][0].getOwner()) || structures[x][y - 1][0].getOwner() == null){
+				if (p.equals(roads[x][y - 1][1].getOwner())){
+					output.add(roads[x][y - 1][1]);
+				}
+				if (p.equals(roads[x][y - 1][0].getOwner())){
+					output.add(roads[x][y - 1][0]);
+				}
+			}
+		}
+		
+		return output;
+		
+		
+	}
+	/*
+	 * 
+	 /**
+	 * Checks whether two roads are connected to each other by longest road standards
+	 * @param r orginal road
+	 * @param other checked road
+	 * @return true if roads are connected, have the same player, and do not have an opposing settlement in between
+	 
+	private boolean roadConnectsToOther(Road r, Road other){
+		Player player = r.getOwner()
+		
+	}
+	
+	*/
 }

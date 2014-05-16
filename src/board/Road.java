@@ -28,6 +28,7 @@ public class Road {
 	public void setOwner(Player p) {
 		if (null == owner)
 			owner = p;
+		p.addRoad(this);
 	}
 
 	/**
