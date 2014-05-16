@@ -326,8 +326,9 @@ public class Game {
 			 * 2 - trade player 2 (if 4 player game)
 			 * 3 - done trading
 			 */
+		ArrayList<Player> tradePlayers = (ArrayList<Player>) players.clone();
+		tradePlayers.remove(tradePlayers.indexOf(p));
 		
-		//TODO: functionality
 	}
 	
 	/**

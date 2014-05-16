@@ -401,12 +401,9 @@ public class Board {
 				}
 				
 				for (int k = 0; k <= adjacentRoads.size(); k++){
-					for (int g = 0; g <= roadList.size(); g++){
-						inside:
-						if (roadList.get(g).equals(adjacentRoads.get(k))){
-							connectedRoads.add(roadList.remove(g));
-							break inside;
-						}
+					int index = roadList.indexOf(adjacentRoads.get(k));
+					if (index >= 0){
+						connectedRoads.add(roadList.remove(index));
 					}
 				}
 			}
