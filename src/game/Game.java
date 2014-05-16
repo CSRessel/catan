@@ -329,6 +329,9 @@ public class Game {
 		ArrayList<Player> tradePlayers = (ArrayList<Player>) players.clone();
 		tradePlayers.remove(tradePlayers.indexOf(p));
 		
+		Player partner = tradePlayers.get(input);
+		
+		
 	}
 	
 	/**
