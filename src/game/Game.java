@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import board.*;
 
@@ -192,15 +193,22 @@ public class Game {
 		ArrayList<Player> playerChoices = new ArrayList<Player>();
 
 		for (Structure s : structures) {
-			if (null != s.getOwner()) {
-
+			if (null != s.getOwner() && !playerChoices.contains(s.getOwner())) {
+				playerChoices.add(s.getOwner());
 			}
 		}
 
-		int input;
+		int input = 0; //TODO: input
 			/* Possible values:
 			 * between 0 and the size of the array
 			 */
+		Player player = playerChoices.get(input);
+		ArrayList<String> res = player.getOwnedResources();
+		
+		int input2 = 0; //TODO: input
+		String resChoice = res.get(input2);
+		
+		player.setNumberResourcesType(resChoice, player.getNumberResourcesType(resChoice) - 1);
 	}
 
 	/**
@@ -280,20 +288,24 @@ public class Game {
 
 			if (dC.getType().equals("Knight")) {
 				moveRobber(p);
+				p.incrementNumbKnights();
+				if (!p.hasLargestArmy()) {
+					
+				}
 			}
 			else if (dC.getType().equals("Progress")) {
 				if (dC.getSubType().equals("Road Building")) {
-
+					
 				}
 				else if (dC.getSubType().equals("Monoply")) {
-
+					
 				}
 				else if (dC.getSubType().equals("Year of Plenty")) {
-
+					
 				}
 			}
 			else if (dC.getType().equals("Victory Point")) {
-
+				p.setVictoryPoints(p.getVictoryPoints() + 1);
 			}
 		}
 		else {

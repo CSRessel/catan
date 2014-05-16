@@ -18,6 +18,8 @@ public class Player {
 	private HashMap<String, Integer> resources;
 	private ArrayList<DevCard> hand;
 	private ArrayList<Road> roads;
+	private int numbKnights;
+	private boolean hasLargestArmy;
 	
 	
 	/**
@@ -121,5 +123,62 @@ public class Player {
 	 */
 	public ArrayList<Road> getRoads(){
 		return roads;
+	}
+	
+	/**
+	 * Method to get an ArrayList of all the resources this Player has one or more of
+	 * @return an ArrayList of resources that this Player as one or more of
+	 */
+	public ArrayList<String> getOwnedResources() {
+		
+		ArrayList<String> res = new ArrayList<String>();
+		if (resources.get("BRICK").intValue() > 0) {
+			res.add("BRICK");
+		}
+		if (resources.get("GRAIN").intValue() > 0) {
+			res.add("GRAIN");
+		}
+		if (resources.get("WOOL").intValue() > 0) {
+			res.add("WOOL");
+		}
+		if (resources.get("LUMBER").intValue() > 0) {
+			res.add("LUMBER");
+		}
+		if (resources.get("ORE").intValue() > 0) {
+			res.add("ORE");
+		}
+		
+		return res;
+	}
+	
+	/**
+	 * Increments the field indicating the number of knights played by this Player
+	 */
+	public void incrementNumbKnights() {
+		numbKnights++;
+	}
+	
+	/**
+	 * Getter for the number of knights this Player has played
+	 * @return the number of knights previously played by this player
+	 */
+	public int getNumbKnights() {
+		return numbKnights;
+	}
+	
+	/**
+	 * Setter for whether this player has the largest army or not
+	 * @param b whether this player has the largest army
+	 */
+	public void setHasLargestArmy(Boolean b) {
+		hasLargestArmy = b;
+	}
+	
+	/**
+	 * Getter for whether this player has the largest army or not
+	 * @return whether this player has the largest army or not
+	 */
+	public boolean hasLargestArmy() {
+		return hasLargestArmy;
 	}
 }
