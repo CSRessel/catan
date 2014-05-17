@@ -26,6 +26,17 @@ public class Game {
 		if (givenPlayers.size() < 3 || givenPlayers.size() > 4)
 			throw new IllegalArgumentException("Game must be played with three or four players");
 
+		ArrayList<String> names = new ArrayList<String>();
+		for (Player p : givenPlayers) {
+			names.add(p.getName());
+		}
+		for (String s : names) {
+			names.remove(s);
+			if (names.remove(s)) {
+				throw new IllegalArgumentException("Players must have different names");
+			}
+		}
+		
 		Collections.shuffle(givenPlayers);
 
 		players = givenPlayers;
@@ -289,19 +300,58 @@ public class Game {
 			if (dC.getType().equals("Knight")) {
 				moveRobber(p);
 				p.incrementNumbKnights();
-				if (!p.hasLargestArmy()) {
+				if (!p.hasLargestArmy() && p.getNumbKnights() >= 3) {
 					
+					int mostKnights = p.getNumbKnights();
+					String biggestArmy = p.getName();
+
+					for (Player player : players) {
+						if (player.hasLargestArmy()) {
+							
+							player.setHasLargestArmy(false);
+							player.setVictoryPoints(player.getVictoryPoints() - 1);
+							
+							mostKnights = player.getNumbKnights();
+							biggestArmy = player.getName();
+						}
+					}
+
+					for (Player player : players) {
+						if (player.getNumbKnights() > mostKnights) {
+							mostKnights = player.getNumbKnights();
+							biggestArmy = player.getName();
+						}
+					}
+					
+					for (Player player : players) {
+						if (player.getName().equals(biggestArmy)) {
+							player.setHasLargestArmy(true);
+							player.setVictoryPoints(player.getVictoryPoints() + 1);
+						}
+					}
 				}
 			}
 			else if (dC.getType().equals("Progress")) {
 				if (dC.getSubType().equals("Road Building")) {
-					
+					buyObject(p, 1);
+					buyObject(p, 1);
 				}
 				else if (dC.getSubType().equals("Monoply")) {
+					int res = 0;
+					String choice = "WOOL"; //TODO: input
 					
+					for (Player player : players) {
+						res += player.getNumberResourcesType(choice);
+						player.setNumberResourcesType(choice, 0);
+					}
+					p.setNumberResourcesType(choice, res);
 				}
 				else if (dC.getSubType().equals("Year of Plenty")) {
+					String choice1 = "BRICK"; //TODO: input					
+					p.setNumberResourcesType(choice1, p.getNumberResourcesType(choice1) + 1);
 					
+					String choice2 = "ORE"; //TODO: input
+					p.setNumberResourcesType(choice2, p.getNumberResourcesType(choice2) + 1);
 				}
 			}
 			else if (dC.getType().equals("Victory Point")) {

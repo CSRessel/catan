@@ -385,36 +385,36 @@ public class Board {
 	 * @param player player's roads to be analyzed
 	 * @return int length of the longest chain of roads
 	 */
-	public int findLongestRoad(Player p){ //TODO test
+	public int findLongestRoad(Player p) { //TODO test
 		int length = 0;
 		ArrayList<Road> roadList = (ArrayList<Road>) p.getRoads().clone(); //TODO Dubious, check for accuracy
 		
-		while (roadList.size() > 0){
+		while (roadList.size() > 0) {
 			ArrayList<Road> connectedRoads = new ArrayList<Road>();
 			connectedRoads.add(roadList.remove(0));
 			Road endpoint = null;
 			
-			for (int i = 0; i <= connectedRoads.size(); i++){
+			for (int i = 0; i <= connectedRoads.size(); i++) {
 				ArrayList<Road> adjacentRoads = findAdjacentRoads(connectedRoads.get(i).getLocation());
-				if (adjacentRoads.size() <= 1){
+				if (adjacentRoads.size() <= 1) {
 					endpoint = connectedRoads.get(i);
 				}
 				
-				for (int k = 0; k <= adjacentRoads.size(); k++){
+				for (int k = 0; k <= adjacentRoads.size(); k++) {
 					int index = roadList.indexOf(adjacentRoads.get(k));
-					if (index >= 0){
+					if (index >= 0) {
 						connectedRoads.add(roadList.remove(index));
 					}
 				}
 			}
 			
-			if (endpoint == null){
+			if (endpoint == null) {
 				endpoint = connectedRoads.get(0);
 			}
 			
 			Stack<Road> s = new Stack();
 			s.push(endpoint);
-			while (s.empty() == false){
+			while (s.empty() == false) {
 				Road top = s.pop();
 				
 				
@@ -432,7 +432,7 @@ public class Board {
 	 * @param loc location of road
 	 * @return ArrayList<Road> of connected roads
 	 */
-	private ArrayList<Road> findAdjacentRoads(EdgeLocation loc){
+	private ArrayList<Road> findAdjacentRoads(EdgeLocation loc){ 
 		Road r = roads[loc.getXCoord()][loc.getYCoord()][0];
 		ArrayList<Road> output = new ArrayList<Road>();
 		Player p = r.getOwner();
@@ -440,17 +440,17 @@ public class Board {
 		int y = loc.getYCoord();
 		int o = loc.getOrientation();
 		
-		if (o == 0){
-			if (p.equals(structures[x][y + 1][1].getOwner()) || structures[x][y + 1][1].getOwner() == null){
-				if (p.equals(roads[x - 1][y][1].getOwner())){
+		if (o == 0) {
+			if (p.equals(structures[x][y + 1][1].getOwner()) || structures[x][y + 1][1].getOwner() == null) {
+				if (p.equals(roads[x - 1][y][1].getOwner())) {
 					output.add(roads[x - 1][y][1]);
 				}
-				if (p.equals(roads[x - 1][y][2].getOwner())){
+				if (p.equals(roads[x - 1][y][2].getOwner())) {
 					output.add(roads[x - 1][y][2]);
 				}
 			}
-			if (p.equals(structures[x][y][0].getOwner()) || structures[x][y][0].getOwner() == null){
-				if (p.equals(roads[x][y + 1][2].getOwner())){
+			if (p.equals(structures[x][y][0].getOwner()) || structures[x][y][0].getOwner() == null) {
+				if (p.equals(roads[x][y + 1][2].getOwner())) {
 					output.add(roads[x][y + 1][2]);
 				}
 				if (p.equals(roads[x][y][1].getOwner())){
@@ -458,38 +458,38 @@ public class Board {
 				}
 			}
 		}
-		else if (o == 1){
+		else if (o == 1) {
 			if (p.equals(structures[x + 1][y + 1][1].getOwner()) || structures[x + 1][y + 1][1].getOwner() == null){
-				if (p.equals(roads[x + 1][y][0].getOwner())){
+				if (p.equals(roads[x + 1][y][0].getOwner())) {
 					output.add(roads[x + 1][y][0]);
 				}
-				if (p.equals(roads[x][y][2].getOwner())){
+				if (p.equals(roads[x][y][2].getOwner())) {
 					output.add(roads[x][y][2]);
 				}
 			}
-			if (p.equals(structures[x][y][0].getOwner()) || structures[x][y][0].getOwner() == null){
-				if (p.equals(roads[x][y + 1][2].getOwner())){
+			if (p.equals(structures[x][y][0].getOwner()) || structures[x][y][0].getOwner() == null) {
+				if (p.equals(roads[x][y + 1][2].getOwner())) {
 					output.add(roads[x][y + 1][2]);
 				}
-				if (p.equals(roads[x][y][0].getOwner())){
+				if (p.equals(roads[x][y][0].getOwner())) {
 					output.add(roads[x][y][0]);
 				}
 			}
 		}
 		else {
-			if (p.equals(structures[x + 1][y + 1][1].getOwner()) || structures[x + 1][y + 1][1].getOwner() == null){
-				if (p.equals(roads[x + 1][y][0].getOwner())){
+			if (p.equals(structures[x + 1][y + 1][1].getOwner()) || structures[x + 1][y + 1][1].getOwner() == null) {
+				if (p.equals(roads[x + 1][y][0].getOwner())) {
 					output.add(roads[x + 1][y][0]);
 				}
-				if (p.equals(roads[x][y][1].getOwner())){
+				if (p.equals(roads[x][y][1].getOwner())) {
 					output.add(roads[x][y][1]);
 				}
 			}
-			if (p.equals(structures[x][y - 1][0].getOwner()) || structures[x][y - 1][0].getOwner() == null){
-				if (p.equals(roads[x][y - 1][1].getOwner())){
+			if (p.equals(structures[x][y - 1][0].getOwner()) || structures[x][y - 1][0].getOwner() == null) {
+				if (p.equals(roads[x][y - 1][1].getOwner())) {
 					output.add(roads[x][y - 1][1]);
 				}
-				if (p.equals(roads[x][y - 1][0].getOwner())){
+				if (p.equals(roads[x][y - 1][0].getOwner())) {
 					output.add(roads[x][y - 1][0]);
 				}
 			}
