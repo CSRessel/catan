@@ -10,7 +10,7 @@ import game.Player;
  */
 public abstract class Structure {
 	
-	private Player owner;
+	private Player owner = null;
 	private VertexLocation location;
 	private int type;
 		// Either 0 (Settlement), or 1 (City)
