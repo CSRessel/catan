@@ -17,9 +17,6 @@ public class Board {
 	private Road[][][] roads;
 	private Location robberLoc;
 		// Board is slanted backwards, i.e.  \##\
-	private int tempCount; //For DPS
-	private int tempLongest; //For DPS
-	private int longestRoad;
 	private Road endpoint = null; //For DPS
 	private VertexLocation startside;
 
