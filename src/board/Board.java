@@ -17,6 +17,11 @@ public class Board {
 	private Road[][][] roads;
 	private Location robberLoc;
 		// Board is slanted backwards, i.e.  \##\
+	private int tempCount; //For DPS
+	private int tempLongest; //For DPS
+	private int longestRoad;
+	private Road endpoint = null; //For DPS
+	private VertexLocation startside;
 
 	
 	/**
@@ -387,18 +392,14 @@ public class Board {
 	 */
 	public int findLongestRoad(Player p){ //TODO test
 		int length = 0;
-		ArrayList<Road> roadList = (ArrayList<Road>) p.getRoads().clone(); //TODO Dubious, check for accuracy
+		ArrayList<Road> roadList = (ArrayList<Road>) p.getRoads().clone();
 		
 		while (roadList.size() > 0){
 			ArrayList<Road> connectedRoads = new ArrayList<Road>();
 			connectedRoads.add(roadList.remove(0));
-			Road endpoint = null;
 			
 			for (int i = 0; i <= connectedRoads.size(); i++){
 				ArrayList<Road> adjacentRoads = findAdjacentRoads(connectedRoads.get(i).getLocation());
-				if (adjacentRoads.size() <= 1){
-					endpoint = connectedRoads.get(i);
-				}
 				
 				for (int k = 0; k <= adjacentRoads.size(); k++){
 					int index = roadList.indexOf(adjacentRoads.get(k));
@@ -422,9 +423,15 @@ public class Board {
 			
 		}
 		
-		
+		endpoint = null; //Reset endpoint
 	}
 	
+	/*
+	private int DFS(Road r){
+		
+		
+	}
+	*/
 	
 	/**
 	 * Finds all adjacent and connected roads by longest road standards to the given location
