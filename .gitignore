@@ -21,6 +21,8 @@ local.properties
 .classpath
 .settings/
 .loadpath
+lib/
+slick-files/
 
 # External tool builders
 .externalToolBuilders/

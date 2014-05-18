@@ -388,7 +388,6 @@ public class Board {
 	 * @return int length of the longest chain of roads
 	 */
 	public int findLongestRoad(Player p) { //TODO test
-		int length = 0;
 		ArrayList<Road> roadList = (ArrayList<Road>) p.getRoads().clone();
 		int maxCount = 1;
 
