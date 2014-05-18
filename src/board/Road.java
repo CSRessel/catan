@@ -7,15 +7,17 @@ import game.Player;
  */
 public class Road {
 
-	private Player owner;
+	private Player owner = null;
 	private EdgeLocation location;
+	private boolean visited = false;
+	
 
 
 	/**
 	 * Constructor for the Road
 	 * @param x the x coordinate
 	 * @param y the y coordinate
-	 * @param o the orienation
+	 * @param o the orientation
 	 */
 	public Road(int x, int y, int o) {
 		location = new EdgeLocation(x, y, o);
@@ -45,5 +47,27 @@ public class Road {
 	 */
 	public EdgeLocation getLocation() {
 		return location;
+	}
+	
+	/**
+	 * Getter for visited (for use in Longest Road)
+	 * @return boolean visited
+	 */
+	public boolean isVisited() {
+		return visited;
+	}
+	
+	/**
+	 * Sets visited to true
+	 */
+	public void visit() {
+		visited = true;
+	}
+	
+	/**
+	 * Resets visited to false
+	 */
+	public void resetVisited() {
+		visited = false;
 	}
 }
