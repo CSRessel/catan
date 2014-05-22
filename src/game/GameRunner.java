@@ -20,7 +20,5 @@ public class GameRunner {
 		players.add(d);
 		
 		Game game = new Game(players);
-		
-		game.start();
 	}
 }

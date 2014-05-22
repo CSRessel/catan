@@ -42,146 +42,117 @@ public class Game {
 		deck = new Deck();
 	}
 
+//	/**
+//	 * Runs the setup phase of the game
+//	 */
+//	private void setup() {
+//
+//		boolean round2 = false;
+//
+//		for (int i = 0; i < 2; i++) {
+//			for (Player p : players) {
+//				boolean settSuccess = false;
+//				VertexLocation sloc;
+//				do{
+//					sloc = new VertexLocation(1,1,0); //TODO: user input sloc
+//					settSuccess = board.placeStructureNoRoad(sloc, p);
+//					if (round2){
+//						ArrayList<Tile> capitolTiles = new ArrayList<Tile>();
+//						capitolTiles = board.getAdjacentTilesStructure(sloc);
+//						for (Tile t : capitolTiles){
+//							board.getStructure(sloc).giveResources(t.getType());
+//						}
+//					}
+//				} while (settSuccess = false);
+//
+//				boolean roadSuccess = false;
+//				EdgeLocation rloc;
+//				do{
+//					rloc = new EdgeLocation(3,3,0); //TODO: user input rloc
+//					roadSuccess = board.placeRoad(rloc, p);
+//				} while (roadSuccess = false);
+//
+//			}
+//			Collections.reverse(players);
+//			round2 = true;
+//		}
+//
+//	}
+
 	/**
-	 * Method to start the game
+	 * Checks if one player has ten or more victory points and more points than any other player
+	 * @return whether anyone has one yet
 	 */
-	public void start() {
-		setup();
-		play();
+	public boolean gameOver() {
+		return winningPlayer() != null;
 	}
-
+	
 	/**
-	 * Runs the setup phase of the game
+	 * Returns the player that has won, or null if game is not finished
+	 * @return winning player
 	 */
-	private void setup() {
+	public Player winningPlayer() {
+		
+		Player maxVictoryPoints = players.get(0);
+		Player secondMaxVictoryPoints = players.get(0);
 
-		boolean round2 = false;
+		for (Player p : players) {
 
-		for (int i = 0; i < 2; i++) {
-			for (Player p : players) {
-				boolean settSuccess = false;
-				VertexLocation sloc;
-				do{
-					sloc = new VertexLocation(1,1,0); //TODO: user input sloc
-					settSuccess = board.placeStructureNoRoad(sloc, p);
-					if (round2){
-						ArrayList<Tile> capitolTiles = new ArrayList<Tile>();
-						capitolTiles = board.getAdjacentTilesStructure(sloc);
-						for (Tile t : capitolTiles){
-							board.getStructure(sloc).giveResources(t.getType());
-						}
-					}
-				} while (settSuccess = false);
-
-				boolean roadSuccess = false;
-				EdgeLocation rloc;
-				do{
-					rloc = new EdgeLocation(3,3,0); //TODO: user input rloc
-					roadSuccess = board.placeRoad(rloc, p);
-				} while (roadSuccess = false);
-
+			if (p.getVictoryPoints() > maxVictoryPoints.getVictoryPoints()) {
+				maxVictoryPoints = p;
 			}
-			Collections.reverse(players);
-			round2 = true;
+			else if (p.getVictoryPoints() > secondMaxVictoryPoints.getVictoryPoints()) {
+				secondMaxVictoryPoints = p;
+			}
 		}
-
-	}
-
-	/**
-	 * Loops through the players, executing each phase of their turn
-	 * Ends when one player has ten or more victory points and more points than any other player
-	 */
-	private void play() {
-
-		boolean gameOver;
-
-		do {
-
-			// Check if the game is over
-
-			int maxVictoryPoints = 0;
-			int secondMaxVictoryPoints = 0;
-
-			for (Player p : players) {
-				int victoryPoints = p.getVictoryPoints();
-
-				if (victoryPoints > maxVictoryPoints) {
-					maxVictoryPoints = victoryPoints;
-				}
-				else if (victoryPoints > secondMaxVictoryPoints) {
-					secondMaxVictoryPoints = victoryPoints;
-				}
-			}
-			gameOver = maxVictoryPoints >= 10 && maxVictoryPoints > secondMaxVictoryPoints;
-
-			// For each player execute the phases of their turn (roll, trade, build)
-
-			for (Player p : players) {
-				roll(p);
-				tradeAndBuild(p);
-			}
-		} while (!gameOver);
-
+		
+		if (maxVictoryPoints.getVictoryPoints() >= 10 && maxVictoryPoints.getVictoryPoints() > secondMaxVictoryPoints.getVictoryPoints()) {
+			return maxVictoryPoints;
+		}
+		else
+			return null;
 	}
 
 	/**
 	 * Rolls the die and allocates resources to players
 	 * @param p the Player rolling (in case Player wants to play dev card first)
+	 * @return true if the roll was not a robber (7)
 	 */
-	private void roll(Player p) {
-
-		int input;
-			/* Possible values:
-			 * 0 - play dev card
-			 * 1 - continue
-			 */
-		do {
-			input = 1; //TODO: input here
-			if (input == 0) {
-				playDevCard(p);
-			}
-		} while (input != 1);
+	public boolean roll(Player p) {
 
 		// RTD
 		int roll1 = (int)(Math.random() * 6 + 1);
 		int roll2 = (int)(Math.random() * 6 + 1);
 
 		if (roll1 == 7 || roll2 == 7) {
-			// Deal with Robber case
-			halfCards();
-			moveRobber(p);
+			return false;
 		}
 		else {
 			// Distribute resources
 			board.distributeResources(roll1 + roll2);
+			
+			return true;
 		}
 	}
 
 	/**
-	 * Allows the given Player to move the Robber
+	 * Allows the given Player to move the Robber to the given Location
 	 * @param p the Player who moved the Robber
+	 * @return if the chosen Location is valid and the move succeeded
 	 */
-	private void moveRobber(Player p) {
-		int locInput = 0; //TODO: input
-			/* Two digits
-			 * xCoord is hundreds place within [1, 7]
-			 * yCoord is tens place within [1, 7]
-			 */
-		int xCoord = locInput / 10;
-		int yCoord = locInput % 10;
+	public boolean moveRobber(Player p, Location loc) {
 
-		Location loc = new Location(xCoord, yCoord);
 		Location prev = board.getRobberLocation();
 
 		if (loc.equals(prev)) {
-			//TODO: throw error about need to move Robber
+			return false;
 		}
 
 		board.setRobberLocation(loc);
 		board.getTile(loc).setRobber(true);
 		board.getTile(prev).setRobber(false);
-
-		takeCard(p, loc);
+		
+		return true;
 	}
 
 	/**
@@ -189,41 +160,41 @@ public class Game {
 	 * @param p the Player taking a card
 	 * @param loc the Location of the Tile
 	 */
-	private void takeCard(Player p, Location loc) {
-		ArrayList<Structure> structures = new ArrayList<Structure>(6);
+	public void takeCard(Player p, Player choice) {
+	
+		//TODO: move to CatanBoard
+//		ArrayList<Structure> structures = new ArrayList<Structure>(6);
+//
+//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord(), 0)));
+//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord(), 1)));
+//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord()+1, loc.getYCoord(), 1)));
+//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord()-1, loc.getYCoord(), 0)));
+//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord()+1, 1)));
+//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord()-1, 0)));
+//
+//		ArrayList<Player> playerChoices = new ArrayList<Player>();
+//
+//		for (Structure s : structures) {
+//			if (null != s.getOwner() && !playerChoices.contains(s.getOwner())) {
+//				playerChoices.add(s.getOwner());
+//			}
+//		}
 
-		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord(), 0)));
-		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord(), 1)));
-		structures.add(board.getStructure(new VertexLocation(loc.getXCoord()+1, loc.getYCoord(), 1)));
-		structures.add(board.getStructure(new VertexLocation(loc.getXCoord()-1, loc.getYCoord(), 0)));
-		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord()+1, 1)));
-		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord()-1, 0)));
-
-		ArrayList<Player> playerChoices = new ArrayList<Player>();
-
-		for (Structure s : structures) {
-			if (null != s.getOwner() && !playerChoices.contains(s.getOwner())) {
-				playerChoices.add(s.getOwner());
-			}
-		}
-
-		int input = 0; //TODO: input
-			/* Possible values:
-			 * between 0 and the size of the array
-			 */
-		Player player = playerChoices.get(input);
-		ArrayList<String> res = player.getOwnedResources();
+		ArrayList<String> res = new ArrayList<String>(choice.getOwnedResources());
+		Collections.shuffle(res);
 		
-		int input2 = 0; //TODO: input
-		String resChoice = res.get(input2);
+		String result = res.get(0);
 		
-		player.setNumberResourcesType(resChoice, player.getNumberResourcesType(resChoice) - 1);
+		choice.setNumberResourcesType(result, choice.getNumberResourcesType(result) - 1);
+		
+		p.setNumberResourcesType(result, p.getNumberResourcesType(result) - 1);
 	}
 
 	/**
 	 * If any Player has more than seven cards, they choose half their cards (rounded down) to return to the bank
 	 */
-	private void halfCards() {
+	public void halfCards() {
+
 		for (Player p : players) {
 
 			int cap = 7;
@@ -279,359 +250,316 @@ public class Game {
 		}
 	}
 
-	/**
-	 * Allows the provided Player to play a dev card
-	 * @param p
-	 */
-	private void playDevCard(Player p) {
-
-		ArrayList<DevCard> cards = p.getHand();
-
-		int input = 0; //TODO: input
-			/* Possible values:
-			 * any index within ArrayList cards
-			 */
-
-		if (input >= 0 && input < cards.size()) {
-			DevCard dC = cards.remove(input);
-
-			if (dC.getType().equals("Knight")) {
-				moveRobber(p);
-				p.incrementNumbKnights();
-				if (!p.hasLargestArmy() && p.getNumbKnights() >= 3) {
-					
-					int mostKnights = p.getNumbKnights();
-					String biggestArmy = p.getName();
-
-					for (Player player : players) {
-						if (player.hasLargestArmy()) {
-							
-							player.setHasLargestArmy(false);
-							player.setVictoryPoints(player.getVictoryPoints() - 1);
-							
-							mostKnights = player.getNumbKnights();
-							biggestArmy = player.getName();
-						}
-					}
-
-					for (Player player : players) {
-						if (player.getNumbKnights() > mostKnights) {
-							mostKnights = player.getNumbKnights();
-							biggestArmy = player.getName();
-						}
-					}
-					
-					for (Player player : players) {
-						if (player.getName().equals(biggestArmy)) {
-							player.setHasLargestArmy(true);
-							player.setVictoryPoints(player.getVictoryPoints() + 1);
-						}
-					}
-				}
-			}
-			else if (dC.getType().equals("Progress")) {
-				if (dC.getSubType().equals("Road Building")) {
-					buyObject(p, 1);
-					buyObject(p, 1);
-				}
-				else if (dC.getSubType().equals("Monoply")) {
-					int res = 0;
-					String choice = "WOOL"; //TODO: input
-					
-					for (Player player : players) {
-						res += player.getNumberResourcesType(choice);
-						player.setNumberResourcesType(choice, 0);
-					}
-					p.setNumberResourcesType(choice, res);
-				}
-				else if (dC.getSubType().equals("Year of Plenty")) {
-					String choice1 = "BRICK"; //TODO: input					
-					p.setNumberResourcesType(choice1, p.getNumberResourcesType(choice1) + 1);
-					
-					String choice2 = "ORE"; //TODO: input
-					p.setNumberResourcesType(choice2, p.getNumberResourcesType(choice2) + 1);
-				}
-			}
-			else if (dC.getType().equals("Victory Point")) {
-				p.setVictoryPoints(p.getVictoryPoints() + 1);
-			}
-		}
-		else {
-			//TODO: throw error about invalid dev card selection
-		}
-	}
-
-	/**
-	 * Goes through the build phase for Player p
-	 * @param p the Player doing the building
-	 */
-	private void tradeAndBuild(Player p) {
-
-		int input;
-			/* Possible values:
-			 * 0 - trade
-			 * 1 - buy
-			 * 2 - play dev card
-			 * 3 - end turn
-			 */
-
-		do {
-			input = 3; //TODO: input
-
-			if (input == 0) {
-				trade(p);
-			}
-			else if (input == 1) {
-				buy(p);
-			}
-			else if (input == 2) {
-				playDevCard(p);
-			}
-			else {
-				//TODO: throw error about invalid action selection
-			}
-		} while (input != 3);
-	}
+	//TODO: move to CatanBoard???
+//	/**
+//	 * Allows the provided Player to play a dev card
+//	 * @param p
+//	 */
+//	private void playDevCard(Player p) {
+//
+//		ArrayList<DevCard> cards = p.getHand();
+//
+//		int input = 0; //TODO: input
+//			/* Possible values:
+//			 * any index within ArrayList cards
+//			 */
+//
+//		if (input >= 0 && input < cards.size()) {
+//			DevCard dC = cards.remove(input);
+//
+//			if (dC.getType().equals("Knight")) {
+//				moveRobber(p);
+//				p.incrementNumbKnights();
+//				if (!p.hasLargestArmy() && p.getNumbKnights() >= 3) {
+//					
+//					int mostKnights = p.getNumbKnights();
+//					String biggestArmy = p.getName();
+//
+//					for (Player player : players) {
+//						if (player.hasLargestArmy()) {
+//							
+//							player.setHasLargestArmy(false);
+//							player.setVictoryPoints(player.getVictoryPoints() - 1);
+//							
+//							mostKnights = player.getNumbKnights();
+//							biggestArmy = player.getName();
+//						}
+//					}
+//
+//					for (Player player : players) {
+//						if (player.getNumbKnights() > mostKnights) {
+//							mostKnights = player.getNumbKnights();
+//							biggestArmy = player.getName();
+//						}
+//					}
+//					
+//					for (Player player : players) {
+//						if (player.getName().equals(biggestArmy)) {
+//							player.setHasLargestArmy(true);
+//							player.setVictoryPoints(player.getVictoryPoints() + 1);
+//						}
+//					}
+//				}
+//			}
+//			else if (dC.getType().equals("Progress")) {
+//				if (dC.getSubType().equals("Road Building")) {
+//					buyObject(p, 1);
+//					buyObject(p, 1);
+//				}
+//				else if (dC.getSubType().equals("Monoply")) {
+//					int res = 0;
+//					String choice = "WOOL"; //TODO: input
+//					
+//					for (Player player : players) {
+//						res += player.getNumberResourcesType(choice);
+//						player.setNumberResourcesType(choice, 0);
+//					}
+//					p.setNumberResourcesType(choice, res);
+//				}
+//				else if (dC.getSubType().equals("Year of Plenty")) {
+//					String choice1 = "BRICK"; //TODO: input					
+//					p.setNumberResourcesType(choice1, p.getNumberResourcesType(choice1) + 1);
+//					
+//					String choice2 = "ORE"; //TODO: input
+//					p.setNumberResourcesType(choice2, p.getNumberResourcesType(choice2) + 1);
+//				}
+//			}
+//			else if (dC.getType().equals("Victory Point")) {
+//				p.setVictoryPoints(p.getVictoryPoints() + 1);
+//			}
+//		}
+//		else {
+//			//TODO: throw error about invalid dev card selection
+//		}
+//	}
 
 	/**
-	 * Have given Player trade other Players
-	 * @param p the Player initiating trading
+	 * Operates trade between two players with the given resoures
+	 * @param a the first Player in the trading
+	 * @param b the second Player in the trading
+	 * @param fromA the resources being traded from Player a to Player b
+	 * @param fromB the resources being traded from Player b to Player a
+	 * @return boolean whether the trade was possible
 	 */
-	private void trade(Player p) {
-		int input = 0; //TODO: input
-			/* Possible values:
-			 * 0 - trade player 0
-			 * 1 - trade player 1
-			 * 2 - trade player 2 (if 4 player game)
-			 * 3 - done trading
-			 */
-		ArrayList<Player> tradePlayers = (ArrayList<Player>) players.clone();
-		tradePlayers.remove(tradePlayers.indexOf(p));
-		Player partner = tradePlayers.get(input);
+	public boolean playerTrade(Player a, Player b, ArrayList<String> fromA, ArrayList<String> fromB) {
 		
+		if (!a.hasResources(fromA) ||  !b.hasResources(fromB)) {
+			return false;
+		}
+		
+		for (String res : fromA) {
+			a.setNumberResourcesType(res, a.getNumberResourcesType(res) - 1);
+			b.setNumberResourcesType(res, b.getNumberResourcesType(res) + 1);
+		}
+		
+		for (String res : fromB) {
+			b.setNumberResourcesType(res, b.getNumberResourcesType(res) - 1);
+			a.setNumberResourcesType(res, a.getNumberResourcesType(res) + 1);
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Operates trading between given Player and the stock
+	 * @param a the Player trading
+	 * @param fromA what they are giving up
+	 * @param toA what they are asking for
+	 * @return whether the trade is possible or not
+	 */
+	public boolean npcTrade(Player a, ArrayList<String> fromA, ArrayList<String> toA) {
+		if (!a.hasResources(fromA))
+			return false;
+		
+		//TODO: check if this npc trade is valid (valid ratios, harbors, etc)
+		
+		for (String res : fromA) {
+			a.setNumberResourcesType(res, a.getNumberResourcesType(res) - 1);
+		}
+		for (String res : toA) {
+			a.setNumberResourcesType(res, a.getNumberResourcesType(res) + 1);
+		}
+		
+		return true;
 	}
 
 	/**
-	 * The actual buying followed by placing (if applicable) of something
-	 * This method handles the most checks (excluding object placement) and changes values of resources and victory points
-	 * @param p the Player doing the buying
-	 * @return whether the buying succeeded or not
+	 * Buys Road for given Player
+	 * @param p the given Player
+	 * @return whether the Player can buy a Road
 	 */
-	private void buy(Player p) {
+	public boolean buyRoad(Player p) {
+		
+		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
+			return false;
+			//TODO: throw error about not enough resources
+		}
 
-		int input; //TODO: input
-			/* Possible values:
-			 * 1 - road
-			 * 2 - settlement
-			 * 3 - city
-			 * 4 - dev card
-			 * 5 - done
-			 */
-
-		do {
-			input = 5; //TODO: input
-
-			switch (input) {
-			case 1:
-
-				if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
-					//TODO: throw error about not enough resources
+		// Check Player has not exceeded capacity for object
+		int numbRoads = 0;
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 7; j++) {
+				for (int k = 0; k < 3; k++) {
+					if (board.getRoad(new EdgeLocation(i, j, k)).getOwner().equals(p))
+						numbRoads++;
 				}
-
-				// Check Player has not exceeded capacity for object
-				int numbRoads = 0;
-				for (int i = 0; i < 7; i++) {
-					for (int j = 0; j < 7; j++) {
-						for (int k = 0; k < 3; k++) {
-							if (board.getRoad(new EdgeLocation(i, j, k)).getOwner().equals(p))
-								numbRoads++;
-						}
-					}
-				}
-				if (numbRoads >= 15) {
-					//TODO: throw error about too many of object owned already
-				}
-
-				// Place the Settlement
-				buyObject(p, input);
-
-				p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
-				p.setNumberResourcesType("LUMBER", p.getNumberResourcesType("LUMBER") - 1);
-
-				p.setVictoryPoints(p.getVictoryPoints() + 1);
-
-				break;
-			case 2:
-
-				// Check Player has sufficient resources
-				if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("GRAIN") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
-					//TODO: throw error about not enough resources
-				}
-
-				// Check Player has not exceeded capacity for object
-				int numbSettlements = 0;
-				for (int i = 0; i < 7; i++) {
-					for (int j = 0; j < 7; j++) {
-						for (int k = 0; k < 2; k++) {
-							if (board.getStructure(new VertexLocation(i, j, k)).getType() == 0 && board.getStructure(new VertexLocation(i, j, k)).getOwner().equals(p))
-								numbSettlements++;
-						}
-					}
-				}
-				if (numbSettlements >= 5) {
-					//TODO: throw error about too many of object owned already
-				}
-
-
-				// Place the Settlement
-				buyObject(p, input);
-
-				p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
-				p.setNumberResourcesType("LUMBER", p.getNumberResourcesType("LUMBER") - 1);
-				p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
-				p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
-
-				p.setVictoryPoints(p.getVictoryPoints() + 1);
-
-				break;
-			case 3:
-
-				// Check Player has sufficient resources
-				if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3) {
-					//TODO: throw error about not enough resources
-				}
-
-				// Check Player has not exceeded capacity for object
-				int numbCities = 0;
-				for (int i = 0; i < 7; i++) {
-					for (int j = 0; j < 7; j++) {
-						for (int k = 0; k < 2; k++) {
-							if (board.getStructure(new VertexLocation(i, j, k)).getType() == 1 && board.getStructure(new VertexLocation(i, j, k)).getOwner().equals(p))
-								numbCities++;
-						}
-					}
-				}
-				if (numbCities >= 4) {
-					//TODO: throw error about too many of object owned already
-				}
-
-				// Upgrade the settlement
-				buyObject(p, input);
-
-				p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 2);
-				p.setNumberResourcesType("ORE", p.getNumberResourcesType("ORE") - 3);
-
-				p.setVictoryPoints(p.getVictoryPoints() + 1);
-
-				break;
-			case 4:
-
-				// Check Player has sufficient resources
-				if (p.getNumberResourcesType("ORE") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("GRAIN") < 1) {
-					//TODO: throw error about not enough resources
-				}
-
-				// Assign the DevCard to the Player
-				buyObject(p, input);
-
-				p.setNumberResourcesType("ORE", p.getNumberResourcesType("ORE") - 1);
-				p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
-				p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
-
-				break;
 			}
-		} while (input != 5);
+		}
+		if (numbRoads >= 15) {
+			return false;
+			//TODO: throw error about too many of object owned already
+		}
+		
+		p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
+		p.setNumberResourcesType("LUMBER", p.getNumberResourcesType("LUMBER") - 1);
+
+		p.setVictoryPoints(p.getVictoryPoints() + 1);
+
+		return true;
 	}
 
 	/**
-	 * Have Player p buy a thing of type choice
-	 * This method mostly handles calling the actual placement of an object
-	 * @param p the Player doing the buying
-	 * @param choice the structure/road/card to buy
+	 * Buys Settlement for given Player
+	 * @param p the given Player
+	 * @return whether the Player can buy a Settlement
 	 */
-	private void buyObject(Player p, int choice) {
+	public boolean buySettlement(Player p) {
 
-		if (choice == 1 || choice == 2 || choice == 3) {
+		// Check Player has sufficient resources
+		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("GRAIN") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
+			return false;
+			//TODO: throw error about not enough resources
+		}
 
-			boolean goodSpot = true;
-
-			if (choice == 1) {
-				do {
-					if (!goodSpot) {
-						//TODO: throw error invalid placement
-					}
-
-					int locInput = 0; //TODO: input
-						/* Three digits
-						 * xCoord is hundreds place within [1, 7]
-						 * yCoord is tens place within [1, 7]
-						 * orient is ones place within [0, 2]
-						 */
-					int xCoord = locInput / 100;
-					int yCoord = (locInput - (int)(locInput / 100)*(100))/10;
-					int orient = locInput % 10;
-
-					EdgeLocation loc = new EdgeLocation(xCoord, yCoord, orient);
-					goodSpot = board.placeRoad(loc, p);
-				} while (!goodSpot);
-			}
-			else if (choice == 2) {
-				do {
-					if (!goodSpot) {
-						//TODO: throw error invalid placement
-					}
-
-					int locInput = 0; //TODO: input
-						/* Three digits
-						 * xCoord is hundreds place within [1, 7]
-						 * yCoord is tens place within [1, 7]
-						 * orient is ones place within [0, 1]
-						 */
-					int xCoord = locInput / 100;
-					int yCoord = (locInput - (int)(locInput / 100)*(100))/10;
-					int orient = locInput % 10;
-
-					VertexLocation loc = new VertexLocation(xCoord, yCoord, orient);
-					goodSpot = board.placeStructure(loc, p);
-				} while (!goodSpot);
-			}
-			else if (choice == 3) {
-				do {
-					int locInput = 0; //TODO: input
-						/* Three digits
-						 * xCoord is hundreds place within [1, 7]
-						 * yCoord is tens place within [1, 7]
-						 * orient is ones place within [0, 1]
-						 */
-					int xCoord = locInput / 100;
-					int yCoord = (locInput - (int)(locInput / 100)*(100))/10;
-					int orient = locInput % 10;
-
-					VertexLocation loc = new VertexLocation(xCoord, yCoord, orient);
-
-					Structure s = board.getStructure(loc);
-
-					if (!s.getOwner().equals(p)) {
-						//TODO: throw error about unowned settlement
-					}
-					else {
-						goodSpot = true;
-					}
-
-					Structure c = new City(s.getLocation());
-					c.setOwner(s.getOwner());
-					board.setStructure(loc, c);
-				} while (!goodSpot);
+		// Check Player has not exceeded capacity for object
+		int numbSettlements = 0;
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 7; j++) {
+				for (int k = 0; k < 2; k++) {
+					if (board.getStructure(new VertexLocation(i, j, k)).getType() == 0 && board.getStructure(new VertexLocation(i, j, k)).getOwner().equals(p))
+						numbSettlements++;
+				}
 			}
 		}
-		else if (choice == 4) {
-			DevCard dC = deck.draw();
-			if (null != dC) {
-				p.addDevCard(dC);
-			}
-			else {
-				//TODO: throw error about no dev cards left
-			}
+		if (numbSettlements >= 5) {
+			return false;
+			//TODO: throw error about too many of object owned already
 		}
+
+		p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
+		p.setNumberResourcesType("LUMBER", p.getNumberResourcesType("LUMBER") - 1);
+		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
+		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
+
+		p.setVictoryPoints(p.getVictoryPoints() + 1);
+		
+		return true;
 	}
+	
+	/**
+	 * Buys City for given Player
+	 * @param p the given Player
+	 * @return whether the Player can buy a City
+	 */
+	public boolean buyCities(Player p) {
+		
+		// Check Player has sufficient resources
+		if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3) {
+			return false;
+			//TODO: throw error about not enough resources
+		}
+
+		// Check Player has not exceeded capacity for object
+		int numbCities = 0;
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 7; j++) {
+				for (int k = 0; k < 2; k++) {
+					if (board.getStructure(new VertexLocation(i, j, k)).getType() == 1 && board.getStructure(new VertexLocation(i, j, k)).getOwner().equals(p))
+						numbCities++;
+				}
+			}
+		}
+		if (numbCities >= 4) {
+			return false;
+			//TODO: throw error about too many of object owned already
+		}
+		
+		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 2);
+		p.setNumberResourcesType("ORE", p.getNumberResourcesType("ORE") - 3);
+
+		p.setVictoryPoints(p.getVictoryPoints() + 1);
+
+		return true;
+	}
+	
+	/**
+	 * Buys DevCard for given Player
+	 * @param p the given Player
+	 * @return whether the Player can buy a DevCard
+	 */
+	public boolean buyDevCard(Player p) {
+		
+		// Check Player has sufficient resources
+		if (p.getNumberResourcesType("ORE") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("GRAIN") < 1) {
+			return false;
+			//TODO: throw error about not enough resources
+		}
+
+		p.setNumberResourcesType("ORE", p.getNumberResourcesType("ORE") - 1);
+		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
+		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
+
+		return true;
+	}
+
+	/**
+	 * Places a Road for the given Player at the given EdgeLocation
+	 * @param p the Player placing
+	 * @param loc the EdgeLocation to place the ROad
+	 * @return whether the Road can go there
+	 */
+	public boolean placeRoad(Player p, EdgeLocation loc) {
+		return board.placeRoad(loc, p);
+	}
+
+	/**
+	 * Places a Settlement for the given Player at the given VertexLocation
+	 * @param p the Player placing
+	 * @param loc the VertexLocation to place the Settlement
+	 * @return whether the Settlement can go there
+	 */
+	public boolean placeSettlement(Player p, VertexLocation loc) {
+		return board.placeStructure(loc, p);
+	}
+
+	/**
+	 * Places a City for the given Player at the given VertexLocation
+	 * @param p the Player placing
+	 * @param loc the VertexLocation to place the City
+	 * @return whether the City can go there
+	 */
+	public boolean placeCity(Player p, VertexLocation loc) {
+
+		Structure s = board.getStructure(loc);
+
+		if (!s.getOwner().equals(p)) {
+			return false;
+			//TODO: throw error about unowned settlement
+		}
+
+		Structure c = new City(s.getLocation());
+		c.setOwner(s.getOwner());
+		board.setStructure(loc, c);
+		
+		return true;
+	}
+		
+	//TODO: move to CatanBoard
+//		DevCard dC = deck.draw();
+//		if (null != dC) {
+//			p.addDevCard(dC);
+//		}
+//		else {
+//			//TODO: throw error about no dev cards left
+//		}
 }

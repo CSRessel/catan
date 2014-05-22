@@ -181,4 +181,30 @@ public class Player {
 	public boolean hasLargestArmy() {
 		return hasLargestArmy;
 	}
+	
+	public boolean hasResources(ArrayList<String> res) {
+		int wool = 0,
+			ore = 0,
+			lumber = 0,
+			brick = 0,
+			grain = 0;
+		
+		for (String s : res) {
+			if (res.equals("WOOL"))
+				wool++;
+			else if (res.equals("ORE"))
+				ore++;
+			else if (res.equals("LUMBER"))
+				lumber++;
+			else if (res.equals("BRICK"))
+				brick++;
+			else if (res.equals("GRAIN"))
+				grain++;
+		}
+		
+		if (wool > resources.get("WOOL") || ore > resources.get("ORE") || lumber > resources.get("LUMBER") || brick > resources.get("BRICK") || grain > resources.get("GRAIN"))
+			return false;
+		else
+			return true;
+	}
 }
