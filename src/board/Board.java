@@ -698,4 +698,12 @@ public class Board {
 		}
 
 	}
+	
+	/**
+	 * Getter for tiles array
+	 * @return tiles array
+	 */
+	public Tile[][] getTiles(){
+		return tiles;
+	}
 }

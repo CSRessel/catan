@@ -636,4 +636,12 @@ public class Game {
 			}
 		}
 	}
+	
+	/**
+	 * Getter for board's tiles
+	 * @return tile array
+	 */
+	public Tile[][] getTiles(){
+		return board.getTiles();
+	}
 }
