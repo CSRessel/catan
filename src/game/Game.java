@@ -553,7 +553,7 @@ public class Game {
 		
 		return true;
 	}
-		
+	
 	//TODO: move to CatanBoard
 //		DevCard dC = deck.draw();
 //		if (null != dC) {
@@ -562,4 +562,12 @@ public class Game {
 //		else {
 //			//TODO: throw error about no dev cards left
 //		}
+	
+	/**
+	 * Getter for board's tiles
+	 * @return tile array
+	 */
+	public Tile[][] getTiles(){
+		return board.getTiles();
+	}
 }
