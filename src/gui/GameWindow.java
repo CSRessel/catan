@@ -16,13 +16,13 @@ public class GameWindow{
 	
 	final static int SCRSIZE = 500; //TODO specify
 	
-	private GameWindow(){
+	
+	private GameWindow() {
 		board = new CatanBoard();
 		createAndShowGUI();
 	}
 	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 				new GameWindow();
@@ -30,11 +30,13 @@ public class GameWindow{
 				});
 	}
 	
-	private void createAndShowGUI(){
+	private void createAndShowGUI() {
+		
 		JFrame frame = new JFrame("Catan");
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = frame.getContentPane();
 		content.add(board);
+		
 		frame.setSize(SCRSIZE, SCRSIZE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
