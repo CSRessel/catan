@@ -2,11 +2,16 @@ package gui;
 
 import game.*;
 
+import java.awt.Button;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+
+import lib.GraphPaperLayout;
 
 public class GameWindow{
 		
@@ -14,11 +19,12 @@ public class GameWindow{
 	CatanBoard board;
 	private Player thisPlayer;
 	
-	final static int SCRSIZE = 500; //TODO specify
+	final static int SCRSIZE = 1000; //TODO specify
 	
 	
 	private GameWindow() {
 		board = new CatanBoard();
+		
 		createAndShowGUI();
 	}
 	
@@ -34,12 +40,24 @@ public class GameWindow{
 		
 		JFrame frame = new JFrame("Catan");
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		Dimension d = new Dimension(5,5);
+
+		frame.setSize(SCRSIZE + 500, SCRSIZE);
+		//frame.setLayout(new GraphPaperLayout(d));
 		Container content = frame.getContentPane();
-		content.add(board);
+		content.setLayout(new GraphPaperLayout(d));
+		//content.add(board);
+		content.add(board,new Rectangle(0,0,4,4));
+		content.add(new Button("Add buttons here"),new Rectangle(4,0,1,4));
+		content.add(new Button("Pretty cards here"),new Rectangle(0,4,5,1));
+		//frame.add(board,new Rectangle(0,0,500,500));
+		//content.add(new Button("I"), new Rectangle(0,0,1,2));
 		
-		frame.setSize(SCRSIZE, SCRSIZE);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
+		
 		frame.setVisible(true);
+		
+		board.repaint();
 	}
 }

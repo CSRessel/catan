@@ -28,12 +28,16 @@ public class Game {
 		for (Player p : givenPlayers) {
 			names.add(p.getName());
 		}
-		for (String s : names) {
-			names.remove(s);
-			if (names.remove(s)) {
+		
+		/*TODO fix name check
+		for (int i = 0; i < names.size(); i++) {
+			names.remove(names.get(i));
+			i--;
+			if (names.remove(names.get(i))) {
 				throw new IllegalArgumentException("Players must have different names");
 			}
 		}
+		*/
 		
 		Collections.shuffle(givenPlayers);
 
@@ -568,7 +572,7 @@ public class Game {
 	 * Getter for board's tiles
 	 * @return tile array
 	 */
-	public Tile[][] getTiles(){
-		return board.getTiles();
+	public Board getBoard(){
+		return board;
 	}
 }

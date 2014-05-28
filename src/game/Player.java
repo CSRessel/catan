@@ -32,6 +32,7 @@ public class Player {
 		name = n;
 		color = c;
 		victoryPoints = 0;
+		roads = new ArrayList<Road>();
 		
 		resources = new HashMap<String, Integer>(5);
 		resources.put("BRICK", 0);

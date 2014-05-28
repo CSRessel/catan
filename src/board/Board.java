@@ -99,7 +99,11 @@ public class Board {
 
 		// Assigning all values from numberOrder to the Tiles in the board, proceeding in a spiral
 		for (int n = 0; n < tileOrder.length - 1; n+=2) {
-			if (tiles[tileOrder[n]][tileOrder[n+1]].getType().equals("Desert")) {
+			if (numberTile == 18){
+				break;
+			}
+			
+			if (tiles[tileOrder[n]][tileOrder[n+1]].getType().equals("DESERT")) {
 			}
 			else {
 				tiles[tileOrder[n]][tileOrder[n+1]].setNumber(numberOrder[numberTile]);
@@ -704,5 +708,21 @@ public class Board {
 	 */
 	public Tile[][] getTiles(){
 		return tiles;
+	}
+	
+	/**
+	 * Getter for structures array
+	 * @return structures array
+	 */
+	public Structure[][][] getStructures(){
+		return structures;
+	}
+	
+	/**
+	 * Getter for roads array
+	 * @return roads array
+	 */
+	public Road[][][] getRoads(){
+		return roads;
 	}
 }
