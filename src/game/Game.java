@@ -32,8 +32,7 @@ public class Game {
 			if (Collections.frequency(names, s) > 1)
 				throw new IllegalArgumentException("Players must have different names");
 		}
-		
-		
+
 		Collections.shuffle(givenPlayers);
 
 		players = givenPlayers;
@@ -86,13 +85,13 @@ public class Game {
 	public boolean gameOver() {
 		return winningPlayer() != null;
 	}
-	
+
 	/**
 	 * Returns the player that has won, or null if game is not finished
 	 * @return winning player
 	 */
 	public Player winningPlayer() {
-		
+
 		Player maxVictoryPoints = players.get(0);
 		Player secondMaxVictoryPoints = players.get(0);
 
@@ -105,7 +104,7 @@ public class Game {
 				secondMaxVictoryPoints = p;
 			}
 		}
-		
+
 		if (maxVictoryPoints.getVictoryPoints() >= 10 && maxVictoryPoints.getVictoryPoints() > secondMaxVictoryPoints.getVictoryPoints()) {
 			return maxVictoryPoints;
 		}
@@ -130,7 +129,7 @@ public class Game {
 		else {
 			// Distribute resources
 			board.distributeResources(roll1 + roll2);
-			
+
 			return true;
 		}
 	}
@@ -151,7 +150,7 @@ public class Game {
 		board.setRobberLocation(loc);
 		board.getTile(loc).setRobber(true);
 		board.getTile(prev).setRobber(false);
-		
+
 		return true;
 	}
 
@@ -161,7 +160,7 @@ public class Game {
 	 * @param loc the Location of the Tile
 	 */
 	public void takeCard(Player p, Player choice) {
-	
+
 //TODO: move to CatanBoard
 //		ArrayList<Structure> structures = new ArrayList<Structure>(6);
 //
@@ -182,11 +181,11 @@ public class Game {
 
 		ArrayList<String> res = new ArrayList<String>(choice.getOwnedResources());
 		Collections.shuffle(res);
-		
+
 		String result = res.get(0);
-		
+
 		choice.setNumberResourcesType(result, choice.getNumberResourcesType(result) - 1);
-		
+
 		p.setNumberResourcesType(result, p.getNumberResourcesType(result) - 1);
 	}
 
@@ -271,16 +270,16 @@ public class Game {
 //				moveRobber(p);
 //				p.incrementNumbKnights();
 //				if (!p.hasLargestArmy() && p.getNumbKnights() >= 3) {
-//					
+//
 //					int mostKnights = p.getNumbKnights();
 //					String biggestArmy = p.getName();
 //
 //					for (Player player : players) {
 //						if (player.hasLargestArmy()) {
-//							
+//
 //							player.setHasLargestArmy(false);
 //							player.setVictoryPoints(player.getVictoryPoints() - 1);
-//							
+//
 //							mostKnights = player.getNumbKnights();
 //							biggestArmy = player.getName();
 //						}
@@ -292,7 +291,7 @@ public class Game {
 //							biggestArmy = player.getName();
 //						}
 //					}
-//					
+//
 //					for (Player player : players) {
 //						if (player.getName().equals(biggestArmy)) {
 //							player.setHasLargestArmy(true);
@@ -309,7 +308,7 @@ public class Game {
 //				else if (dC.getSubType().equals("Monoply")) {
 //					int res = 0;
 //					String choice = "WOOL"; //TODO: input
-//					
+//
 //					for (Player player : players) {
 //						res += player.getNumberResourcesType(choice);
 //						player.setNumberResourcesType(choice, 0);
@@ -317,9 +316,9 @@ public class Game {
 //					p.setNumberResourcesType(choice, res);
 //				}
 //				else if (dC.getSubType().equals("Year of Plenty")) {
-//					String choice1 = "BRICK"; //TODO: input					
+//					String choice1 = "BRICK"; //TODO: input
 //					p.setNumberResourcesType(choice1, p.getNumberResourcesType(choice1) + 1);
-//					
+//
 //					String choice2 = "ORE"; //TODO: input
 //					p.setNumberResourcesType(choice2, p.getNumberResourcesType(choice2) + 1);
 //				}
@@ -342,24 +341,24 @@ public class Game {
 	 * @return boolean whether the trade was possible
 	 */
 	public boolean playerTrade(Player a, Player b, ArrayList<String> fromA, ArrayList<String> fromB) {
-		
+
 		if (!a.hasResources(fromA) ||  !b.hasResources(fromB)) {
 			return false;
 		}
-		
+
 		for (String res : fromA) {
 			a.setNumberResourcesType(res, a.getNumberResourcesType(res) - 1);
 			b.setNumberResourcesType(res, b.getNumberResourcesType(res) + 1);
 		}
-		
+
 		for (String res : fromB) {
 			b.setNumberResourcesType(res, b.getNumberResourcesType(res) - 1);
 			a.setNumberResourcesType(res, a.getNumberResourcesType(res) + 1);
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Operates trading between given Player and the stock
 	 * @param a the Player trading
@@ -370,16 +369,16 @@ public class Game {
 	public boolean npcTrade(Player a, ArrayList<String> fromA, ArrayList<String> toA) {
 		if (!a.hasResources(fromA))
 			return false;
-		
+
 		//TODO: check if this npc trade is valid (valid ratios, harbors, etc)
-		
+
 		for (String res : fromA) {
 			a.setNumberResourcesType(res, a.getNumberResourcesType(res) - 1);
 		}
 		for (String res : toA) {
 			a.setNumberResourcesType(res, a.getNumberResourcesType(res) + 1);
 		}
-		
+
 		return true;
 	}
 
@@ -389,7 +388,7 @@ public class Game {
 	 * @return whether the Player can buy a Road
 	 */
 	public boolean buyRoad(Player p) {
-		
+
 		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
 			return false;
 			//TODO: throw error about not enough resources
@@ -409,7 +408,7 @@ public class Game {
 			return false;
 			//TODO: throw error about too many of object owned already
 		}
-		
+
 		p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
 		p.setNumberResourcesType("LUMBER", p.getNumberResourcesType("LUMBER") - 1);
 
@@ -452,17 +451,17 @@ public class Game {
 		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Buys City for given Player
 	 * @param p the given Player
 	 * @return whether the Player can buy a City
 	 */
 	public boolean buyCities(Player p) {
-		
+
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3) {
 			return false;
@@ -483,7 +482,7 @@ public class Game {
 			return false;
 			//TODO: throw error about too many of object owned already
 		}
-		
+
 		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 2);
 		p.setNumberResourcesType("ORE", p.getNumberResourcesType("ORE") - 3);
 
@@ -491,14 +490,14 @@ public class Game {
 
 		return true;
 	}
-	
+
 	/**
 	 * Buys DevCard for given Player
 	 * @param p the given Player
 	 * @return whether the Player can buy a DevCard
 	 */
 	public boolean buyDevCard(Player p) {
-		
+
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("ORE") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("GRAIN") < 1) {
 			return false;
@@ -550,10 +549,10 @@ public class Game {
 		Structure c = new City(s.getLocation());
 		c.setOwner(s.getOwner());
 		board.setStructure(loc, c);
-		
+
 		return true;
 	}
-	
+
 //TODO: move to CatanBoard
 //		DevCard dC = deck.draw();
 //		if (null != dC) {
@@ -562,12 +561,12 @@ public class Game {
 //		else {
 //			//TODO: throw error about no dev cards left
 //		}
-	
+
 	/**
 	 * Getter for board's tiles
 	 * @return tile array
 	 */
-	public Tile[][] getTiles(){
-		return board.getTiles();
+	public Board getBoard(){
+		return board;
 	}
 }
