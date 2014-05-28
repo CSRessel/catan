@@ -29,11 +29,10 @@ public class Game {
 			names.add(p.getName());
 		}
 		for (String s : names) {
-			names.remove(s);
-			if (names.remove(s)) {
+			if (Collections.frequency(names, s) > 1)
 				throw new IllegalArgumentException("Players must have different names");
-			}
 		}
+		
 		
 		Collections.shuffle(givenPlayers);
 
