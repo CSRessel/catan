@@ -13,11 +13,13 @@ import javax.swing.*;
 
 import lib.GraphPaperLayout;
 
+
 public class GameWindow{
 		
 	ArrayList<Player> players = new ArrayList<Player>();
 	CatanBoard board;
 	private Player thisPlayer;
+	
 	
 	final static int SCRSIZE = 1000; //TODO specify
 	

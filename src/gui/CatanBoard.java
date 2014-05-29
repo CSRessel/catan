@@ -1,8 +1,5 @@
 package gui;
 
-
-
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -25,6 +22,7 @@ import javax.swing.JPanel;
 import board.*;
 import game.*;
 
+
 public class CatanBoard extends JPanel{
 	
 	private int state;
@@ -35,10 +33,10 @@ public class CatanBoard extends JPanel{
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
 	
-	
 	private Tile[][] tiles;
 	private Road[][][] roads;
 	private Structure[][][] structures;
+	
 	
 	public CatanBoard() {
 		
@@ -333,8 +331,7 @@ public class CatanBoard extends JPanel{
 		public int getY() {
 			return y;
 		}
-	}
-			
+	}		
 }
 
 

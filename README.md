@@ -9,8 +9,11 @@ Logic
 - Drawing DevCards move to CatanBoard
 
 
+______________________________________________________________________________
+
+
 License (b/c of code from The Java Tutorials):
-===============================================================================
+==============================================
 Copyright (c) 2014, Oracle America, Inc.
 All rights reserved.
 
