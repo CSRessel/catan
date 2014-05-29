@@ -7,12 +7,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
@@ -96,6 +99,8 @@ public class CatanBoard extends JPanel{
 	}
 	*/
 	public void paintComponent(Graphics g) {
+		
+		//MouseInfo.getPointerInfo().getLocation();
 		
 		boardHeight = getHeight();
 		hexagonSide = (boardHeight - 2 * heightMargin) / 8;
@@ -303,24 +308,33 @@ public class CatanBoard extends JPanel{
 		return new PxLocation(xCenter,yCenter);
 	}
 	
+	class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel 
+		public void mouseClicked(MouseEvent e) { 
+			int x = e.getX(); 
+			int y = e.getY(); 
+			
+			
+			repaint();
+		}
+	}
 	
-	
-	class PxLocation{
+	class PxLocation {
 		private int x,
 					y;
-		public PxLocation(int xx, int yy){
+		public PxLocation(int xx, int yy) {
 			x = xx;
 			y = yy;
 		}
 		
-		public int getX(){
+		public int getX() {
 			return x;
 		}
 		
-		public int getY(){
+		public int getY() {
 			return y;
 		}
 	}
+			
 }
 
 
