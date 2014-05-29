@@ -308,7 +308,7 @@ public class CatanBoard extends JPanel{
 		return new PxLocation(xCenter,yCenter);
 	}
 	
-	class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel 
+	class AMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel 
 		public void mouseClicked(MouseEvent e) { 
 			int x = e.getX(); 
 			int y = e.getY(); 
