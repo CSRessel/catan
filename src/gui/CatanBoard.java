@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
@@ -28,6 +29,10 @@ import game.*;
 public class CatanBoard extends JPanel{
 	
 	private int state;
+		//0 = none
+		//1 = choosing tile
+		//2 = choosing settlement
+		//3 = choosing road
 	private Game game;
 	private int boardHeight;
 	private int hexagonSide;
@@ -158,9 +163,9 @@ public class CatanBoard extends JPanel{
 		
 	}
 	
-	public Polygon makeHex(PxLocation center) {
-		int xCenter = center.getX();
-		int yCenter = center.getY();
+	public Polygon makeHex(Point center) {
+		int xCenter = (int) center.getX();
+		int yCenter = (int) center.getY();
 		
 		
 		Polygon output = new Polygon();
@@ -233,9 +238,9 @@ public class CatanBoard extends JPanel{
 		//Polygon poly = new Polygon();
 		Graphics2D g2c = (Graphics2D) g2.create();
 		
-		PxLocation tileCenter = findCenter(r.getLocation().getXCoord(), r.getLocation().getYCoord());
-		int y = tileCenter.getY();
-		int x = tileCenter.getX();
+		Point tileCenter = findCenter(r.getLocation().getXCoord(), r.getLocation().getYCoord());
+		int y = (int) tileCenter.getY();
+		int x = (int) tileCenter.getX();
 		int o = r.getLocation().getOrientation();
 		int height = hexagonSide / 10;
 		Rectangle rect = new Rectangle(x,y, (int) (0.8 * hexagonSide), height);
@@ -270,9 +275,9 @@ public class CatanBoard extends JPanel{
 		}
 		
 		Shape shape;
-		PxLocation tileCenter = findCenter(s.getLocation().getXCoord(), s.getLocation().getYCoord());
-		int y = tileCenter.getY();
-		int x = tileCenter.getX();
+		Point tileCenter = findCenter(s.getLocation().getXCoord(), s.getLocation().getYCoord());
+		int y = (int) tileCenter.getY();
+		int x = (int) tileCenter.getX();
 		//System.out.println(y);
 		if (s.getLocation().getOrientation() == 0) {
 			y -= hexagonSide;
@@ -298,17 +303,22 @@ public class CatanBoard extends JPanel{
 		
 	}
 	
-	public PxLocation findCenter(int x, int y){
+	public Point findCenter(int x, int y){
 		int xCenter = widthMargin + (int) (3 * hexagonSide * sqrt3div2)
 				+ (int) ((x - 1) * 2 * hexagonSide * sqrt3div2)
 				- (int) ((y - 1) * hexagonSide * sqrt3div2);
 		int yCenter = boardHeight - (heightMargin + hexagonSide
 				+ (int) ((y - 1) * hexagonSide * 1.5));
 		
-		return new PxLocation(xCenter,yCenter);
+		return new Point(xCenter,yCenter);
 	}
 	
-	class AMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel 
+	public EdgeLocation pxToRoad(Point p) {
+		
+		
+	}
+	
+	class AMouseListener extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) { 
 			int x = e.getX(); 
 			int y = e.getY(); 
@@ -318,23 +328,5 @@ public class CatanBoard extends JPanel{
 		}
 	}
 	
-	class PxLocation {
-		private int x,
-					y;
-		public PxLocation(int xx, int yy) {
-			x = xx;
-			y = yy;
-		}
-		
-		public int getX() {
-			return x;
-		}
-		
-		public int getY() {
-			return y;
-		}
-	}
-			
+	
 }
-
-
