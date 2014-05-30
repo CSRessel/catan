@@ -18,6 +18,7 @@ public class GameWindow{
 	ArrayList<Player> players = new ArrayList<Player>();
 	CatanBoard board;
 	private Player thisPlayer;
+	public final static int INTERVAL = 1000;
 	
 	final static int SCRSIZE = 1000; //TODO specify
 	
@@ -26,6 +27,15 @@ public class GameWindow{
 		board = new CatanBoard();
 		
 		createAndShowGUI();
+
+		Timer timer = new Timer(INTERVAL, new ActionListener() {
+		public void actionPerformed(ActionEvent evt) {
+		   //Refresh the board
+		       board.revalidate();
+		    }    
+		});
+
+		timer.start();
 	}
 	
 	public static void main(String[] args) {

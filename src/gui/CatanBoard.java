@@ -28,7 +28,7 @@ import game.*;
 
 public class CatanBoard extends JPanel{
 	
-	private int state;
+	private int state = 1;
 		//0 = none
 		//1 = choosing tile
 		//2 = choosing settlement
@@ -39,6 +39,7 @@ public class CatanBoard extends JPanel{
 	private int heightMargin = 100; //TODO define
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
+	private final int roadSize = 20;
 	
 	
 	private Tile[][] tiles;
@@ -60,7 +61,7 @@ public class CatanBoard extends JPanel{
 		structures = game.getBoard().getStructures(); //TODO fix encapsulation
 		
 		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
-		game.getBoard().placeStructureNoRoad(new VertexLocation(4,3,1), players.get(0));
+		game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(0));
 		game.getBoard().placeStructureNoRoad(new VertexLocation(5,3,0), players.get(1));
 		game.getBoard().placeRoad(new EdgeLocation(5,3,0), players.get(1));
 		game.getBoard().placeRoad(new EdgeLocation(5,3,1), players.get(1));
@@ -68,7 +69,7 @@ public class CatanBoard extends JPanel{
 		game.getBoard().placeRoad(new EdgeLocation(3,3,0), players.get(0));
 		game.getBoard().placeRoad(new EdgeLocation(3,3,1), players.get(0));
 		game.getBoard().placeRoad(new EdgeLocation(3,3,2), players.get(0));
-		structures[3][3][1].setType(1);
+		structures[4][2][1].setType(1);
 		
 		setBackground(new Color(164,200,218)); //TODO draw background
 		/*
@@ -144,7 +145,7 @@ public class CatanBoard extends JPanel{
 		for (int i = 0; i < roads.length; i++){
 			for (int k = 0; k < roads[0].length; k++){
 				for (int o = 0; o < roads[0][0].length; o++){
-					drawRoad(roads[i][k][o], g2);
+					drawRoad(roads[i][k][o], false, g2);
 				}
 			}
 		}
@@ -153,13 +154,15 @@ public class CatanBoard extends JPanel{
 		for (int i = 0; i < structures.length; i++){
 			for (int k = 0; k < structures[0].length; k++){
 				for (int o = 0; o < structures[0][0].length; o++){
-					drawStructure(structures[i][k][o], g2);
+					drawStructure(structures[i][k][o], false, g2);
 				}
 			}
 		}
 		
+		//Highlights
+		highlightTile(tiles[1][1], g2);
+		
 		System.out.println("Painted");
-		//fill in hexes?
 		
 	}
 	
@@ -227,7 +230,19 @@ public class CatanBoard extends JPanel{
 		g2.drawPolygon(poly);
 	}
 	
-	public void drawRoad(Road r, Graphics2D g2) {
+	public void highlightTile(Tile tile, Graphics2D g2) {
+		//System.out.println("Highlighted");
+		int x = tile.getLocation().getXCoord();
+		int y = tile.getLocation().getYCoord();
+		Point p = findCenter(x,y);
+		Shape shape = new Ellipse2D.Double((int)p.getX() - 25, (int)p.getY() - 25, 50, 50);
+		
+		g2.setColor(Color.WHITE);
+		g2.fill(shape);
+		g2.draw(shape);
+	}
+	
+	public void drawRoad(Road r, boolean highlighted, Graphics2D g2) {
 		Player player = r.getOwner();
 		if (player == null) {
 			return;
@@ -262,13 +277,14 @@ public class CatanBoard extends JPanel{
 		}
 		
 		g2c.transform(transformer);
+		//TODO Add highlight
 		g2c.setColor(player.getColor());
 		g2c.fill(rect);
 		g2c.setColor(Color.BLACK);
 		g2c.draw(rect);
 	}
 	
-	public void drawStructure(Structure s, Graphics2D g2) {
+	public void drawStructure(Structure s, boolean highlighted, Graphics2D g2) {
 		Player player = s.getOwner();
 		if (player == null) {
 			return;
@@ -296,6 +312,7 @@ public class CatanBoard extends JPanel{
 		
 		//System.out.println(x);
 		//System.out.println(y);
+		//TODO add highlight
 		g2.setColor(player.getColor());
 		g2.fill(shape);
 		g2.setColor(Color.BLACK);
@@ -314,8 +331,59 @@ public class CatanBoard extends JPanel{
 	}
 	
 	public EdgeLocation pxToRoad(Point p) {
+		int x = (int) p.getX();
+		int y = boardHeight - heightMargin - (int) p.getY();
+		EdgeLocation output = null;
 		
-		
+		if (y >= 0 && y < (int)(hexagonSide * 0.5)) {
+			x -= widthMargin;
+			x -= 2 * (int)(hexagonSide * sqrt3div2);
+			int tag = x / (int)(hexagonSide * sqrt3div2);
+			switch (tag) {
+			case 0:
+				output = new EdgeLocation(0,0,1); break;
+			case 1:
+				output = new EdgeLocation(1,0,0); break;
+			case 2:
+				output = new EdgeLocation(1,0,1); break;
+			case 3:
+				output = new EdgeLocation(2,0,0); break;
+			case 4:
+				output = new EdgeLocation(2,0,1); break;
+			case 5:
+				output = new EdgeLocation(3,0,0); break;
+			default:
+				output = null; break;
+			}
+		}
+		else if (y >= (int)(hexagonSide * 0.5)  && y < (int)(hexagonSide * 1.5)) {
+			x -= widthMargin;
+			x -= (int)(hexagonSide * sqrt3div2);
+			int tag = x / 2 * (int)(hexagonSide * sqrt3div2);
+			
+		} else if (y >= (int)(hexagonSide * 1.5)  && y < (int)(hexagonSide * 2.0)) {
+			
+		} else if (y >= (int)(hexagonSide * 2.0)  && y < (int)(hexagonSide * 3.0)) {
+			
+		} else if (y >= (int)(hexagonSide * 3.0)  && y < (int)(hexagonSide * 3.5)) {
+			
+		} else if (y >= (int)(hexagonSide * 3.5)  && y < (int)(hexagonSide * 4.5)) {
+			
+		} else if (y >= (int)(hexagonSide * 4.5)  && y < (int)(hexagonSide * 5.0)) {
+			
+		} else if (y >= (int)(hexagonSide * 5.0)  && y < (int)(hexagonSide * 6.0)) {
+			
+		} else if (y >= (int)(hexagonSide * 6.0)  && y < (int)(hexagonSide * 6.5)) {
+			
+		} else if (y >= (int)(hexagonSide * 6.5)  && y < (int)(hexagonSide * 7.5)) {
+			
+		} else if (y >= (int)(hexagonSide * 7.5)  && y < (int)(hexagonSide * 8.0)) {
+			
+		} else {
+			output = null;
+		}
+	
+		return output;
 	}
 	
 	class AMouseListener extends MouseAdapter {
