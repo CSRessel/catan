@@ -37,6 +37,8 @@ public class CatanBoard extends JPanel{
 	private int heightMargin = 100; //TODO define
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
+	private final double structSize = 7.0;
+							// The radius of the hitbox for settlements (or more accurately one half the width of the square)
 	
 	private Tile[][] tiles;
 	private Road[][][] roads;
@@ -407,6 +409,328 @@ public class CatanBoard extends JPanel{
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
 	 */
+	
+	public VertexLocation pxToStructure(Point p) {
+		double x = p.getX();
+		double y = p.getY();
+		
+		int xCoord = 0, 
+			yCoord = 0,
+			orient = 1;
+		
+		// Columns have if else preceding down each structure in the column
+		
+		// first column
+		if (widthMargin - structSize < x && x < widthMargin + structSize) {
+			if (heightMargin + 7 * hexagonSide / 2 - structSize < y && y < heightMargin + 7 * hexagonSide / 2 + structSize) {
+				xCoord = 1;
+				yCoord = 4;
+				orient = 1;
+			}
+			else if (heightMargin + 9 * hexagonSide / 2 - structSize < y && y < heightMargin + 9 * hexagonSide / 2 + structSize) {
+				xCoord = 0;
+				yCoord = 2;
+				orient = 0;
+			}
+		}
+		// second column
+		else if (widthMargin + sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+				xCoord = 2;
+				yCoord = 5;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+				xCoord = 1;
+				yCoord = 3;
+				orient = 0;
+			}
+			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+				xCoord = 1;
+				yCoord = 3;
+				orient = 1;
+			}
+			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+				xCoord = 0;
+				yCoord = 1;
+				orient = 0;
+			}
+		}
+		// third column
+		if (widthMargin + 2 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 2 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin + hexagonSide / 2 - structSize < y && y < heightMargin + hexagonSide / 2 + structSize) {
+				xCoord = 3;
+				yCoord = 6;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide / 2 - structSize < y && y < heightMargin + 3 * hexagonSide / 2 + structSize) {
+				xCoord = 2;
+				yCoord = 4;
+				orient = 0;
+			}
+			else if (heightMargin + 7 * hexagonSide / 2 - structSize < y && y < heightMargin + 7 * hexagonSide / 2 + structSize) {
+				xCoord = 2;
+				yCoord = 4;
+				orient = 1;
+			}
+			else if (heightMargin + 9 * hexagonSide / 2 - structSize < y && y < heightMargin + 9 * hexagonSide / 2 + structSize) {
+				xCoord = 1;
+				yCoord = 2;
+				orient = 0;
+			}
+			else if (heightMargin + 13 * hexagonSide / 2 - structSize < y && y < heightMargin + 13 * hexagonSide / 2 + structSize) {
+				xCoord = 1;
+				yCOord = 2;
+				orient = 1;
+			}
+			else if (heightMargin + 15 * hexagonSide / 2 - structSize < y && y < heightMargin + 15 * hexagonSide / 2 + structSize) {
+				xCoord = 0;
+				yCoord = 0;
+				orient = 0;
+			}
+		}
+		// fourth column
+		if (widthMargin + 3 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 3 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin - structSize < x && x < heightMargin + structSize) {
+				xCoord = 4;
+				yCoord = 6;
+				orient = 1;
+			}
+			else if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+				xCoord = 3;
+				yCoord = 5;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+				xCoord = 2;
+				yCoord = 3;
+				orient = 0;
+			}
+			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+				xCoord = 2;
+				yCoord = 3;
+				orient = 1;
+			}
+			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+				xCoord = 1;
+				yCoord = 1;
+				orient = 0;
+			}
+			else if (heightMargin + 7 * hexagonSide - structSize < x && x < heightMargin + 7 * hexagonSide + structSize) {
+				xCoord = 1;
+				yCoord = 0;
+				orient = 0;
+			}
+		}
+		// fifth column
+		if (widthMargin + 4 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 4 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin + hexagonSide / 2 - structSize < y && y < heightMargin + hexagonSide / 2 + structSize) {
+				xCoord = 4;
+				yCoord = 6;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide / 2 - structSize < y && y < heightMargin + 3 * hexagonSide / 2 + structSize) {
+				xCoord = 3;
+				yCoord = 4;
+				orient = 0;
+			}
+			else if (heightMargin + 7 * hexagonSide / 2 - structSize < y && y < heightMargin + 7 * hexagonSide / 2 + structSize) {
+				xCoord = 3;
+				yCoord = 4;
+				orient = 1;
+			}
+			else if (heightMargin + 9 * hexagonSide / 2 - structSize < y && y < heightMargin + 9 * hexagonSide / 2 + structSize) {
+				xCoord = 2;
+				yCoord = 2;
+				orient = 0;
+			}
+			else if (heightMargin + 13 * hexagonSide / 2 - structSize < y && y < heightMargin + 13 * hexagonSide / 2 + structSize) {
+				xCoord = 2;
+				yCoord = 2;
+				orient = 1;
+			}
+			else if (heightMargin + 15 * hexagonSide / 2 - structSize < y && y < heightMargin + 15 * hexagonSide / 2 + structSize) {
+				xCoord = 1;
+				yCoord = 0;
+				orient = 0;
+			}
+		}
+		// sixth column
+		if (widthMargin + 5 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 5 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin - structSize < x && x < heightMargin + structSize) {
+				xCoord = 5;
+				yCoord = 6;
+				orient = 1;
+			}
+			else if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+				xCoord = 4;
+				yCoord = 5;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+				xCoord = 3;
+				yCoord = 3;
+				orient = 0;
+			}
+			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+				xCoord = 3;
+				yCoord = 3;
+				orient = 1;
+			}
+			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+				xCoord = 2;
+				yCoord = 1;
+				orient = 0;
+			}
+			else if (heightMargin + 7 * hexagonSide - structSize < x && x < heightMargin + 7 * hexagonSide + structSize) {
+				xCoord = 2;
+				yCoord = 0;
+				orient = 0;
+			}
+		}
+		// seventh column
+		if (widthMargin + 6 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 6 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin + hexagonSide / 2 - structSize < y && y < heightMargin + hexagonSide / 2 + structSize) {
+				xCoord = 5;
+				yCoord = 6;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide / 2 - structSize < y && y < heightMargin + 3 * hexagonSide / 2 + structSize) {
+				xCoord = 4;
+				yCoord = 4;
+				orient = 0;
+			}
+			else if (heightMargin + 7 * hexagonSide / 2 - structSize < y && y < heightMargin + 7 * hexagonSide / 2 + structSize) {
+				xCoord = 4;
+				yCoord = 4;
+				orient = 1;
+			}
+			else if (heightMargin + 9 * hexagonSide / 2 - structSize < y && y < heightMargin + 9 * hexagonSide / 2 + structSize) {
+				xCoord = 3;
+				yCoord = 2;
+				orient = 0;
+			}
+			else if (heightMargin + 13 * hexagonSide / 2 - structSize < y && y < heightMargin + 13 * hexagonSide / 2 + structSize) {
+				xCoord = 3;
+				yCoord = 2;
+				orient = 1;
+			}
+			else if (heightMargin + 15 * hexagonSide / 2 - structSize < y && y < heightMargin + 15 * hexagonSide / 2 + structSize) {
+				xCoord = 2;
+				yCoord = 0;
+				orient = 0;
+			}
+		}
+		// eighth column
+		if (widthMargin + 7 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 7 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin - structSize < x && x < heightMargin + structSize) {
+				xCoord = 6;
+				yCoord = 6;
+				orient = 1;
+			}
+			else if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+				xCoord = 5;
+				yCoord = 5;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+				xCoord = 4;
+				yCoord = 3;
+				orient = 0;
+			}
+			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+				xCoord = 4;
+				yCoord = 3;
+				orient = 1;
+			}
+			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+				xCoord = 3;
+				yCoord = 1;
+				orient = 0;
+			}
+			else if (heightMargin + 7 * hexagonSide - structSize < x && x < heightMargin + 7 * hexagonSide + structSize) {
+				xCoord = 2;
+				yCoord = 0;
+				orient = 0;
+			}
+		}
+		// ninth column
+		if (widthMargin + 8 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 8 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin + hexagonSide / 2 - structSize < y && y < heightMargin + hexagonSide / 2 + structSize) {
+				xCoord = 6;
+				yCoord = 6;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide / 2 - structSize < y && y < heightMargin + 3 * hexagonSide / 2 + structSize) {
+				xCoord = 5;
+				yCoord = 4;
+				orient = 0;
+			}
+			else if (heightMargin + 7 * hexagonSide / 2 - structSize < y && y < heightMargin + 7 * hexagonSide / 2 + structSize) {
+				xCoord = 5;
+				yCoord = 4;
+				orient = 1;
+			}
+			else if (heightMargin + 9 * hexagonSide / 2 - structSize < y && y < heightMargin + 9 * hexagonSide / 2 + structSize) {
+				xCoord = 4;
+				yCoord = 2;
+				orient = 0;
+			}
+			else if (heightMargin + 13 * hexagonSide / 2 - structSize < y && y < heightMargin + 13 * hexagonSide / 2 + structSize) {
+				xCoord = 4;
+				yCOord = 2;
+				orient = 1;
+			}
+			else if (heightMargin + 15 * hexagonSide / 2 - structSize < y && y < heightMargin + 15 * hexagonSide / 2 + structSize) {
+				xCoord = 3;
+				yCoord = 0;
+				orient = 0;
+			}
+		}
+		// tenth column
+		else if (widthMargin + 9 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 9 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+				xCoord = 6;
+				yCoord = 5;
+				orient = 1;
+			}
+			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+				xCoord = 5;
+				yCoord = 3;
+				orient = 0;
+			}
+			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+				xCoord = 5;
+				yCoord = 3;
+				orient = 1;
+			}
+			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+				xCoord = 4;
+				yCoord = 1;
+				orient = 0;
+			}
+		}
+		// eleventh column
+		if (widthMargin + 10 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 10 * sqrt3div2 * hexagonSide + structSize) {
+			if (heightMargin + 7 * hexagonSide / 2 - structSize < y && y < heightMargin + 7 * hexagonSide / 2 + structSize) {
+				xCoord = 6;
+				yCoord = 4;
+				orient = 1;
+			}
+			else if (heightMargin + 9 * hexagonSide / 2 - structSize < y && y < heightMargin + 9 * hexagonSide / 2 + structSize) {
+				xCoord = 5;
+				yCoord = 2;
+				orient = 0;
+			}
+		}
+		
+		
+		if (xCoord == 0 && yCoord == 0 && orient == 1) {
+			return null;
+		}
+		
+		return new VertexLocation(xCoord, yCoord, orient);
+	}
 	
 	class AMouseListener extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) { 
