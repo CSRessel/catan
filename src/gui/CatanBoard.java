@@ -313,8 +313,100 @@ public class CatanBoard extends JPanel{
 	
 	public EdgeLocation pxToRoad(Point p) {
 		
-		
 	}
+	
+	public Location pxToTile(Point p) {
+		double x = p.getX();
+		double y = p.getY();
+		
+		int xCoord = 0, 
+			yCoord = 0;
+		
+		// Out of bounds
+		if (x < widthMargin || x > widthMargin + 2 * 5 * sqrt3div2 || y < heightMargin || y > heightMargin + 8 * hexagonSide)
+			return null;
+	
+		// first horizontal band
+		if (heightMargin + hexagonSide / 2 < y && y < heightMargin + 3 * hexagonSide / 2) {
+			if (x < widthMargin + hexagonSide * 2 * sqrt3div2 || x > widthMargin + 4 * (hexagonSide * 2 * sqrt3div2))
+				return null;
+			yCoord = 5;
+			if (widthMargin < widthMargin + 2 * hexagonSide + sqrt3div2 && y < widthMargin + 2 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 3;
+			else if (widthMargin < widthMargin + 2 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 3 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 4;
+			else if (widthMargin < widthMargin + 3 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 4 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 5;
+		}
+		// third horizontal band
+		else if (heightMargin + 7 * hexagonSide / 2 < y && y < heightMargin + 9 * hexagonSide / 2) {
+			yCoord = 3;
+			if (widthMargin < y && y < widthMargin + 2 * hexagonSide + sqrt3div2)
+				xCoord = 1;
+			else if (widthMargin < widthMargin + 2 * hexagonSide + sqrt3div2 && y < widthMargin + 2 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 2;
+			else if (widthMargin < widthMargin + 2 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 3 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 3;
+			else if (widthMargin < widthMargin + 3 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 4 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 4;
+			else if (widthMargin < widthMargin + 4 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 5 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 5;
+		}
+		// fifth horizontal band
+		else if (heightMargin + 13 * hexagonSide / 2 < y && y < 15 * heightMargin + hexagonSide / 2) {
+			yCoord = 1;
+			if (widthMargin < widthMargin + 2 * hexagonSide + sqrt3div2 && y < widthMargin + 2 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 1;
+			else if (widthMargin < widthMargin + 2 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 3 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 2;
+			else if (widthMargin < widthMargin + 3 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 4 * (2 * hexagonSide + sqrt3div2))
+				xCoord = 3;
+			else
+				return null;
+		}
+		
+
+		// second horizontal band
+		if (heightMargin + 2 * hexagonSide < y && y < heightMargin + 3 * hexagonSide) {
+			y = 4;
+			if (widthMargin + hexagonSide * sqrt3div2 < x && x < widthMargin + hexagonSide * sqrt3div2 * 3)
+				x = 0;
+			else if (widthMargin + hexagonSide * sqrt3div2 * 3 < x && x < widthMargin + hexagonSide * sqrt3div2 * 5)
+				x = 0;
+			else if (widthMargin + hexagonSide * sqrt3div2 * 5 < x && x < widthMargin + hexagonSide * sqrt3div2 * 7)
+				x = 0;
+			else if (widthMargin + hexagonSide * sqrt3div2 * 7 < x && x < widthMargin + hexagonSide * sqrt3div2 * 9)
+				x = 0;
+			else
+				return null;
+		}
+		// fourth horizontal band
+		else if (heightMargin + 5 * hexagonSide < y && y < heightMargin + 6 * hexagonSide) {
+			y = 2;
+			if (widthMargin + hexagonSide * sqrt3div2 < x && x < widthMargin + hexagonSide * sqrt3div2 * 3)
+				x = 0;
+			else if (widthMargin + hexagonSide * sqrt3div2 * 3 < x && x < widthMargin + hexagonSide * sqrt3div2 * 5)
+				x = 0;
+			else if (widthMargin + hexagonSide * sqrt3div2 * 5 < x && x < widthMargin + hexagonSide * sqrt3div2 * 7)
+				x = 0;
+			else if (widthMargin + hexagonSide * sqrt3div2 * 7 < x && x < widthMargin + hexagonSide * sqrt3div2 * 9)
+				x = 0;
+			else
+				return null;
+		}
+
+		if (x == 0 || y == 0)
+			return null;
+		
+		return new Location(xCoord, yCoord);
+	}
+	/*
+	private int boardHeight;
+	private int hexagonSide;
+	private int heightMargin = 100; //TODO define
+	private int widthMargin;
+	private final double sqrt3div2 = 0.86602540378;
+	 */
 	
 	class AMouseListener extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) { 
