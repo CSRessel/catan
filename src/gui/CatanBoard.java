@@ -14,6 +14,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import game.*;
 
 public class CatanBoard extends JPanel{
 
-	private int state = 1;
+	private int state = 2;
 		//0 = none
 		//1 = choosing tile
 		//2 = choosing settlement
@@ -39,16 +41,19 @@ public class CatanBoard extends JPanel{
 	private final double sqrt3div2 = 0.86602540378;
 	private final int structSize = 10;
 	private final int roadSize = 20;
-
+	
+	private ArrayList<Player> players;
 	private Tile[][] tiles;
 	private Road[][][] roads;
 	private Structure[][][] structures;
-
-
+	
+	private Graphics g;
+	
+	
 	public CatanBoard() {
-
-		ArrayList<Player> players = new ArrayList<Player>(); //TODO input players
-
+		
+		players = new ArrayList<Player>(); //TODO input players
+		
 		// Your temporary names are much better than mine :P
 		players.add(new Player("Superman", Color.BLUE));
 		players.add(new Player("Batman", Color.BLACK));
@@ -86,9 +91,9 @@ public class CatanBoard extends JPanel{
     			boardHeight = getHeight();
     			hexagonSide = (boardHeight - 2 * heightMargin) / 8;
     			widthMargin = (getWidth() - (int) (10 * hexagonSide * sqrt3div2)) / 2;
-    			System.out.println("Boardheight: " + boardHeight);
-    			System.out.println("HexagonSide: " + hexagonSide);
-    			System.out.println("WidthMargin: " + widthMargin);
+    			//System.out.println("Boardheight: " + boardHeight);
+    			//System.out.println("HexagonSide: " + hexagonSide);
+    			//System.out.println("WidthMargin: " + widthMargin);
     		}
 
     		public void componentHidden(ComponentEvent e) {}
@@ -97,6 +102,10 @@ public class CatanBoard extends JPanel{
 
     		public void componentShown(ComponentEvent e) {}
     	});
+		
+		MouseListener m = new AMouseListener();
+		addMouseListener(m);
+		addMouseMotionListener((MouseMotionListener) m);
 	}
 	/*
 	public void redraw() {
@@ -105,15 +114,13 @@ public class CatanBoard extends JPanel{
 	*/
 	public void paintComponent(Graphics g) {
 
-		//MouseInfo.getPointerInfo().getLocation();
-
 		boardHeight = getHeight();
 		hexagonSide = (boardHeight - 2 * heightMargin) / 8;
 		widthMargin = (getWidth() - (int) (10 * hexagonSide * sqrt3div2)) / 2;
-		System.out.println("Boardheight: " + boardHeight);
-		System.out.println("HexagonSide: " + hexagonSide);
-		System.out.println("WidthMargin: " + widthMargin);
-
+		//System.out.println("Boardheight: " + boardHeight);
+		//System.out.println("HexagonSide: " + hexagonSide);
+		//System.out.println("WidthMargin: " + widthMargin);
+		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -157,12 +164,8 @@ public class CatanBoard extends JPanel{
 				}
 			}
 		}
-
-		//Highlights
-		highlightTile(tiles[1][1], g2);
-
-		System.out.println("Painted");
-
+		
+		//System.out.println("Painted");
 	}
 
 	public Polygon makeHex(Point center) {
@@ -222,15 +225,15 @@ public class CatanBoard extends JPanel{
 				g2.setColor(Color.BLACK);
 				break;
 		}
-
-		//g2.setColor(Color.MAGENTA); //TODO add colors for tiles
+				
+		//g2.setColor(Color.MAGENTA); //TODO MAGENTA
 		g2.fillPolygon(poly);
 		g2.setColor(Color.BLACK);
 		g2.drawPolygon(poly);
 	}
 
 	public void highlightTile(Tile tile, Graphics2D g2) {
-		//System.out.println("Highlighted");
+		System.out.println("Highlighted");
 		int x = tile.getLocation().getXCoord();
 		int y = tile.getLocation().getYCoord();
 		Point p = findCenter(x,y);
@@ -313,6 +316,9 @@ public class CatanBoard extends JPanel{
 		//System.out.println(y);
 		//TODO add highlight
 		g2.setColor(player.getColor());
+		if (player == null && highlighted) {
+			g2.setColor(Color.WHITE);
+		}
 		g2.fill(shape);
 		g2.setColor(Color.BLACK);
 		g2.draw(shape);
@@ -800,13 +806,61 @@ public class CatanBoard extends JPanel{
 		return output;
 	}
 
-	class AMouseListener extends MouseAdapter {
-		public void mouseClicked(MouseEvent e) {
-			int x = e.getX();
-			int y = e.getY();
-
-
+	class AMouseListener extends MouseAdapter implements MouseMotionListener{
+		public void mouseClicked(MouseEvent e) { 
+			Graphics2D g2 = (Graphics2D)g;
+			System.out.println("Mouse Clicked");
+			if (state == 2) {
+				Point p = new Point(e.getX(), e.getY());
+				if (p != null){
+					VertexLocation loc = pxToStructure(p);
+					//System.out.println("Mouse on screen");
+					//System.out.println(p.getX());
+					//System.out.println(p.getY());
+					System.out.println(loc);
+					if (loc != null) {
+						System.out.println(loc.getXCoord());
+						System.out.println(loc.getYCoord());
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+						structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(players.get(0));
+					}
+				}
+			}
 			repaint();
 		}
-	}
+		/*
+		public void mouseMoved(MouseEvent e) {
+			//TODO highlights
+			Graphics2D g2 = (Graphics2D)g;
+			System.out.println("Mouse Moved");
+			
+			if (state == 1) {
+				Point p = new Point(e.getX(), e.getY());
+				if (p != null) {
+					Location loc = pxToTile(p);
+					//System.out.println("Mouse on screen");
+					//System.out.println(p.getX());
+					//System.out.println(p.getY());
+					if (loc != null) {
+						highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
+					}
+				}
+			}
+			if (state == 2) {
+				Point p = new Point(e.getX(), e.getY());
+				if (p != null){
+					VertexLocation loc = pxToStructure(p);
+					//System.out.println("Mouse on screen");
+					//System.out.println(p.getX());
+					//System.out.println(p.getY());
+					System.out.println(loc);
+					if (loc != null) {
+						System.out.println(loc.getXCoord());
+						System.out.println(loc.getYCoord());
+						highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+					}
+				}
+			}
+		}*/
+	} 
 }
