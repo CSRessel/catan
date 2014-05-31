@@ -33,7 +33,7 @@ public class GameWindow{
 		Timer timer = new Timer(INTERVAL, new ActionListener() {
 		public void actionPerformed(ActionEvent evt) {
 		   //Refresh the board
-		       board.revalidate();
+		       board.repaint(); //TODO fix validate
 		    }    
 		});
 
