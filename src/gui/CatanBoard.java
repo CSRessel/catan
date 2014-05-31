@@ -25,8 +25,8 @@ import game.*;
 
 
 public class CatanBoard extends JPanel{
-	
-	private int state;
+
+	private int state = 1;
 		//0 = none
 		//1 = choosing tile
 		//2 = choosing settlement
@@ -38,28 +38,29 @@ public class CatanBoard extends JPanel{
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
 	private final int structSize = 10;
-	
+	private final int roadSize = 20;
+
 	private Tile[][] tiles;
 	private Road[][][] roads;
 	private Structure[][][] structures;
-	
-	
+
+
 	public CatanBoard() {
-		
+
 		ArrayList<Player> players = new ArrayList<Player>(); //TODO input players
-		
+
 		// Your temporary names are much better than mine :P
 		players.add(new Player("Superman", Color.BLUE));
 		players.add(new Player("Batman", Color.BLACK));
 		players.add(new Player("Spiderman", Color.RED));
 		game = new Game(players);
-		
+
 		tiles = game.getBoard().getTiles();
 		roads = game.getBoard().getRoads();
 		structures = game.getBoard().getStructures(); //TODO fix encapsulation
-		
+
 		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
-		game.getBoard().placeStructureNoRoad(new VertexLocation(4,3,1), players.get(0));
+		game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(0));
 		game.getBoard().placeStructureNoRoad(new VertexLocation(5,3,0), players.get(1));
 		game.getBoard().placeRoad(new EdgeLocation(5,3,0), players.get(1));
 		game.getBoard().placeRoad(new EdgeLocation(5,3,1), players.get(1));
@@ -67,8 +68,8 @@ public class CatanBoard extends JPanel{
 		game.getBoard().placeRoad(new EdgeLocation(3,3,0), players.get(0));
 		game.getBoard().placeRoad(new EdgeLocation(3,3,1), players.get(0));
 		game.getBoard().placeRoad(new EdgeLocation(3,3,2), players.get(0));
-		structures[3][3][1].setType(1);
-		
+		structures[4][2][1].setType(1);
+
 		setBackground(new Color(164,200,218)); //TODO draw background
 		/*
 		boardHeight = getHeight();
@@ -99,51 +100,51 @@ public class CatanBoard extends JPanel{
 	}
 	/*
 	public void redraw() {
-		
+
 	}
 	*/
 	public void paintComponent(Graphics g) {
-		
+
 		//MouseInfo.getPointerInfo().getLocation();
-		
+
 		boardHeight = getHeight();
 		hexagonSide = (boardHeight - 2 * heightMargin) / 8;
 		widthMargin = (getWidth() - (int) (10 * hexagonSide * sqrt3div2)) / 2;
 		System.out.println("Boardheight: " + boardHeight);
 		System.out.println("HexagonSide: " + hexagonSide);
 		System.out.println("WidthMargin: " + widthMargin);
-		
+
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		super.paintComponent(g2);
-		
+
 		//draw grid
 		for (int x = 1; x <= 3; x++) {
 			drawHex(tiles[x][1],g2);
 		}
-		
+
 		for (int x = 1; x <= 4; x++) {
 			drawHex(tiles[x][2],g2);
 		}
-		
+
 		for (int x = 1; x <= 5; x++) {
 			drawHex(tiles[x][3],g2);
 		}
-		
+
 		for (int x = 2; x <= 5; x++) {
 			drawHex(tiles[x][4],g2);
 		}
-		
+
 		for (int x = 3; x <= 5; x++) {
 			drawHex(tiles[x][5],g2);
 		}
-		
+
 		//Draw roads
 		for (int i = 0; i < roads.length; i++){
 			for (int k = 0; k < roads[0].length; k++){
 				for (int o = 0; o < roads[0][0].length; o++){
-					drawRoad(roads[i][k][o], g2);
+					drawRoad(roads[i][k][o], false, g2);
 				}
 			}
 		}
@@ -152,21 +153,23 @@ public class CatanBoard extends JPanel{
 		for (int i = 0; i < structures.length; i++){
 			for (int k = 0; k < structures[0].length; k++){
 				for (int o = 0; o < structures[0][0].length; o++){
-					drawStructure(structures[i][k][o], g2);
+					drawStructure(structures[i][k][o], false, g2);
 				}
 			}
 		}
-		
+
+		//Highlights
+		highlightTile(tiles[1][1], g2);
+
 		System.out.println("Painted");
-		//fill in hexes?
-		
+
 	}
-	
+
 	public Polygon makeHex(Point center) {
 		int xCenter = (int) center.getX();
 		int yCenter = (int) center.getY();
-		
-		
+
+
 		Polygon output = new Polygon();
 		output.addPoint(xCenter + 1, yCenter + hexagonSide + 1);
 		output.addPoint(xCenter + (int) (hexagonSide * sqrt3div2) + 1, yCenter + (int) (.5 * hexagonSide) + 1);
@@ -174,7 +177,7 @@ public class CatanBoard extends JPanel{
 		output.addPoint(xCenter + 1, yCenter - hexagonSide - 1);
 		output.addPoint(xCenter - (int) (hexagonSide * sqrt3div2) - 1, yCenter - (int) (.5 * hexagonSide) - 1);
 		output.addPoint(xCenter - (int) (hexagonSide * sqrt3div2) - 1, yCenter + (int) (.5 * hexagonSide) + 1);
-		
+
 		return output;
 	}
 	/*
@@ -184,10 +187,10 @@ public class CatanBoard extends JPanel{
 		int height = hexagonSide / 15;
 		Polygon output = new Polygon();
 		if (orientation == 0) {
-			
+
 		}
-		
-		
+
+
 		return output;
 	}
 	*/
@@ -219,24 +222,36 @@ public class CatanBoard extends JPanel{
 				g2.setColor(Color.BLACK);
 				break;
 		}
-				
+
 		//g2.setColor(Color.MAGENTA); //TODO add colors for tiles
 		g2.fillPolygon(poly);
 		g2.setColor(Color.BLACK);
 		g2.drawPolygon(poly);
 	}
-	
-	public void drawRoad(Road r, Graphics2D g2) {
+
+	public void highlightTile(Tile tile, Graphics2D g2) {
+		//System.out.println("Highlighted");
+		int x = tile.getLocation().getXCoord();
+		int y = tile.getLocation().getYCoord();
+		Point p = findCenter(x,y);
+		Shape shape = new Ellipse2D.Double((int)p.getX() - 25, (int)p.getY() - 25, 50, 50);
+
+		g2.setColor(Color.WHITE);
+		g2.fill(shape);
+		g2.draw(shape);
+	}
+
+	public void drawRoad(Road r, boolean highlighted, Graphics2D g2) {
 		Player player = r.getOwner();
 		if (player == null) {
 			return;
 		}
 		//System.out.println("Painted Road");
-		
+
 		AffineTransform transformer = new AffineTransform();
 		//Polygon poly = new Polygon();
 		Graphics2D g2c = (Graphics2D) g2.create();
-		
+
 		Point tileCenter = findCenter(r.getLocation().getXCoord(), r.getLocation().getYCoord());
 		int y = (int) tileCenter.getY();
 		int x = (int) tileCenter.getX();
@@ -259,20 +274,21 @@ public class CatanBoard extends JPanel{
 			transformer.rotate(Math.toRadians(90), x, y);
 			transformer.translate(-(int)(0.4 * hexagonSide),-(int)(0.92 * hexagonSide));
 		}
-		
+
 		g2c.transform(transformer);
+		//TODO Add highlight
 		g2c.setColor(player.getColor());
 		g2c.fill(rect);
 		g2c.setColor(Color.BLACK);
 		g2c.draw(rect);
 	}
-	
-	public void drawStructure(Structure s, Graphics2D g2) {
+
+	public void drawStructure(Structure s, boolean highlighted, Graphics2D g2) {
 		Player player = s.getOwner();
 		if (player == null) {
 			return;
 		}
-		
+
 		Shape shape;
 		Point tileCenter = findCenter(s.getLocation().getXCoord(), s.getLocation().getYCoord());
 		int y = (int) tileCenter.getY();
@@ -284,7 +300,7 @@ public class CatanBoard extends JPanel{
 		else if (s.getLocation().getOrientation() == 1) {
 			y += hexagonSide;
 		}
-		
+
 		//System.out.println(y);
 		if (s.getType() == 0) {
 			shape = new Rectangle(x - 10, y - 10, 20, 20);      //TODO make sizes relative?
@@ -292,41 +308,38 @@ public class CatanBoard extends JPanel{
 		else {
 			shape = new Ellipse2D.Double(x - 10, y - 10, 20, 20);
 		}
-		
+
 		//System.out.println(x);
 		//System.out.println(y);
+		//TODO add highlight
 		g2.setColor(player.getColor());
 		g2.fill(shape);
 		g2.setColor(Color.BLACK);
 		g2.draw(shape);
-		
+
 	}
-	
+
 	public Point findCenter(int x, int y){
 		int xCenter = widthMargin + (int) (3 * hexagonSide * sqrt3div2)
 				+ (int) ((x - 1) * 2 * hexagonSide * sqrt3div2)
 				- (int) ((y - 1) * hexagonSide * sqrt3div2);
 		int yCenter = boardHeight - (heightMargin + hexagonSide
 				+ (int) ((y - 1) * hexagonSide * 1.5));
-		
+
 		return new Point(xCenter,yCenter);
 	}
-	
-	public EdgeLocation pxToRoad(Point p) {
-		
-	}
-	
+
 	public Location pxToTile(Point p) {
 		double x = p.getX();
 		double y = p.getY();
-		
-		int xCoord = 0, 
+
+		int xCoord = 0,
 			yCoord = 0;
-		
+
 		// Out of bounds
 		if (x < widthMargin || x > widthMargin + 2 * 5 * sqrt3div2 || y < heightMargin || y > heightMargin + 8 * hexagonSide)
 			return null;
-	
+
 		// first horizontal band
 		if (heightMargin + hexagonSide / 2 < y && y < heightMargin + 3 * hexagonSide / 2) {
 			if (x < widthMargin + hexagonSide * 2 * sqrt3div2 || x > widthMargin + 4 * (hexagonSide * 2 * sqrt3div2))
@@ -365,7 +378,7 @@ public class CatanBoard extends JPanel{
 			else
 				return null;
 		}
-		
+
 
 		// second horizontal band
 		if (heightMargin + 2 * hexagonSide < y && y < heightMargin + 3 * hexagonSide) {
@@ -398,7 +411,7 @@ public class CatanBoard extends JPanel{
 
 		if (x == 0 || y == 0)
 			return null;
-		
+
 		return new Location(xCoord, yCoord);
 	}
 	/*
@@ -408,17 +421,17 @@ public class CatanBoard extends JPanel{
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
 	 */
-	
+
 	public VertexLocation pxToStructure(Point p) {
 		double x = p.getX();
 		double y = p.getY();
-		
-		int xCoord = 0, 
+
+		int xCoord = 0,
 			yCoord = 0,
 			orient = 1;
-		
+
 		// Columns have if else preceding down each structure in the column
-		
+
 		// first column
 		if (widthMargin - structSize < x && x < widthMargin + structSize) {
 			if (heightMargin + 7 * hexagonSide / 2 - structSize < y && y < heightMargin + 7 * hexagonSide / 2 + structSize) {
@@ -479,7 +492,7 @@ public class CatanBoard extends JPanel{
 			}
 			else if (heightMargin + 13 * hexagonSide / 2 - structSize < y && y < heightMargin + 13 * hexagonSide / 2 + structSize) {
 				xCoord = 1;
-				yCOord = 2;
+				yCoord = 2;
 				orient = 1;
 			}
 			else if (heightMargin + 15 * hexagonSide / 2 - structSize < y && y < heightMargin + 15 * hexagonSide / 2 + structSize) {
@@ -677,7 +690,7 @@ public class CatanBoard extends JPanel{
 			}
 			else if (heightMargin + 13 * hexagonSide / 2 - structSize < y && y < heightMargin + 13 * hexagonSide / 2 + structSize) {
 				xCoord = 4;
-				yCOord = 2;
+				yCoord = 2;
 				orient = 1;
 			}
 			else if (heightMargin + 15 * hexagonSide / 2 - structSize < y && y < heightMargin + 15 * hexagonSide / 2 + structSize) {
@@ -722,21 +735,77 @@ public class CatanBoard extends JPanel{
 				orient = 0;
 			}
 		}
-		
-		
+
+
 		if (xCoord == 0 && yCoord == 0 && orient == 1) {
 			return null;
 		}
-		
+
 		return new VertexLocation(xCoord, yCoord, orient);
 	}
-	
+
+	public EdgeLocation pxToRoad(Point p) {
+		int x = (int) p.getX();
+		int y = boardHeight - heightMargin - (int) p.getY();
+		EdgeLocation output = null;
+
+		if (y >= 0 && y < (int)(hexagonSide * 0.5)) {
+			x -= widthMargin;
+			x -= 2 * (int)(hexagonSide * sqrt3div2);
+			int tag = x / (int)(hexagonSide * sqrt3div2);
+			switch (tag) {
+			case 0:
+				output = new EdgeLocation(0,0,1); break;
+			case 1:
+				output = new EdgeLocation(1,0,0); break;
+			case 2:
+				output = new EdgeLocation(1,0,1); break;
+			case 3:
+				output = new EdgeLocation(2,0,0); break;
+			case 4:
+				output = new EdgeLocation(2,0,1); break;
+			case 5:
+				output = new EdgeLocation(3,0,0); break;
+			default:
+				output = null; break;
+			}
+		}
+		else if (y >= (int)(hexagonSide * 0.5)  && y < (int)(hexagonSide * 1.5)) {
+			x -= widthMargin;
+			x -= (int)(hexagonSide * sqrt3div2);
+			int tag = x / 2 * (int)(hexagonSide * sqrt3div2);
+
+		} else if (y >= (int)(hexagonSide * 1.5)  && y < (int)(hexagonSide * 2.0)) {
+
+		} else if (y >= (int)(hexagonSide * 2.0)  && y < (int)(hexagonSide * 3.0)) {
+
+		} else if (y >= (int)(hexagonSide * 3.0)  && y < (int)(hexagonSide * 3.5)) {
+
+		} else if (y >= (int)(hexagonSide * 3.5)  && y < (int)(hexagonSide * 4.5)) {
+
+		} else if (y >= (int)(hexagonSide * 4.5)  && y < (int)(hexagonSide * 5.0)) {
+
+		} else if (y >= (int)(hexagonSide * 5.0)  && y < (int)(hexagonSide * 6.0)) {
+
+		} else if (y >= (int)(hexagonSide * 6.0)  && y < (int)(hexagonSide * 6.5)) {
+
+		} else if (y >= (int)(hexagonSide * 6.5)  && y < (int)(hexagonSide * 7.5)) {
+
+		} else if (y >= (int)(hexagonSide * 7.5)  && y < (int)(hexagonSide * 8.0)) {
+
+		} else {
+			output = null;
+		}
+
+		return output;
+	}
+
 	class AMouseListener extends MouseAdapter {
-		public void mouseClicked(MouseEvent e) { 
-			int x = e.getX(); 
-			int y = e.getY(); 
-			
-			
+		public void mouseClicked(MouseEvent e) {
+			int x = e.getX();
+			int y = e.getY();
+
+
 			repaint();
 		}
 	}
