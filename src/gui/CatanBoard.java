@@ -37,8 +37,7 @@ public class CatanBoard extends JPanel{
 	private int heightMargin = 100; //TODO define
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
-	private final double structSize = 7.0;
-							// The radius of the hitbox for settlements (or more accurately one half the width of the square)
+	private final int structSize = 10;
 	
 	private Tile[][] tiles;
 	private Road[][][] roads;
