@@ -30,7 +30,7 @@ import game.*;
 
 public class CatanBoard extends JPanel{
 
-	private int state = 2;
+	private int state = 1;
 		//0 = none
 		//1 = choosing tile
 		//2 = choosing settlement
@@ -177,7 +177,7 @@ public class CatanBoard extends JPanel{
 			//System.out.println(p.getX());
 			//System.out.println(p.getY());
 			if (loc != null) {
-				highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
+				highlightTile(loc, g2);
 
 			}
 		}
@@ -250,25 +250,25 @@ public class CatanBoard extends JPanel{
 		String type = tile.getType();
 		switch (type) {
 			case "DESERT":
-				g2.setColor(Color.MAGENTA);
+				g2.setColor(new Color(0xFF, 0xFF, 0xA9));
 				break;
 			case "BRICK":
 				g2.setColor(Color.RED);
 				break;
 			case "WOOL":
-				g2.setColor(Color.WHITE);
+				g2.setColor(Color.GREEN);
 				break;
 			case "LUMBER":
-				g2.setColor(Color.GREEN);
+				g2.setColor(new Color(0x99, 0x66, 0x33));
 				break;
 			case "GRAIN":
 				g2.setColor(Color.YELLOW);
 				break;
 			case "ORE":
-				g2.setColor(Color.GRAY);
+				g2.setColor(Color.LIGHT_GRAY);
 				break;
 			default:
-				g2.setColor(Color.BLACK);
+				g2.setColor(Color.WHITE);
 				break;
 		}
 
@@ -278,10 +278,10 @@ public class CatanBoard extends JPanel{
 		g2.drawPolygon(poly);
 	}
 
-	public void highlightTile(Tile tile, Graphics2D g2) {
+	public void highlightTile(Location loc, Graphics2D g2) {
 		//System.out.println("Highlighted");
-		int x = tile.getLocation().getXCoord();
-		int y = tile.getLocation().getYCoord();
+		int x = loc.getXCoord();
+		int y = loc.getYCoord();
 		Point p = findCenter(x,y);
 		Shape shape = new Ellipse2D.Double((int)p.getX() - 25, (int)p.getY() - 25, 50, 50);
 
@@ -401,82 +401,90 @@ public class CatanBoard extends JPanel{
 
 		int xCoord = 0,
 			yCoord = 0;
-
-		// Out of bounds
-		if (x < widthMargin || x > widthMargin + 2 * 5 * sqrt3div2 || y < heightMargin || y > heightMargin + 8 * hexagonSide)
-			return null;
-
+//
+//		// Out of bounds
+//		if (x < widthMargin || x > widthMargin + 2 * 5 * sqrt3div2 || y < heightMargin || y > heightMargin + 8 * hexagonSide) {
+//			System.out.println("this null");
+//			return null;
+//		}
+			
 		// first horizontal band
 		if (heightMargin + hexagonSide / 2 < y && y < heightMargin + 3 * hexagonSide / 2) {
-			if (x < widthMargin + hexagonSide * 2 * sqrt3div2 || x > widthMargin + 4 * (hexagonSide * 2 * sqrt3div2))
+			if (x < widthMargin + hexagonSide * 2 * sqrt3div2 || x > widthMargin + 4 * hexagonSide * 2 * sqrt3div2) {
+				//System.out.println("no this null");
 				return null;
+			}
 			yCoord = 5;
-			if (widthMargin < widthMargin + 2 * hexagonSide + sqrt3div2 && y < widthMargin + 2 * (2 * hexagonSide + sqrt3div2))
+			if (x > widthMargin + 2 * hexagonSide * sqrt3div2 && x < widthMargin + 2 * (2 * hexagonSide * sqrt3div2))
 				xCoord = 3;
-			else if (widthMargin < widthMargin + 2 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 3 * (2 * hexagonSide + sqrt3div2))
+			else if (x > widthMargin + 2 * (2 * hexagonSide * sqrt3div2) && x < widthMargin + 3 * (2 * hexagonSide * sqrt3div2))
 				xCoord = 4;
-			else if (widthMargin < widthMargin + 3 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 4 * (2 * hexagonSide + sqrt3div2))
+			else if (x > widthMargin + 3 * (2 * hexagonSide * sqrt3div2) && x < widthMargin + 4 * (2 * hexagonSide * sqrt3div2))
 				xCoord = 5;
 		}
 		// third horizontal band
 		else if (heightMargin + 7 * hexagonSide / 2 < y && y < heightMargin + 9 * hexagonSide / 2) {
 			yCoord = 3;
-			if (widthMargin < y && y < widthMargin + 2 * hexagonSide + sqrt3div2)
+			if (widthMargin < x && x < widthMargin + 2 * hexagonSide * sqrt3div2)
 				xCoord = 1;
-			else if (widthMargin < widthMargin + 2 * hexagonSide + sqrt3div2 && y < widthMargin + 2 * (2 * hexagonSide + sqrt3div2))
+			else if (x > widthMargin + 2 * hexagonSide * sqrt3div2 && x < widthMargin + 4 * hexagonSide * sqrt3div2)
 				xCoord = 2;
-			else if (widthMargin < widthMargin + 2 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 3 * (2 * hexagonSide + sqrt3div2))
+			else if (x > widthMargin + 4 * hexagonSide * sqrt3div2 && x < widthMargin + 6 * hexagonSide * sqrt3div2)
 				xCoord = 3;
-			else if (widthMargin < widthMargin + 3 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 4 * (2 * hexagonSide + sqrt3div2))
+			else if (x > widthMargin + 6 * hexagonSide * sqrt3div2 && x < widthMargin + 8 * hexagonSide * sqrt3div2)
 				xCoord = 4;
-			else if (widthMargin < widthMargin + 4 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 5 * (2 * hexagonSide + sqrt3div2))
+			else if (x > widthMargin + 8 * hexagonSide * sqrt3div2 && x < widthMargin + 10 * hexagonSide * sqrt3div2)
 				xCoord = 5;
 		}
 		// fifth horizontal band
-		else if (heightMargin + 13 * hexagonSide / 2 < y && y < 15 * heightMargin + hexagonSide / 2) {
+		else if (heightMargin + 13 * hexagonSide / 2 < y && y < heightMargin + 15 * hexagonSide / 2) {
 			yCoord = 1;
-			if (widthMargin < widthMargin + 2 * hexagonSide + sqrt3div2 && y < widthMargin + 2 * (2 * hexagonSide + sqrt3div2))
+			if (x > widthMargin + 2 * hexagonSide * sqrt3div2 && x < widthMargin + 2 * (2 * hexagonSide * sqrt3div2))
 				xCoord = 1;
-			else if (widthMargin < widthMargin + 2 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 3 * (2 * hexagonSide + sqrt3div2))
+			else if (x > widthMargin + 2 * (2 * hexagonSide * sqrt3div2) && x < widthMargin + 3 * (2 * hexagonSide * sqrt3div2))
 				xCoord = 2;
-			else if (widthMargin < widthMargin + 3 * (2 * hexagonSide + sqrt3div2) && y < widthMargin + 4 * (2 * hexagonSide + sqrt3div2))
+			else if (x > widthMargin + 3 * (2 * hexagonSide * sqrt3div2) && x < widthMargin + 4 * (2 * hexagonSide * sqrt3div2))
 				xCoord = 3;
-			else
+			else {
+				//System.out.println("You guys got it all wrong, it's this null");
 				return null;
+			}
 		}
 
 
 		// second horizontal band
 		if (heightMargin + 2 * hexagonSide < y && y < heightMargin + 3 * hexagonSide) {
-			y = 4;
+			yCoord = 4;
 			if (widthMargin + hexagonSide * sqrt3div2 < x && x < widthMargin + hexagonSide * sqrt3div2 * 3)
-				x = 0;
+				xCoord = 2;
 			else if (widthMargin + hexagonSide * sqrt3div2 * 3 < x && x < widthMargin + hexagonSide * sqrt3div2 * 5)
-				x = 0;
+				xCoord = 3;
 			else if (widthMargin + hexagonSide * sqrt3div2 * 5 < x && x < widthMargin + hexagonSide * sqrt3div2 * 7)
-				x = 0;
+				xCoord = 4;
 			else if (widthMargin + hexagonSide * sqrt3div2 * 7 < x && x < widthMargin + hexagonSide * sqrt3div2 * 9)
-				x = 0;
+				xCoord = 5;
 			else
 				return null;
 		}
 		// fourth horizontal band
 		else if (heightMargin + 5 * hexagonSide < y && y < heightMargin + 6 * hexagonSide) {
-			y = 2;
+			yCoord = 2;
 			if (widthMargin + hexagonSide * sqrt3div2 < x && x < widthMargin + hexagonSide * sqrt3div2 * 3)
-				x = 0;
+				xCoord = 1;
 			else if (widthMargin + hexagonSide * sqrt3div2 * 3 < x && x < widthMargin + hexagonSide * sqrt3div2 * 5)
-				x = 0;
+				xCoord = 2;
 			else if (widthMargin + hexagonSide * sqrt3div2 * 5 < x && x < widthMargin + hexagonSide * sqrt3div2 * 7)
-				x = 0;
+				xCoord = 3;
 			else if (widthMargin + hexagonSide * sqrt3div2 * 7 < x && x < widthMargin + hexagonSide * sqrt3div2 * 9)
-				x = 0;
+				xCoord = 4;
 			else
 				return null;
 		}
 
-		if (x == 0 || y == 0)
+		if (xCoord == 0 || yCoord == 0) {
+			//System.out.println("I AM THE TRUE NULL");
 			return null;
+		}
 
 		return new Location(xCoord, yCoord);
 	}
