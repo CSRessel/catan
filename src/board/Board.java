@@ -17,7 +17,7 @@ public class Board {
 	private Road[][][] roads;
 	private Location robberLoc;
 		// Board is slanted backwards, i.e.  \##\
-	private Road endpoint = null; //For DPS
+	private Road endpoint = null; // For DPS
 	private VertexLocation startside;
 
 
@@ -459,13 +459,6 @@ public class Board {
 		return maxCount;
 	}
 
-	/*
-	private int DFS(Road r){
-
-
-	}
-	*/
-
 	/**
 	 * Finds all adjacent and connected roads by longest road standards to the given location
 	 * Prerequisite: Given location has a road that has an owner.
@@ -636,7 +629,6 @@ public class Board {
 	 * @param other checked road
 	 * @return VertexLocation in between
 	 */
-
 	private VertexLocation roadConnectsToOther(Road r, Road other) {
 		int ro = r.getLocation().getOrientation();
 		int rx = r.getLocation().getXCoord();

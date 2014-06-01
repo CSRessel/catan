@@ -28,3 +28,6 @@ local.properties
 # Locally stored "Eclipse launch configurations"
 *.launch
 /bin/
+
+# Backed up points in the project possibly useful for the presentation
+demos/*

@@ -14,7 +14,7 @@ import javax.swing.*;
 import lib.GraphPaperLayout;
 
 
-public class GameWindow{
+public class GameWindow {
 		
 	ArrayList<Player> players = new ArrayList<Player>();
 	CatanBoard board;
@@ -33,7 +33,7 @@ public class GameWindow{
 		Timer timer = new Timer(INTERVAL, new ActionListener() {
 		public void actionPerformed(ActionEvent evt) {
 		   //Refresh the board
-		       board.repaint(); //TODO fix validate
+			board.repaint(); //TODO fix validate
 		    }    
 		});
 
