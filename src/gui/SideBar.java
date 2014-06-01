@@ -1,5 +1,7 @@
 package gui;
 
+import game.Player;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
@@ -21,6 +23,8 @@ public class SideBar extends JPanel {
 	private ComponentList mainPanel		= new ComponentList();
 	private ComponentList buyPanel		= new ComponentList();
 	private ComponentList tradePanel	= new ComponentList();
+	private JLabel currentPlayer;
+	private Rectangle currentPlayerRectangle;
 	
 	public SideBar(final GameWindow display) {
 		this.setLayout(new GraphPaperLayout(new Dimension(14,24)));
@@ -31,6 +35,8 @@ public class SideBar extends JPanel {
 		JLabel currPlayer = new JLabel("Current Player: " + "TODO");
 		currPlayer.setFont(new Font("Arial", 1, 16));
 		add(currPlayer, new Rectangle(2,0,10,3));
+		currentPlayer = currPlayer;
+		currentPlayerRectangle = new Rectangle(2,0,10,3);
 		
 		// Roll panel:
 		//-------------------------------------------------------------------
@@ -69,7 +75,7 @@ public class SideBar extends JPanel {
 		//-------------------------------------------------------------------
 
 		JLabel tradeText = new JLabel("Trade with...");
-		tradePanel.add(new KComponent(tradeText, new Rectangle(4,8,6,2)));
+		tradePanel.add(new KComponent(tradeText, new Rectangle(4,4,6,2)));
 		
 		// Trade with players
 		JButton tradePlayer = new JButton(new AbstractAction() {
@@ -79,7 +85,7 @@ public class SideBar extends JPanel {
 			}
 		});
 		tradePlayer.setText("a player");
-		tradePanel.add(new KComponent(tradePlayer, new Rectangle(1,10,6,2)));
+		tradePanel.add(new KComponent(tradePlayer, new Rectangle(1,6,6,2)));
 		
 		// Trade with stock
 		JButton tradeStock = new JButton(new AbstractAction() {
@@ -89,13 +95,13 @@ public class SideBar extends JPanel {
 			}
 		});
 		tradeStock.setText("the stock");
-		tradePanel.add(new KComponent(tradeStock, new Rectangle(7,10,6,2)));
+		tradePanel.add(new KComponent(tradeStock, new Rectangle(7,6,6,2)));
 		
 		// Buy panel:
 		//-------------------------------------------------------------------
 		
 		JLabel buyText = new JLabel("Buy a...");
-		buyPanel.add(new KComponent(buyText, new Rectangle(4,13,6,2)));
+		buyPanel.add(new KComponent(buyText, new Rectangle(4,4,6,2)));
 		
 		// Buy settlement
 		JButton buySettlement = new JButton(new AbstractAction() {
@@ -105,7 +111,7 @@ public class SideBar extends JPanel {
 			}
 		});
 		buySettlement.setText("settlement");
-		buyPanel.add(new KComponent(buySettlement, new Rectangle(1,15,6,2)));
+		buyPanel.add(new KComponent(buySettlement, new Rectangle(1,6,6,2)));
 		
 		// Buy city
 		JButton buyCity = new JButton(new AbstractAction() {
@@ -115,7 +121,7 @@ public class SideBar extends JPanel {
 			}
 		});
 		buyCity.setText("city");
-		buyPanel.add(new KComponent(buyCity, new Rectangle(7,15,6,2)));
+		buyPanel.add(new KComponent(buyCity, new Rectangle(7,6,6,2)));
 		
 		// Buy road
 		JButton buyRoad = new JButton(new AbstractAction() {
@@ -125,7 +131,7 @@ public class SideBar extends JPanel {
 			}
 		});
 		buyRoad.setText("road");
-		buyPanel.add(new KComponent(buyRoad, new Rectangle(1,17,6,2)));
+		buyPanel.add(new KComponent(buyRoad, new Rectangle(1,8,6,2)));
 		
 		// Buy devcard
 		JButton buyCard = new JButton(new AbstractAction() {
@@ -135,7 +141,7 @@ public class SideBar extends JPanel {
 			}
 		});
 		buyCard.setText("dev card");
-		buyPanel.add(new KComponent(buyCard, new Rectangle(7,17,6,2)));
+		buyPanel.add(new KComponent(buyCard, new Rectangle(7,8,6,2)));
 		
 		//-------------------------------------------------------------------
 
@@ -143,17 +149,15 @@ public class SideBar extends JPanel {
 	}
 	
 	private void setPanel(ComponentList cL) {
-		for (int i = 1; i < this.getComponentCount(); i++) {
-			this.remove(i);
-			System.out.println("removed comp");
-		}
+		this.removeAll();
+		this.add(currentPlayer, currentPlayerRectangle);
 		
 		for (int i = 0; i < cL.size(); i++) {
 			this.add(cL.get(i).getComponent(), cL.get(i).getRectangle());
-			System.out.println("added comp");
 		}
 		
 		repaint();
+		validate();
 	}
 	
 	public void buyPanel() {
@@ -170,5 +174,9 @@ public class SideBar extends JPanel {
 	
 	public void mainPanel() {
 		setPanel(mainPanel);
+	}
+	
+	public void setCurrentPlayer(Player p) {
+		currentPlayer.setText("Player: " + p.getName());
 	}
 }
