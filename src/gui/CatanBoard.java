@@ -306,10 +306,10 @@ public class CatanBoard extends JPanel{
 
 		//System.out.println(y);
 		if (s.getType() == 0) {
-			shape = new Rectangle(x - 10, y - 10, 20, 20);      //TODO make sizes relative?
+			shape = new Rectangle(x - structSize, y - structSize, 2*structSize, 2*structSize);
 		}
 		else {
-			shape = new Ellipse2D.Double(x - 10, y - 10, 20, 20);
+			shape = new Ellipse2D.Double(x - structSize, y - structSize, 2*structSize, 2*structSize);
 		}
 
 		//System.out.println(x);
@@ -453,22 +453,24 @@ public class CatanBoard extends JPanel{
 		}
 		// second column
 		else if (widthMargin + sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + sqrt3div2 * hexagonSide + structSize) {
-			if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+			System.out.println("Column 2");
+			if (heightMargin + 2 * hexagonSide - structSize < y && y < heightMargin + 2 * hexagonSide + structSize) {
 				xCoord = 2;
 				yCoord = 5;
 				orient = 1;
+				System.out.println("2, 5, 1");
 			}
-			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+			else if (heightMargin + 3 * hexagonSide - structSize < y && y < heightMargin + 3 * hexagonSide + structSize) {
 				xCoord = 1;
 				yCoord = 3;
 				orient = 0;
 			}
-			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+			else if (heightMargin + 5 * hexagonSide - structSize < y && y < heightMargin + 5 * hexagonSide + structSize) {
 				xCoord = 1;
 				yCoord = 3;
 				orient = 1;
 			}
-			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+			else if (heightMargin + 6 * hexagonSide - structSize < y && y < heightMargin + 6 * hexagonSide + structSize) {
 				xCoord = 0;
 				yCoord = 1;
 				orient = 0;
@@ -509,35 +511,35 @@ public class CatanBoard extends JPanel{
 		}
 		// fourth column
 		if (widthMargin + 3 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 3 * sqrt3div2 * hexagonSide + structSize) {
-			if (heightMargin - structSize < x && x < heightMargin + structSize) {
-				xCoord = 4;
-				yCoord = 6;
-				orient = 1;
+			if (heightMargin - structSize < y && y < heightMargin + structSize) {
+				xCoord = 3;
+				yCoord = 5;
+				orient = 0;
 			}
-			else if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+			else if (heightMargin + 2 * hexagonSide - structSize < y && y < heightMargin + 2 * hexagonSide + structSize) {
 				xCoord = 3;
 				yCoord = 5;
 				orient = 1;
 			}
-			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+			else if (heightMargin + 3 * hexagonSide - structSize < y && y < heightMargin + 3 * hexagonSide + structSize) {
 				xCoord = 2;
 				yCoord = 3;
 				orient = 0;
 			}
-			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+			else if (heightMargin + 5 * hexagonSide - structSize < y && y < heightMargin + 5 * hexagonSide + structSize) {
 				xCoord = 2;
 				yCoord = 3;
 				orient = 1;
 			}
-			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+			else if (heightMargin + 6 * hexagonSide - structSize < y && y < heightMargin + 6 * hexagonSide + structSize) {
 				xCoord = 1;
 				yCoord = 1;
 				orient = 0;
 			}
-			else if (heightMargin + 7 * hexagonSide - structSize < x && x < heightMargin + 7 * hexagonSide + structSize) {
+			else if (heightMargin + 8 * hexagonSide - structSize < y && y < heightMargin + 8 * hexagonSide + structSize) {
 				xCoord = 1;
-				yCoord = 0;
-				orient = 0;
+				yCoord = 1;
+				orient = 1;
 			}
 		}
 		// fifth column
@@ -575,35 +577,35 @@ public class CatanBoard extends JPanel{
 		}
 		// sixth column
 		if (widthMargin + 5 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 5 * sqrt3div2 * hexagonSide + structSize) {
-			if (heightMargin - structSize < x && x < heightMargin + structSize) {
-				xCoord = 5;
-				yCoord = 6;
-				orient = 1;
+			if (heightMargin - structSize < y && y < heightMargin + structSize) {
+				xCoord = 4;
+				yCoord = 5;
+				orient = 0;
 			}
-			else if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+			else if (heightMargin + 2 * hexagonSide - structSize < y && y < heightMargin + 2 * hexagonSide + structSize) {
 				xCoord = 4;
 				yCoord = 5;
 				orient = 1;
 			}
-			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+			else if (heightMargin + 3 * hexagonSide - structSize < y && y < heightMargin + 3 * hexagonSide + structSize) {
 				xCoord = 3;
 				yCoord = 3;
 				orient = 0;
 			}
-			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+			else if (heightMargin + 5 * hexagonSide - structSize < y && y < heightMargin + 5 * hexagonSide + structSize) {
 				xCoord = 3;
 				yCoord = 3;
 				orient = 1;
 			}
-			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+			else if (heightMargin + 6 * hexagonSide - structSize < y && y < heightMargin + 6 * hexagonSide + structSize) {
 				xCoord = 2;
 				yCoord = 1;
 				orient = 0;
 			}
-			else if (heightMargin + 7 * hexagonSide - structSize < x && x < heightMargin + 7 * hexagonSide + structSize) {
+			else if (heightMargin + 8 * hexagonSide - structSize < y && y < heightMargin + 8 * hexagonSide + structSize) {
 				xCoord = 2;
-				yCoord = 0;
-				orient = 0;
+				yCoord = 1;
+				orient = 1;
 			}
 		}
 		// seventh column
@@ -641,35 +643,35 @@ public class CatanBoard extends JPanel{
 		}
 		// eighth column
 		if (widthMargin + 7 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 7 * sqrt3div2 * hexagonSide + structSize) {
-			if (heightMargin - structSize < x && x < heightMargin + structSize) {
-				xCoord = 6;
-				yCoord = 6;
-				orient = 1;
+			if (heightMargin - structSize < y && y < heightMargin + structSize) {
+				xCoord = 5;
+				yCoord = 5;
+				orient = 0;
 			}
-			else if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+			else if (heightMargin + 2 * hexagonSide - structSize < y && y < heightMargin + 2 * hexagonSide + structSize) {
 				xCoord = 5;
 				yCoord = 5;
 				orient = 1;
 			}
-			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+			else if (heightMargin + 3 * hexagonSide - structSize < y && y < heightMargin + 3 * hexagonSide + structSize) {
 				xCoord = 4;
 				yCoord = 3;
 				orient = 0;
 			}
-			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+			else if (heightMargin + 5 * hexagonSide - structSize < y && y < heightMargin + 5 * hexagonSide + structSize) {
 				xCoord = 4;
 				yCoord = 3;
 				orient = 1;
 			}
-			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+			else if (heightMargin + 6 * hexagonSide - structSize < y && y < heightMargin + 6 * hexagonSide + structSize) {
 				xCoord = 3;
 				yCoord = 1;
 				orient = 0;
 			}
-			else if (heightMargin + 7 * hexagonSide - structSize < x && x < heightMargin + 7 * hexagonSide + structSize) {
-				xCoord = 2;
-				yCoord = 0;
-				orient = 0;
+			else if (heightMargin + 8 * hexagonSide - structSize < y && y < heightMargin + 8 * hexagonSide + structSize) {
+				xCoord = 3;
+				yCoord = 1;
+				orient = 1;
 			}
 		}
 		// ninth column
@@ -707,22 +709,22 @@ public class CatanBoard extends JPanel{
 		}
 		// tenth column
 		else if (widthMargin + 9 * sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + 9 * sqrt3div2 * hexagonSide + structSize) {
-			if (heightMargin + 2 * hexagonSide - structSize < x && x < heightMargin + 2 * hexagonSide + structSize) {
+			if (heightMargin + 2 * hexagonSide - structSize < y && y < heightMargin + 2 * hexagonSide + structSize) {
 				xCoord = 6;
 				yCoord = 5;
 				orient = 1;
 			}
-			else if (heightMargin + 3 * hexagonSide - structSize < x && x < heightMargin + 3 * hexagonSide + structSize) {
+			else if (heightMargin + 3 * hexagonSide - structSize < y && y < heightMargin + 3 * hexagonSide + structSize) {
 				xCoord = 5;
 				yCoord = 3;
 				orient = 0;
 			}
-			else if (heightMargin + 5 * hexagonSide - structSize < x && x < heightMargin + 5 * hexagonSide + structSize) {
+			else if (heightMargin + 5 * hexagonSide - structSize < y && y < heightMargin + 5 * hexagonSide + structSize) {
 				xCoord = 5;
 				yCoord = 3;
 				orient = 1;
 			}
-			else if (heightMargin + 6 * hexagonSide - structSize < x && x < heightMargin + 6 * hexagonSide + structSize) {
+			else if (heightMargin + 6 * hexagonSide - structSize < y && y < heightMargin + 6 * hexagonSide + structSize) {
 				xCoord = 4;
 				yCoord = 1;
 				orient = 0;
