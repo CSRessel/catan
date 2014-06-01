@@ -41,7 +41,7 @@ public class CatanBoard extends JPanel{
 	private int heightMargin = 100; //TODO define
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
-	private final double structSize = 20.0;
+	private final int structSize = 12;
 	private final int roadSize = 20;
 
 	private ArrayList<Player> players;
