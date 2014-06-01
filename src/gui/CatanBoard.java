@@ -403,8 +403,10 @@ public class CatanBoard extends JPanel{
 			yCoord = 0;
 
 		// Out of bounds
-		if (x < widthMargin || x > widthMargin + 2 * 5 * sqrt3div2 || y < heightMargin || y > heightMargin + 8 * hexagonSide)
+		if (x < widthMargin || x > widthMargin + 2 * 5 * sqrt3div2 || y < heightMargin || y > heightMargin + 8 * hexagonSide){
+			System.out.println("out of bounds");
 			return null;
+		}
 
 		// first horizontal band
 		if (heightMargin + hexagonSide / 2 < y && y < heightMargin + 3 * hexagonSide / 2) {
@@ -988,7 +990,7 @@ public class CatanBoard extends JPanel{
 					if (loc != null) {
 						System.out.println(loc.getXCoord());
 						System.out.println(loc.getYCoord());
-						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						//tiles[loc.getXCoord()][loc.getYCoord()]
 					}
 				}
@@ -1003,7 +1005,7 @@ public class CatanBoard extends JPanel{
 					if (loc != null) {
 						//System.out.println(loc.getXCoord());
 						//System.out.println(loc.getYCoord());
-						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(players.get(0));
 					}
 				}
@@ -1019,7 +1021,7 @@ public class CatanBoard extends JPanel{
 						System.out.println(loc.getXCoord());
 						System.out.println(loc.getYCoord());
 						System.out.println(loc.getOrientation());
-						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(players.get(0));
 					}
 				}
