@@ -992,7 +992,7 @@ public class CatanBoard extends JPanel{
 					if (loc != null) {
 						System.out.println(loc.getXCoord());
 						System.out.println(loc.getYCoord());
-						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						//tiles[loc.getXCoord()][loc.getYCoord()]
 					}
 				}
@@ -1007,7 +1007,7 @@ public class CatanBoard extends JPanel{
 					if (loc != null) {
 						//System.out.println(loc.getXCoord());
 						//System.out.println(loc.getYCoord());
-						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(players.get(0));
 					}
 				}
@@ -1023,7 +1023,7 @@ public class CatanBoard extends JPanel{
 						System.out.println(loc.getXCoord());
 						System.out.println(loc.getYCoord());
 						System.out.println(loc.getOrientation());
-						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(players.get(0));
 					}
 				}
