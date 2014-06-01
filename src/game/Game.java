@@ -40,7 +40,7 @@ public class Game {
 		deck = new Deck();
 	}
 
-//TODO: move to Catan Board?
+//TODO: move to logic method	
 //	/**
 //	 * Runs the setup phase of the game
 //	 */
@@ -161,7 +161,7 @@ public class Game {
 	 */
 	public void takeCard(Player p, Player choice) {
 
-//TODO: move to CatanBoard
+//TODO: move to logic method
 //		ArrayList<Structure> structures = new ArrayList<Structure>(6);
 //
 //		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord(), 0)));
@@ -249,7 +249,7 @@ public class Game {
 		}
 	}
 
-//TODO: move to CatanBoard???
+//TODO: move to logic method
 //	/**
 //	 * Allows the provided Player to play a dev card
 //	 * @param p
@@ -553,7 +553,7 @@ public class Game {
 		return true;
 	}
 
-//TODO: move to CatanBoard
+//TODO: move to logic method
 //		DevCard dC = deck.draw();
 //		if (null != dC) {
 //			p.addDevCard(dC);

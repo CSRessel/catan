@@ -109,11 +109,7 @@ public class CatanBoard extends JPanel{
 		addMouseListener(m);
 		addMouseMotionListener((MouseMotionListener) m);
 	}
-	/*
-	public void redraw() {
 
-	}
-	*/
 	public void paintComponent(Graphics g) {
 
 		boardHeight = getHeight();

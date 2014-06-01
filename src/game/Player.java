@@ -183,6 +183,11 @@ public class Player {
 		return hasLargestArmy;
 	}
 	
+	/**
+	 * Checks if this Player has the specified resources
+	 * @param res the resources to check
+	 * @return whether the Player has those resources
+	 */
 	public boolean hasResources(ArrayList<String> res) {
 		int wool = 0,
 			ore = 0,
