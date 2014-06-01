@@ -978,7 +978,22 @@ public class CatanBoard extends JPanel{
 			System.out.println("Mouse Clicked");
 
 			Point p = new Point(e.getX(), e.getY());
-			if (state == 2) {
+			if (state == 1) {
+				if (p != null){
+					Location loc = pxToTile(p);
+					//System.out.println("Mouse on screen");
+					System.out.println(p.getX());
+					System.out.println(p.getY());
+					System.out.println(loc);
+					if (loc != null) {
+						System.out.println(loc.getXCoord());
+						System.out.println(loc.getYCoord());
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2); //TODO set to structures
+						//tiles[loc.getXCoord()][loc.getYCoord()]
+					}
+				}
+			}
+			else if (state == 2) {
 				if (p != null){
 					VertexLocation loc = pxToStructure(p);
 					//System.out.println("Mouse on screen");
