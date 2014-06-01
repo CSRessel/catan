@@ -19,7 +19,7 @@ public class GameWindow{
 	ArrayList<Player> players = new ArrayList<Player>();
 	CatanBoard board;
 	private Player thisPlayer;
-	public final static int INTERVAL = 1000;
+	public final static int INTERVAL = 20;
 	
 	
 	final static int SCRSIZE = 1000; //TODO specify
@@ -60,7 +60,8 @@ public class GameWindow{
 		content.setLayout(new GraphPaperLayout(d));
 		//content.add(board);
 		content.add(board,new Rectangle(0,0,4,4));
-		content.add(new Button("Add buttons here"),new Rectangle(4,0,1,4));
+		content.add(new SideBar(this),new Rectangle(4,0,1,4));
+		
 		content.add(new Button("Pretty cards here"),new Rectangle(0,4,5,1));
 		//frame.add(board,new Rectangle(0,0,500,500));
 		//content.add(new Button("I"), new Rectangle(0,0,1,2));
@@ -71,5 +72,9 @@ public class GameWindow{
 		frame.setVisible(true);
 		
 		board.repaint();
+	}
+	
+	public CatanBoard getBoard() {
+		return board;
 	}
 }
