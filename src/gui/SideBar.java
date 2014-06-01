@@ -143,6 +143,7 @@ public class SideBar extends JPanel {
 	}
 	
 	private void setPanel(ComponentList cL) {
+		
 		for (int i = 1; i < this.getComponentCount(); i++) {
 			this.remove(i);
 			System.out.println("removed comp");
@@ -154,6 +155,7 @@ public class SideBar extends JPanel {
 		}
 		
 		repaint();
+		validate();
 	}
 	
 	public void buyPanel() {

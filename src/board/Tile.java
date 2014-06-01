@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class Tile {
 	
-	private int number;
+	private int number = 0;
 	private Location location;
 	private boolean hasRobber = false;
 	private final String type;
