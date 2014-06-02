@@ -26,7 +26,10 @@ public class SideBar extends JPanel {
 	private ComponentList mainPanel		= new ComponentList();
 	private ComponentList buyPanel		= new ComponentList();
 	private ComponentList tradePanel	= new ComponentList();
+	private ComponentList errorPanel	= new ComponentList();
 	private KComponent currentPlayer;
+	private int flag = 0;
+		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel
 	
 	public SideBar(final GameWindow display) {
 		
@@ -60,9 +63,11 @@ public class SideBar extends JPanel {
 					
 					mainPanel();
 				}
-//				JLabel rollNumb = new JLabel("roll value: " + roll);
-//				rollNumb.setFont(new Font("Arial", 1, 16));
-//				add(rollNumb, new Rectangle(2,2,10,1));
+				JLabel rollNumb = new JLabel("roll value: " + roll);
+				rollNumb.setFont(new Font("Arial", 1, 16));
+				add(rollNumb, new Rectangle(2,2,10,1));
+				repaint();
+				validate();
 			}
 		});
 		roll.setText("roll the dice");
@@ -105,8 +110,7 @@ public class SideBar extends JPanel {
 		// Trade with players
 		JButton tradePlayer = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				//TODO player-trade layout
-				
+				//TODO
 				mainPanel();
 			}
 		});
@@ -116,7 +120,7 @@ public class SideBar extends JPanel {
 		// Trade with stock
 		JButton tradeStock = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				//TODO stock-trade layout
+				//TODO
 				mainPanel();
 			}
 		});
@@ -143,15 +147,17 @@ public class SideBar extends JPanel {
 			public void actionPerformed(ActionEvent a) {
 				Game g = display.getBoard().getGame();
 
-				boolean bought = g.buySettlement(GameRunner.currentPlayer);
+				int bought = g.buySettlement(GameRunner.currentPlayer);
 				
-				if (bought) {
-					//TODO place-settlement layout
+				if (bought == 0) {
+					//TODO place the settlement
 					buyPanel();
 				}
-				else {
-					//TODO throw-error layout
-					buyPanel();
+				else if (bought == 1) {
+					errorPanel("insufficient resources");
+				}
+				else if (bought == 2) {
+					errorPanel("structure capacity reached");
 				}
 			}
 		});
@@ -163,15 +169,17 @@ public class SideBar extends JPanel {
 			public void actionPerformed(ActionEvent a) {
 				Game g = display.getBoard().getGame();
 
-				boolean bought = g.buyCity(GameRunner.currentPlayer);
+				int bought = g.buyCity(GameRunner.currentPlayer);
 				
-				if (bought) {
-					//TODO upgrade-settlement layout
+				if (bought == 0) {
+					//TODO place the city
 					buyPanel();
 				}
-				else {
-					//TODO throw-error layout
-					buyPanel();
+				else if (bought == 1) {
+					errorPanel("insufficient resources");
+				}
+				else if (bought == 2) {
+					errorPanel("structure capacity reached");
 				}
 			}
 		});
@@ -183,15 +191,17 @@ public class SideBar extends JPanel {
 			public void actionPerformed(ActionEvent a) {
 				Game g = display.getBoard().getGame();
 
-				boolean bought = g.buyRoad(GameRunner.currentPlayer);
+				int bought = g.buyRoad(GameRunner.currentPlayer);
 				
-				if (bought) {
-					//TODO place-road layout
+				if (bought == 0) {
+					//TODO place the road
 					buyPanel();
 				}
-				else {
-					//TODO throw-error layout
-					buyPanel();
+				else if (bought == 1) {
+					errorPanel("insufficient resources");
+				}
+				else if (bought == 2) {
+					errorPanel("structure capacity reached");
 				}
 			}
 		});
@@ -203,14 +213,13 @@ public class SideBar extends JPanel {
 			public void actionPerformed(ActionEvent a) {
 				Game g = display.getBoard().getGame();
 
-				boolean bought = g.buyDevCard(GameRunner.currentPlayer);
+				int bought = g.buyDevCard(GameRunner.currentPlayer);
 				
-				if (bought) {
+				if (bought == 0) {
 					buyPanel();
 				}
-				else {
-					//TODO throw-error layout
-					buyPanel();
+				else if (bought == 1) {
+					errorPanel("insufficient resources");
 				}
 				mainPanel();
 			}
@@ -221,8 +230,28 @@ public class SideBar extends JPanel {
 		// Return to main panel
 		buyPanel.add(new KComponent(returnMain, new Rectangle(3,12,8,2)));
 		
+		// Error panel:
 		//-------------------------------------------------------------------
-
+		
+		JLabel message = new JLabel("");
+		message.setFont(new Font("Arial", 1, 16));
+		errorPanel.add(message, new Rectangle(2,4,10,1));
+		
+		JButton accept = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				switch(flag) {
+				case 0: setPanel(mainPanel); break;
+				case 1: setPanel(tradePanel); break;
+				case 2: setPanel(buyPanel); break;
+				default: setPanel(mainPanel); break;
+				}
+			}
+		});
+		accept.setText("continue");
+		errorPanel.add(accept, new Rectangle (3,7,9,2));
+		
+		//-------------------------------------------------------------------
+		
 		setPanel(rollPanel);
 	}
 	
@@ -240,19 +269,28 @@ public class SideBar extends JPanel {
 	
 	public void buyPanel() {
 		setPanel(buyPanel);
+		flag = 2;
 	}
 	
 	public void tradePanel() {
 		setPanel(tradePanel);
+		flag = 1;
 	}
 	
 	public void rollPanel() {
 		setCurrentPlayer(GameRunner.currentPlayer);
 		setPanel(rollPanel);
+		flag = 0;
 	}
 	
 	public void mainPanel() {
 		setPanel(mainPanel);
+		flag = 0;
+	}
+	
+	public void errorPanel(String str) {
+		((JLabel) errorPanel.get(0).getComponent()).setText(str);
+		setPanel(errorPanel);
 	}
 	
 	public void setCurrentPlayer(Player p) {

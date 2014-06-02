@@ -384,12 +384,12 @@ public class Game {
 	/**
 	 * Buys Road for given Player
 	 * @param p the given Player
-	 * @return whether the Player can buy a Road
+	 * @return 0=success, 1=insufficient resources, 2=structure limit reached
 	 */
-	public boolean buyRoad(Player p) {
+	public int buyRoad(Player p) {
 
 		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
-			return false;
+			return 1;
 			//TODO: throw error about not enough resources
 		}
 
@@ -404,7 +404,7 @@ public class Game {
 			}
 		}
 		if (numbRoads >= 15) {
-			return false;
+			return 2;
 			//TODO: throw error about too many of object owned already
 		}
 
@@ -413,19 +413,19 @@ public class Game {
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
 
-		return true;
+		return 0;
 	}
 
 	/**
 	 * Buys Settlement for given Player
 	 * @param p the given Player
-	 * @return whether the Player can buy a Settlement
+	 * @return 0=success, 1=insufficient resources, 2=structure limit reached
 	 */
-	public boolean buySettlement(Player p) {
+	public int buySettlement(Player p) {
 
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("GRAIN") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
-			return false;
+			return 1;
 			//TODO: throw error about not enough resources
 		}
 
@@ -440,7 +440,7 @@ public class Game {
 			}
 		}
 		if (numbSettlements >= 5) {
-			return false;
+			return 2;
 			//TODO: throw error about too many of object owned already
 		}
 
@@ -451,19 +451,19 @@ public class Game {
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
 
-		return true;
+		return 0;
 	}
 
 	/**
 	 * Buys City for given Player
 	 * @param p the given Player
-	 * @return whether the Player can buy a City
+	 * @return 0=success, 1=insufficient resources, 2=structure limit reached
 	 */
-	public boolean buyCity(Player p) {
+	public int buyCity(Player p) {
 
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3) {
-			return false;
+			return 1;
 			//TODO: throw error about not enough resources
 		}
 
@@ -478,7 +478,7 @@ public class Game {
 			}
 		}
 		if (numbCities >= 4) {
-			return false;
+			return 2;
 			//TODO: throw error about too many of object owned already
 		}
 
@@ -487,19 +487,19 @@ public class Game {
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
 
-		return true;
+		return 0;
 	}
 
 	/**
 	 * Buys DevCard for given Player
 	 * @param p the given Player
-	 * @return whether the Player can buy a DevCard
+	 * @return 0=success, 1=insufficient resources
 	 */
-	public boolean buyDevCard(Player p) {
+	public int buyDevCard(Player p) {
 
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("ORE") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("GRAIN") < 1) {
-			return false;
+			return 1;
 			//TODO: throw error about not enough resources
 		}
 
@@ -507,7 +507,7 @@ public class Game {
 		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
 		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
 
-		return true;
+		return 0;
 	}
 
 	/**
