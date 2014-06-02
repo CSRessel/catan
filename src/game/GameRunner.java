@@ -10,39 +10,29 @@ import javax.swing.SwingUtilities;
 public class GameRunner {
 	
 	public static Player currentPlayer;
-	public static boolean turnDone = false;
-	
+	private static int index = 0;
+	public static ArrayList<Player> players = new ArrayList<Player>();
+	private static Game game;
+
 	public static void main(String[] args) {
 		
-		final ArrayList<Player> players = new ArrayList<Player>(4);
-
 		players.add(new Player("Superman", Color.BLUE));
 		players.add(new Player("Batman", Color.BLACK));
 		players.add(new Player("Spiderman", Color.RED));
-		players.add(new Player("Wonder Woman", Color.WHITE));
-		
-		Game game = new Game(players);
-		
-		currentPlayer = players.get(0);
-		
+		players.add(new Player("Wonder Woman", Color.GREEN));
+						
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new GameWindow(players);
+				GameWindow tmp = new GameWindow(players);
+				game = tmp.getBoard().getGame();
 			}
 		});
 		
 		//TODO setup phase here
-		
-		while (!game.over()) {
-			for (Player p : players) {
-				turnDone = false;
-				currentPlayer = p;
-				while (!turnDone) {}
-			}
-		}
-		
-		//TODO response to game win
-		Player winner = game.winningPlayer();
-		
+	}
+	
+	public static void nextPlayer() {
+		currentPlayer = players.get((index + 1) % 4);
+		index = (index + 1) % 4;
 	}
 }

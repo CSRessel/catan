@@ -94,7 +94,7 @@ public class SideBar extends JPanel {
 		
 		JButton endTurn = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				GameRunner.turnDone = true;
+				GameRunner.nextPlayer();
 				rollPanel();
 			}
 		});
@@ -221,7 +221,6 @@ public class SideBar extends JPanel {
 				else if (bought == 1) {
 					errorPanel("insufficient resources");
 				}
-				mainPanel();
 			}
 		});
 		buyCard.setText("dev card");

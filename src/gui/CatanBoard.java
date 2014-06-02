@@ -20,7 +20,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -1030,7 +1029,6 @@ public class CatanBoard extends JPanel{
 
 	class AMouseListener extends MouseAdapter implements MouseMotionListener{
 		public void mouseClicked(MouseEvent e) {
-			Graphics2D g2 = (Graphics2D)g;
 			System.out.println("Mouse Clicked");
 
 			Point p = new Point(e.getX(), e.getY());

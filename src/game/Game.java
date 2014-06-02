@@ -34,10 +34,12 @@ public class Game {
 		}
 
 		Collections.shuffle(givenPlayers);
-
+		
 		players = givenPlayers;
 		board = new Board();
 		deck = new Deck();
+		
+		GameRunner.currentPlayer = players.get(0);
 	}
 
 //TODO move to logic method	
@@ -390,7 +392,6 @@ public class Game {
 
 		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
 			return 1;
-			//TODO: throw error about not enough resources
 		}
 
 		// Check Player has not exceeded capacity for object
@@ -405,7 +406,6 @@ public class Game {
 		}
 		if (numbRoads >= 15) {
 			return 2;
-			//TODO: throw error about too many of object owned already
 		}
 
 		p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
@@ -426,7 +426,6 @@ public class Game {
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("GRAIN") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
 			return 1;
-			//TODO: throw error about not enough resources
 		}
 
 		// Check Player has not exceeded capacity for object
@@ -441,7 +440,6 @@ public class Game {
 		}
 		if (numbSettlements >= 5) {
 			return 2;
-			//TODO: throw error about too many of object owned already
 		}
 
 		p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
@@ -464,7 +462,6 @@ public class Game {
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3) {
 			return 1;
-			//TODO: throw error about not enough resources
 		}
 
 		// Check Player has not exceeded capacity for object
@@ -479,7 +476,6 @@ public class Game {
 		}
 		if (numbCities >= 4) {
 			return 2;
-			//TODO: throw error about too many of object owned already
 		}
 
 		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 2);
@@ -496,17 +492,18 @@ public class Game {
 	 * @return 0=success, 1=insufficient resources
 	 */
 	public int buyDevCard(Player p) {
-
+		
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("ORE") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("GRAIN") < 1) {
 			return 1;
-			//TODO: throw error about not enough resources
 		}
-
+		
 		p.setNumberResourcesType("ORE", p.getNumberResourcesType("ORE") - 1);
 		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
 		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
 
+		p.addDevCard(deck.draw());
+		
 		return 0;
 	}
 
