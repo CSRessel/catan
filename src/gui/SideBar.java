@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -17,6 +18,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import lib.GraphPaperLayout;
 
@@ -27,9 +29,13 @@ public class SideBar extends JPanel {
 	private ComponentList buyPanel		= new ComponentList();
 	private ComponentList tradePanel	= new ComponentList();
 	private ComponentList errorPanel	= new ComponentList();
+	private ComponentList blankPanel	= new ComponentList();
 	private KComponent currentPlayer;
 	private int flag = 0;
 		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel
+	
+	public final static int INTERVAL = 20;
+	private Timer timer;
 	
 	public SideBar(final GameWindow display) {
 		
@@ -150,8 +156,21 @@ public class SideBar extends JPanel {
 				int bought = g.buySettlement(GameRunner.currentPlayer);
 				
 				if (bought == 0) {
-					//TODO place the settlement
-					buyPanel();
+					display.getBoard().placeSettlement(1);
+					blankPanel();
+					timer = new Timer(INTERVAL,
+							new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									if(display.getBoard().getState() == 2){
+										
+									}
+									else {
+										buyPanel();
+										timer.stop();
+									}
+								}
+							});
+					timer.start();
 				}
 				else if (bought == 1) {
 					errorPanel("insufficient resources");
@@ -292,7 +311,11 @@ public class SideBar extends JPanel {
 		setPanel(errorPanel);
 	}
 	
+	public void blankPanel() {
+		setPanel(blankPanel);
+	}
 	public void setCurrentPlayer(Player p) {
 		((JLabel) currentPlayer.getComponent()).setText("Player: " + p.getName());
 	}
+	
 }

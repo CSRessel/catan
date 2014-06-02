@@ -34,6 +34,7 @@ public class CatanBoard extends JPanel{
 		//1 = choosing tile
 		//2 = choosing settlement
 		//3 = choosing road
+		//4 = choosing city
 	private Game game;
 	private int boardHeight;
 	private int hexagonSide;
@@ -48,9 +49,12 @@ public class CatanBoard extends JPanel{
 	private Road[][][] roads;
 	private Structure[][][] structures;
 
-	private Graphics g;
+	//private Graphics g;
 
-
+	private int index;
+	
+	
+	
 	public CatanBoard(ArrayList<Player> players) {
 
 		game = new Game(players);
@@ -60,7 +64,7 @@ public class CatanBoard extends JPanel{
 		roads = game.getBoard().getRoads();
 		structures = game.getBoard().getStructures();
 
-//		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
+		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
 //		game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(0));
 //		game.getBoard().placeStructureNoRoad(new VertexLocation(5,3,0), players.get(1));
 //		game.getBoard().placeRoad(new EdgeLocation(5,3,0), players.get(1));
@@ -101,7 +105,7 @@ public class CatanBoard extends JPanel{
 
 		MouseListener m = new AMouseListener();
 		addMouseListener(m);
-		addMouseMotionListener((MouseMotionListener) m);
+		//addMouseMotionListener((MouseMotionListener) m);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -213,7 +217,7 @@ public class CatanBoard extends JPanel{
 
 			}
 		}
-		else if (state == 2) {
+		else if (state == 2 || state == 4) {
 			VertexLocation loc = pxToStructure(p);
 			//System.out.println("Blah");
 			//System.out.println(p.getX());
@@ -244,6 +248,10 @@ public class CatanBoard extends JPanel{
 
 	public void setState(int newState) {
 		state = newState;
+	}
+	
+	public int getState() {
+		return state;
 	}
 
 	public Polygon makeHex(Point center) {
@@ -392,19 +400,39 @@ public class CatanBoard extends JPanel{
 
 	public void drawStructure(Structure s, boolean highlighted, Graphics2D g2) {
 		Player player = s.getOwner();
-		if (player == null) {
-			if (highlighted)
-				g2.setColor(Color.WHITE);
+		if (state == 2) {
+			if (player == null) {
+				if (highlighted)
+					g2.setColor(Color.WHITE);
+				else
+					return;
+			}
+			else {
+				if (highlighted)
+					return;
+				else
+					g2.setColor(player.getColor());
+			}
+		}
+		else if (state == 4) {
+			if (player == null)
+				return;
+			else if (player == GameRunner.currentPlayer) {
+				if (highlighted)
+					g2.setColor(Color.WHITE);
+				else
+					g2.setColor(player.getColor());
+			}
 			else
-			 return;
+				g2.setColor(player.getColor());
 		}
 		else {
-			if (highlighted)
+			if (player == null)
 				return;
 			else
 				g2.setColor(player.getColor());
 		}
-
+		
 		Shape shape;
 		Point tileCenter = findCenter(s.getLocation().getXCoord(), s.getLocation().getYCoord());
 		int y = (int) tileCenter.getY();
@@ -1029,7 +1057,7 @@ public class CatanBoard extends JPanel{
 		return output;
 	}
 
-	class AMouseListener extends MouseAdapter implements MouseMotionListener{
+	class AMouseListener extends MouseAdapter{
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("Mouse Clicked");
 
@@ -1038,12 +1066,12 @@ public class CatanBoard extends JPanel{
 				if (p != null){
 					Location loc = pxToTile(p);
 					//System.out.println("Mouse on screen");
-					System.out.println(p.getX());
-					System.out.println(p.getY());
-					System.out.println(loc);
+					//System.out.println(p.getX());
+					//System.out.println(p.getY());
+					//System.out.println(loc);
 					if (loc != null) {
-						System.out.println(loc.getXCoord());
-						System.out.println(loc.getYCoord());
+						//System.out.println(loc.getXCoord());
+						//System.out.println(loc.getYCoord());
 						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						//tiles[loc.getXCoord()][loc.getYCoord()]
 					}
@@ -1053,14 +1081,19 @@ public class CatanBoard extends JPanel{
 				if (p != null){
 					VertexLocation loc = pxToStructure(p);
 					//System.out.println("Mouse on screen");
-					System.out.println(p.getX());
-					System.out.println(p.getY());
+					//System.out.println(p.getX());
+					//System.out.println(p.getY());
 					//System.out.println(loc);
 					if (loc != null) {
 						//System.out.println(loc.getXCoord());
 						//System.out.println(loc.getYCoord());
 						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
-						structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(players.get(0));
+						if (game.getBoard().placeStructure(loc, GameRunner.currentPlayer)) {
+							index--;
+						}
+						if (index == 0) {
+							state = 0;
+						}
 					}
 				}
 			}
@@ -1068,13 +1101,13 @@ public class CatanBoard extends JPanel{
 				if (p != null){
 					EdgeLocation loc = pxToRoad(p);
 					//System.out.println("Mouse on screen");
-					System.out.println(p.getX());
-					System.out.println(p.getY());
-					System.out.println(loc);
+					//System.out.println(p.getX());
+					//System.out.println(p.getY());
+					//System.out.println(loc);
 					if (loc != null) {
-						System.out.println(loc.getXCoord());
-						System.out.println(loc.getYCoord());
-						System.out.println(loc.getOrientation());
+						//System.out.println(loc.getXCoord());
+						//System.out.println(loc.getYCoord());
+						//System.out.println(loc.getOrientation());
 						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(players.get(0));
 					}
@@ -1087,4 +1120,10 @@ public class CatanBoard extends JPanel{
 	public Game getGame() {
 		return game;
 	}
+	
+	public void placeSettlement(int s) {
+		index = s;
+		state = 2;
+	}
+	
 }

@@ -17,6 +17,8 @@ import lib.GraphPaperLayout;
 public class GameWindow {
 		
 	CatanBoard board;
+	BottomBar bottom;
+	SideBar side;
 	public final static int INTERVAL = 20;
 	
 	
@@ -25,6 +27,7 @@ public class GameWindow {
 	
 	public GameWindow(ArrayList<Player> players) {
 		board = new CatanBoard(players);
+		bottom = new BottomBar();
 		
 		createAndShowGUI();
 
@@ -33,6 +36,7 @@ public class GameWindow {
 					public void actionPerformed(ActionEvent evt) {
 						// Refresh the board
 						board.repaint(); //TODO fix validate
+						bottom.repaint();
 					}
 				});
 
@@ -51,11 +55,12 @@ public class GameWindow {
 		content.setLayout(new GraphPaperLayout(d));
 		//content.add(board);
 		content.add(board,new Rectangle(0,0,4,4));
-		content.add(new SideBar(this),new Rectangle(4,0,1,4));
 		
-		content.add(new Button("Pretty cards here"),new Rectangle(0,4,5,1));
-		//frame.add(board,new Rectangle(0,0,500,500));
-		//content.add(new Button("I"), new Rectangle(0,0,1,2));
+		side = new SideBar(this);
+		content.add(side,new Rectangle(4,0,1,4));
+		
+		content.add(bottom,new Rectangle(0,4,5,1));
+		
 		
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);

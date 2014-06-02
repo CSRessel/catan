@@ -44,11 +44,22 @@ public class Player {
 		resources = new HashMap<String, Integer>(5);
 		resources.put("BRICK", 0);
 		resources.put("WOOL", 0);
-		resources.put("LUMBER", 0);
-		resources.put("GRAIN", 0);
 		resources.put("ORE", 0);
+		resources.put("GRAIN", 0);
+		resources.put("LUMBER", 0);
 		
 		hand = new ArrayList<DevCard>();
+	}
+	
+	public Player(String n, Color c, int brick, int wool, int ore, int grain, int lumber) {
+		this(n,c);
+		
+		setNumberResourcesType("BRICK", brick);
+		setNumberResourcesType("WOOL", wool);
+		setNumberResourcesType("ORE", ore);
+		setNumberResourcesType("GRAIN", grain);
+		setNumberResourcesType("LUMBER", lumber);
+		
 	}
 	
 	/**
@@ -240,5 +251,13 @@ public class Player {
 	 */
 	public boolean[] getPorts() {
 		return ports;
+	}
+	
+	/**
+	 * Overridden toString method
+	 * @return name
+	 */
+	public String toString() {
+		return name;
 	}
 }
