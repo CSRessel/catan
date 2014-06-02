@@ -215,11 +215,17 @@ public class Board {
 	 */
 	public boolean placeStructureNoRoad(VertexLocation loc, Player player) {
 
+		if (structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].getOwner() != null) { //Vertex is already occupied
+			return false;
+		}
+		
 		if (loc.getOrientation() == 0) {
 			if (structures[loc.getXCoord()][loc.getYCoord()+1][1].getOwner() == null &&
 				structures[loc.getXCoord()+1][loc.getYCoord()+1][1].getOwner() == null &&
-				!(loc.getYCoord() + 2 <=6 && !(structures[loc.getXCoord()+1][loc.getYCoord()+2][1].getOwner() == null)))
+				!(loc.getYCoord() + 2 <= 6 && !(structures[loc.getXCoord()+1][loc.getYCoord()+2][1].getOwner() == null)))
 			{
+				if (checkPort(loc) != -1)
+					player.addPort(checkPort(loc));
 				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 				return true;
 			}
@@ -232,6 +238,8 @@ public class Board {
 				structures[loc.getXCoord()-1][loc.getYCoord()-1][0].getOwner() == null &&
 				!(loc.getYCoord() - 2 >=0 && !(structures[loc.getXCoord()-1][loc.getYCoord()-2][0].getOwner() == null)))
 			{
+				if (checkPort(loc) != -1)
+					player.addPort(checkPort(loc));
 				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 				return true;
 			}
@@ -249,6 +257,10 @@ public class Board {
 	 */
 	public boolean placeStructure(VertexLocation loc, Player player) {
 
+		if (structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].getOwner() != null) { //Vertex is already occupied
+			return false;
+		}
+		
 		if (loc.getOrientation() == 0) {
 			if ((player.equals(roads[loc.getXCoord()][loc.getYCoord()][0].getOwner()) ||
 				player.equals(roads[loc.getXCoord()][loc.getYCoord()][1].getOwner()) ||
@@ -258,6 +270,8 @@ public class Board {
 				structures[loc.getXCoord()+1][loc.getYCoord()+1][1].getOwner() == null &&
 				!(loc.getYCoord() + 2 <=6 && !(structures[loc.getXCoord()+1][loc.getYCoord()+2][1].getOwner() == null))))
 			{
+				if (checkPort(loc) != -1)
+					player.addPort(checkPort(loc));
 				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 				return true;
 			}
@@ -274,6 +288,8 @@ public class Board {
 				structures[loc.getXCoord()-1][loc.getYCoord()-1][0].getOwner() == null &&
 				!(loc.getYCoord() - 2 >=0 && !(structures[loc.getXCoord()-1][loc.getYCoord()-2][0].getOwner() == null))))
 			{
+				if (checkPort(loc) != -1)
+					player.addPort(checkPort(loc));
 				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setOwner(player);
 				return true;
 			}
@@ -291,6 +307,10 @@ public class Board {
 	 * @return boolean true if successful
 	 */
 	public boolean placeRoad(EdgeLocation loc, Player player) {
+		
+		if (roads[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].getOwner() != null) { //Vertex is already occupied
+			return false;
+		}
 
 		if (loc.getOrientation() == 0) {
 			if (player.equals(structures[loc.getXCoord()][loc.getYCoord() + 1][1].getOwner()) ||
@@ -694,6 +714,57 @@ public class Board {
 
 	}
 	
+	/**
+	 * Checks if given VertexLocation is a port, and returns the portTag is it is.
+	 * @param loc
+	 * @return int portTag if port, -1 if not
+	 * 				  0 = general
+					  1 = brick
+					  2 = sheep
+					  3 = ore
+					  4 = wheat
+					  5 = timber
+	 */
+	private int checkPort(VertexLocation loc) {
+		int x = loc.getXCoord();
+		int y = loc.getYCoord();
+		int o = loc.getOrientation();
+		
+		if ((x == 4 && y == 1 && o == 0) ||
+				(x == 4 && y == 2 && o == 1)) {
+			return 1;
+		}
+		else if ((x == 4 && y == 5 && o == 0) ||
+				(x == 5 && y == 6 && o == 1)) {
+			return 2; 
+		}
+		else if ((x == 1 && y == 3 && o == 0) ||
+				(x == 2 && y == 5 && o == 1)) {
+			return 3; 
+		}
+		else if ((x == 0 && y == 1 && o == 0) ||
+				(x == 1 && y == 3 && o == 1)) {
+			return 4; 
+		}
+		else if ((x == 2 && y == 0 && o == 0) ||
+				(x == 2 && y == 1 && o == 1)) {
+			return 5; 
+		}
+		else if ((x == 0 && y == 0 && o == 0) ||
+				(x == 1 && y == 1 && o == 1) ||
+				(x == 5 && y == 2 && o == 0) ||
+				(x == 6 && y == 4 && o == 1) ||
+				(x == 5 && y == 4 && o == 0) ||
+				(x == 6 && y == 5 && o == 1) ||
+				(x == 3 && y == 5 && o == 0) ||
+				(x == 3 && y == 6 && o == 1)) {
+			return 0; 
+		}
+		else {
+			return -1;
+		}
+	}
+
 	/**
 	 * Getter for tiles array
 	 * @return tiles array

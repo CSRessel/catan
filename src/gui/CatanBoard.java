@@ -30,7 +30,7 @@ import game.*;
 
 public class CatanBoard extends JPanel{
 
-	private int state = 1;
+	private int state = 0;
 		//0 = none
 		//1 = choosing tile
 		//2 = choosing settlement
@@ -291,7 +291,7 @@ public class CatanBoard extends JPanel{
 				g2.setColor(new Color(0xFF, 0xFF, 0xA9));
 				break;
 			case "BRICK":
-				g2.setColor(Color.RED);
+				g2.setColor(new Color(0xAD, 0x33, 0x33));
 				break;
 			case "WOOL":
 				g2.setColor(Color.GREEN);
@@ -310,7 +310,7 @@ public class CatanBoard extends JPanel{
 				break;
 		}
 
-		//g2.setColor(Color.MAGENTA); //TODO MAGENTA
+		//g2.setColor(Color.MAGENTA);
 		g2.fillPolygon(poly);
 		g2.setColor(Color.BLACK);
 		g2.drawPolygon(poly);
@@ -340,6 +340,8 @@ public class CatanBoard extends JPanel{
 		Point p = findCenter(x,y);
 		
 		g2.setColor(Color.BLACK);
+		if (tile.getNumber() == 6 || tile.getNumber() == 8)
+			g2.setColor(Color.RED);
 		//System.out.println("" + tile.getNumber());
 		g2.drawString("" + tile.getNumber(), (int)p.getX() - 5, (int)p.getY() + 5);
 	}
@@ -354,7 +356,7 @@ public class CatanBoard extends JPanel{
 		
 		Shape shape = new Ellipse2D.Double((int)p.getX() - 25, (int)p.getY() - 25, 50, 50);
 
-		g2.setColor(Color.BLACK);
+		g2.setColor(Color.MAGENTA);
 		g2.fill(shape);
 		g2.draw(shape);
 	}

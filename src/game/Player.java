@@ -20,6 +20,13 @@ public class Player {
 	private ArrayList<Road> roads;
 	private int numbKnights;
 	private boolean hasLargestArmy;
+	private boolean[] ports = {false, false, false, false, false, false};
+					// 0 = general
+					// 1 = brick
+					// 2 = wool
+					// 3 = ore
+					// 4 = grain
+					// 5 = lumber
 	
 	
 	/**
@@ -212,5 +219,26 @@ public class Player {
 			return false;
 		else
 			return true;
+	}
+	
+	/**
+	 * Sets the corresponding port to true
+	 * @param portTag 0 = general
+					  1 = brick
+					  2 = wool
+					  3 = ore
+					  4 = grain
+					  5 = lumber
+	 */
+	public void addPort(int portTag) {
+		ports[portTag] = true;
+	}
+	
+	/**
+	 * Getter for list of ports
+	 * @return ports list of ports
+	 */
+	public boolean[] getPorts() {
+		return ports;
 	}
 }
