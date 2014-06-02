@@ -38,7 +38,7 @@ public class CatanBoard extends JPanel{
 	private Game game;
 	private int boardHeight;
 	private int hexagonSide;
-	private int heightMargin = 100; //TODO define
+	private int heightMargin = 100;
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
 	private final int structSize = 12;
@@ -59,7 +59,7 @@ public class CatanBoard extends JPanel{
 		this.players = players;
 		tiles = game.getBoard().getTiles();
 		roads = game.getBoard().getRoads();
-		structures = game.getBoard().getStructures(); //TODO fix encapsulation
+		structures = game.getBoard().getStructures();
 
 //		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
 //		game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(0));
@@ -72,7 +72,7 @@ public class CatanBoard extends JPanel{
 //		game.getBoard().placeRoad(new EdgeLocation(3,3,2), players.get(0));
 //		structures[4][2][1].setType(1);
 
-		setBackground(new Color(164,200,218)); //TODO draw background
+		setBackground(new Color(164,200,218)); //TODO add background
 
 //		boardHeight = getHeight();
 //		hexagonSide = (boardHeight - 2 * heightMargin) / 8;
@@ -138,6 +138,48 @@ public class CatanBoard extends JPanel{
 
 		for (int x = 3; x <= 5; x++) {
 			drawHex(tiles[x][5],g2);
+		}
+
+		//draw numbers
+		for (int x = 1; x <= 3; x++) {
+			drawNumber(tiles[x][1],g2);
+		}
+
+		for (int x = 1; x <= 4; x++) {
+			drawNumber(tiles[x][2],g2);
+		}
+
+		for (int x = 1; x <= 5; x++) {
+			drawNumber(tiles[x][3],g2);
+		}
+
+		for (int x = 2; x <= 5; x++) {
+			drawNumber(tiles[x][4],g2);
+		}
+
+		for (int x = 3; x <= 5; x++) {
+			drawNumber(tiles[x][5],g2);
+		}
+
+		//draw robber
+		for (int x = 1; x <= 3; x++) {
+			drawRobber(tiles[x][1],g2);
+		}
+
+		for (int x = 1; x <= 4; x++) {
+			drawRobber(tiles[x][2],g2);
+		}
+
+		for (int x = 1; x <= 5; x++) {
+			drawRobber(tiles[x][3],g2);
+		}
+
+		for (int x = 2; x <= 5; x++) {
+			drawRobber(tiles[x][4],g2);
+		}
+
+		for (int x = 3; x <= 5; x++) {
+			drawRobber(tiles[x][5],g2);
 		}
 
 		//Draw roads
@@ -259,10 +301,41 @@ public class CatanBoard extends JPanel{
 		//System.out.println("Highlighted");
 		int x = loc.getXCoord();
 		int y = loc.getYCoord();
+		if (tiles[x][y].hasRobber()) {
+			return;
+		}
 		Point p = findCenter(x,y);
 		Shape shape = new Ellipse2D.Double((int)p.getX() - 25, (int)p.getY() - 25, 50, 50);
 
 		g2.setColor(Color.WHITE);
+		g2.fill(shape);
+		g2.draw(shape);
+	}
+	
+	public void drawNumber(Tile tile, Graphics2D g2) {
+		if (tile.getNumber() == 0) {
+			return;
+		}
+		int x = tile.getLocation().getXCoord();
+		int y = tile.getLocation().getYCoord();
+		Point p = findCenter(x,y);
+		
+		g2.setColor(Color.BLACK);
+		//System.out.println("" + tile.getNumber());
+		g2.drawString("" + tile.getNumber(), (int)p.getX() - 5, (int)p.getY() + 5);
+	}
+	
+	public void drawRobber(Tile tile, Graphics2D g2) {
+		if (!tile.hasRobber()) {
+			return;
+		}
+		int x = tile.getLocation().getXCoord();
+		int y = tile.getLocation().getYCoord();
+		Point p = findCenter(x,y);
+		
+		Shape shape = new Ellipse2D.Double((int)p.getX() - 25, (int)p.getY() - 25, 50, 50);
+
+		g2.setColor(Color.BLACK);
 		g2.fill(shape);
 		g2.draw(shape);
 	}
@@ -311,7 +384,6 @@ public class CatanBoard extends JPanel{
 		}
 
 		g2c.transform(transformer);
-		//TODO Add highlight
 		g2c.fill(rect);
 		g2c.setColor(Color.BLACK);
 		g2c.draw(rect);
@@ -354,7 +426,6 @@ public class CatanBoard extends JPanel{
 
 		//System.out.println(x);
 		//System.out.println(y);
-		//TODO add highlight
 
 		g2.fill(shape);
 		g2.setColor(Color.BLACK);
@@ -468,7 +539,7 @@ public class CatanBoard extends JPanel{
 	/*
 	private int boardHeight;
 	private int hexagonSide;
-	private int heightMargin = 100; //TODO define
+	private int heightMargin = 100;
 	private int widthMargin;
 	private final double sqrt3div2 = 0.86602540378;
 	 */
@@ -1011,5 +1082,9 @@ public class CatanBoard extends JPanel{
 			}
 			repaint();
 		}
+	}
+	
+	public Game getGame() {
+		return game;
 	}
 }

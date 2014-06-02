@@ -36,9 +36,9 @@ public class Player {
 		
 		resources = new HashMap<String, Integer>(5);
 		resources.put("BRICK", 0);
-		resources.put("SHEEP", 0);
-		resources.put("TIMBER", 0);
-		resources.put("WHEAT", 0);
+		resources.put("WOOL", 0);
+		resources.put("LUMBER", 0);
+		resources.put("GRAIN", 0);
 		resources.put("ORE", 0);
 		
 		hand = new ArrayList<DevCard>();

@@ -39,7 +39,7 @@ public class Board {
 		tileList.add(new Tile("BRICK")); tileList.add(new Tile("BRICK")); tileList.add(new Tile("BRICK"));
 		tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN")); tileList.add(new Tile("GRAIN"));
 		tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL")); tileList.add(new Tile("WOOL"));
-		tileList.add(new Tile("ORE")); tileList.add(new Tile("ORE")); tileList.add(new Tile("ORE"));tileList.add(new Tile("ORE"));
+		tileList.add(new Tile("ORE")); tileList.add(new Tile("ORE")); tileList.add(new Tile("ORE"));
 		tileList.add(desert);
 
 		// Create random order
@@ -111,6 +111,14 @@ public class Board {
 			}
 		}
 
+		// Place all the empty Tiles in Board
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+				if (tiles[i][j] == null)
+					tiles[i][j] = new Tile(i, j, 0, "");
+			}
+		}
+		
 		// Place all Structures in Board
 		for (int row = 0; row < structures.length; row++) {
 			for (int col = 0; col < structures[0].length; col++) {
@@ -171,8 +179,8 @@ public class Board {
 
 		ArrayList<Tile> rollTiles = new ArrayList<Tile>();
 
-		for (int i = 0; i < tiles.length; i++) {
-			for (int j = 0; j < tiles[i].length; i++) {
+		for (int i = 1; i < tiles.length; i++) {
+			for (int j = 1; j < tiles[i].length; j++) {
 				if (tiles[i][j].getNumber() == numb)
 					rollTiles.add(tiles[i][j]);
 			}

@@ -40,7 +40,7 @@ public class Game {
 		deck = new Deck();
 	}
 
-//TODO: move to logic method	
+//TODO move to logic method	
 //	/**
 //	 * Runs the setup phase of the game
 //	 */
@@ -82,7 +82,7 @@ public class Game {
 	 * Checks if one player has ten or more victory points and more points than any other player
 	 * @return whether anyone has one yet
 	 */
-	public boolean gameOver() {
+	public boolean over() {
 		return winningPlayer() != null;
 	}
 
@@ -117,20 +117,19 @@ public class Game {
 	 * @param p the Player rolling (in case Player wants to play dev card first)
 	 * @return true if the roll was not a robber (7)
 	 */
-	public boolean roll(Player p) {
+	public int roll(Player p) {
 
 		// RTD
-		int roll1 = (int)(Math.random() * 6 + 1);
-		int roll2 = (int)(Math.random() * 6 + 1);
+		int roll = (int)(Math.random() * 6 + 1) + (int)(Math.random() * 6 + 1);
 
-		if (roll1 == 7 || roll2 == 7) {
-			return false;
+		if (roll == 7) {
+			return roll;
 		}
 		else {
 			// Distribute resources
-			board.distributeResources(roll1 + roll2);
+			board.distributeResources(roll);
 
-			return true;
+			return roll;
 		}
 	}
 
@@ -460,7 +459,7 @@ public class Game {
 	 * @param p the given Player
 	 * @return whether the Player can buy a City
 	 */
-	public boolean buyCities(Player p) {
+	public boolean buyCity(Player p) {
 
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3) {

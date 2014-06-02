@@ -1,5 +1,7 @@
 package gui;
 
+import game.Game;
+import game.GameRunner;
 import game.Player;
 
 import java.awt.Dimension;
@@ -9,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -23,28 +26,43 @@ public class SideBar extends JPanel {
 	private ComponentList mainPanel		= new ComponentList();
 	private ComponentList buyPanel		= new ComponentList();
 	private ComponentList tradePanel	= new ComponentList();
-	private JLabel currentPlayer;
-	private Rectangle currentPlayerRectangle;
+	private KComponent currentPlayer;
 	
 	public SideBar(final GameWindow display) {
+		
 		this.setLayout(new GraphPaperLayout(new Dimension(14,24)));
 		
 		// Current player title (always in sidebar)
 		//-------------------------------------------------------------------
 		
-		JLabel currPlayer = new JLabel("Current Player: " + "TODO");
-		currPlayer.setFont(new Font("Arial", 1, 16));
-		add(currPlayer, new Rectangle(2,0,10,3));
-		currentPlayer = currPlayer;
-		currentPlayerRectangle = new Rectangle(2,0,10,3);
+		currentPlayer = new KComponent(new JLabel(""), new Rectangle(2,0,10,1));
+		currentPlayer.getComponent().setFont(new Font("Arial", 1, 16));
+		setCurrentPlayer(GameRunner.currentPlayer);
+		add(currentPlayer.getComponent(), currentPlayer.getRectangle());
 		
 		// Roll panel:
 		//-------------------------------------------------------------------
 		
 		JButton roll = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
 				
-				mainPanel();
+				int roll = g.roll(GameRunner.currentPlayer);
+				
+				if (roll != 7) {
+					mainPanel();
+				}
+				else {
+					g.halfCards();
+					
+					//TODO move-robber layout
+					//TODO take-cards layout
+					
+					mainPanel();
+				}
+//				JLabel rollNumb = new JLabel("roll value: " + roll);
+//				rollNumb.setFont(new Font("Arial", 1, 16));
+//				add(rollNumb, new Rectangle(2,2,10,1));
 			}
 		});
 		roll.setText("roll the dice");
@@ -55,7 +73,6 @@ public class SideBar extends JPanel {
 		
 		JButton buy = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				
 				buyPanel();
 			}
 		});
@@ -64,12 +81,20 @@ public class SideBar extends JPanel {
 		
 		JButton trade = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				
 				tradePanel();
 			}
 		});
 		trade.setText("trade");
 		mainPanel.add(new KComponent(trade, new Rectangle(3,10,8,3)));
+		
+		JButton endTurn = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.turnDone = true;
+				rollPanel();
+			}
+		});
+		endTurn.setText("end your turn");
+		mainPanel.add(new KComponent(endTurn, new Rectangle (3,18,8,3)));
 		
 		// Trade panel:
 		//-------------------------------------------------------------------
@@ -80,6 +105,7 @@ public class SideBar extends JPanel {
 		// Trade with players
 		JButton tradePlayer = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
+				//TODO player-trade layout
 				
 				mainPanel();
 			}
@@ -90,12 +116,21 @@ public class SideBar extends JPanel {
 		// Trade with stock
 		JButton tradeStock = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				
+				//TODO stock-trade layout
 				mainPanel();
 			}
 		});
 		tradeStock.setText("the stock");
 		tradePanel.add(new KComponent(tradeStock, new Rectangle(7,6,6,2)));
+		
+		// Return to main panel
+		JButton returnMain = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				mainPanel();
+			}
+		});
+		returnMain.setText("return to main panel");
+		tradePanel.add(new KComponent(returnMain, new Rectangle(3,11,8,2)));
 		
 		// Buy panel:
 		//-------------------------------------------------------------------
@@ -106,8 +141,18 @@ public class SideBar extends JPanel {
 		// Buy settlement
 		JButton buySettlement = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
 
-				mainPanel();
+				boolean bought = g.buySettlement(GameRunner.currentPlayer);
+				
+				if (bought) {
+					//TODO place-settlement layout
+					buyPanel();
+				}
+				else {
+					//TODO throw-error layout
+					buyPanel();
+				}
 			}
 		});
 		buySettlement.setText("settlement");
@@ -116,8 +161,18 @@ public class SideBar extends JPanel {
 		// Buy city
 		JButton buyCity = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
 
-				mainPanel();
+				boolean bought = g.buyCity(GameRunner.currentPlayer);
+				
+				if (bought) {
+					//TODO upgrade-settlement layout
+					buyPanel();
+				}
+				else {
+					//TODO throw-error layout
+					buyPanel();
+				}
 			}
 		});
 		buyCity.setText("city");
@@ -126,8 +181,18 @@ public class SideBar extends JPanel {
 		// Buy road
 		JButton buyRoad = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
 
-				mainPanel();
+				boolean bought = g.buyRoad(GameRunner.currentPlayer);
+				
+				if (bought) {
+					//TODO place-road layout
+					buyPanel();
+				}
+				else {
+					//TODO throw-error layout
+					buyPanel();
+				}
 			}
 		});
 		buyRoad.setText("road");
@@ -136,12 +201,25 @@ public class SideBar extends JPanel {
 		// Buy devcard
 		JButton buyCard = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
 
+				boolean bought = g.buyDevCard(GameRunner.currentPlayer);
+				
+				if (bought) {
+					buyPanel();
+				}
+				else {
+					//TODO throw-error layout
+					buyPanel();
+				}
 				mainPanel();
 			}
 		});
 		buyCard.setText("dev card");
 		buyPanel.add(new KComponent(buyCard, new Rectangle(7,8,6,2)));
+		
+		// Return to main panel
+		buyPanel.add(new KComponent(returnMain, new Rectangle(3,12,8,2)));
 		
 		//-------------------------------------------------------------------
 
@@ -150,7 +228,7 @@ public class SideBar extends JPanel {
 	
 	private void setPanel(ComponentList cL) {
 		this.removeAll();
-		this.add(currentPlayer, currentPlayerRectangle);
+		this.add(currentPlayer.getComponent(), currentPlayer.getRectangle());
 		
 		for (int i = 0; i < cL.size(); i++) {
 			this.add(cL.get(i).getComponent(), cL.get(i).getRectangle());
@@ -169,6 +247,7 @@ public class SideBar extends JPanel {
 	}
 	
 	public void rollPanel() {
+		setCurrentPlayer(GameRunner.currentPlayer);
 		setPanel(rollPanel);
 	}
 	
@@ -177,6 +256,6 @@ public class SideBar extends JPanel {
 	}
 	
 	public void setCurrentPlayer(Player p) {
-		currentPlayer.setText("Player: " + p.getName());
+		((JLabel) currentPlayer.getComponent()).setText("Player: " + p.getName());
 	}
 }

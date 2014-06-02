@@ -30,12 +30,13 @@ public class GameWindow {
 		
 		createAndShowGUI();
 
-		Timer timer = new Timer(INTERVAL, new ActionListener() {
-		public void actionPerformed(ActionEvent evt) {
-		   // Refresh the board
-			board.repaint(); //TODO fix validate
-		    }    
-		});
+		Timer timer = new Timer(INTERVAL,
+				new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						// Refresh the board
+						board.repaint(); //TODO fix validate
+					}
+				});
 
 		timer.start();
 	}
