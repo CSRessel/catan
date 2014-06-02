@@ -34,13 +34,15 @@ public class Game {
 		}
 
 		Collections.shuffle(givenPlayers);
-
+		
 		players = givenPlayers;
 		board = new Board();
 		deck = new Deck();
+		
+		GameRunner.currentPlayer = players.get(0);
 	}
 
-//TODO: move to logic method	
+//TODO move to logic method	
 //	/**
 //	 * Runs the setup phase of the game
 //	 */
@@ -82,7 +84,7 @@ public class Game {
 	 * Checks if one player has ten or more victory points and more points than any other player
 	 * @return whether anyone has one yet
 	 */
-	public boolean gameOver() {
+	public boolean over() {
 		return winningPlayer() != null;
 	}
 
@@ -117,20 +119,19 @@ public class Game {
 	 * @param p the Player rolling (in case Player wants to play dev card first)
 	 * @return true if the roll was not a robber (7)
 	 */
-	public boolean roll(Player p) {
+	public int roll(Player p) {
 
 		// RTD
-		int roll1 = (int)(Math.random() * 6 + 1);
-		int roll2 = (int)(Math.random() * 6 + 1);
+		int roll = (int)(Math.random() * 6 + 1) + (int)(Math.random() * 6 + 1);
 
-		if (roll1 == 7 || roll2 == 7) {
-			return false;
+		if (roll == 7) {
+			return roll;
 		}
 		else {
 			// Distribute resources
-			board.distributeResources(roll1 + roll2);
+			board.distributeResources(roll);
 
-			return true;
+			return roll;
 		}
 	}
 
@@ -445,13 +446,12 @@ public class Game {
 	/**
 	 * Buys Road for given Player
 	 * @param p the given Player
-	 * @return whether the Player can buy a Road
+	 * @return 0=success, 1=insufficient resources, 2=structure limit reached
 	 */
-	public boolean buyRoad(Player p) {
+	public int buyRoad(Player p) {
 
 		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
-			return false;
-			//TODO: throw error about not enough resources
+			return 1;
 		}
 
 		// Check Player has not exceeded capacity for object
@@ -465,8 +465,7 @@ public class Game {
 			}
 		}
 		if (numbRoads >= 15) {
-			return false;
-			//TODO: throw error about too many of object owned already
+			return 2;
 		}
 
 		p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
@@ -474,20 +473,19 @@ public class Game {
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
 
-		return true;
+		return 0;
 	}
 
 	/**
 	 * Buys Settlement for given Player
 	 * @param p the given Player
-	 * @return whether the Player can buy a Settlement
+	 * @return 0=success, 1=insufficient resources, 2=structure limit reached
 	 */
-	public boolean buySettlement(Player p) {
+	public int buySettlement(Player p) {
 
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("BRICK") < 1 || p.getNumberResourcesType("GRAIN") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("LUMBER") < 1) {
-			return false;
-			//TODO: throw error about not enough resources
+			return 1;
 		}
 
 		// Check Player has not exceeded capacity for object
@@ -501,8 +499,7 @@ public class Game {
 			}
 		}
 		if (numbSettlements >= 5) {
-			return false;
-			//TODO: throw error about too many of object owned already
+			return 2;
 		}
 
 		p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
@@ -512,20 +509,19 @@ public class Game {
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
 
-		return true;
+		return 0;
 	}
 
 	/**
 	 * Buys City for given Player
 	 * @param p the given Player
-	 * @return whether the Player can buy a City
+	 * @return 0=success, 1=insufficient resources, 2=structure limit reached
 	 */
-	public boolean buyCities(Player p) {
+	public int buyCity(Player p) {
 
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("GRAIN") < 2 || p.getNumberResourcesType("ORE") < 3) {
-			return false;
-			//TODO: throw error about not enough resources
+			return 1;
 		}
 
 		// Check Player has not exceeded capacity for object
@@ -539,8 +535,7 @@ public class Game {
 			}
 		}
 		if (numbCities >= 4) {
-			return false;
-			//TODO: throw error about too many of object owned already
+			return 2;
 		}
 
 		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 2);
@@ -548,27 +543,28 @@ public class Game {
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
 
-		return true;
+		return 0;
 	}
 
 	/**
 	 * Buys DevCard for given Player
 	 * @param p the given Player
-	 * @return whether the Player can buy a DevCard
+	 * @return 0=success, 1=insufficient resources
 	 */
-	public boolean buyDevCard(Player p) {
-
+	public int buyDevCard(Player p) {
+		
 		// Check Player has sufficient resources
 		if (p.getNumberResourcesType("ORE") < 1 || p.getNumberResourcesType("WOOL") < 1 || p.getNumberResourcesType("GRAIN") < 1) {
-			return false;
-			//TODO: throw error about not enough resources
+			return 1;
 		}
-
+		
 		p.setNumberResourcesType("ORE", p.getNumberResourcesType("ORE") - 1);
 		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
 		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
 
-		return true;
+		p.addDevCard(deck.draw());
+		
+		return 0;
 	}
 
 	/**

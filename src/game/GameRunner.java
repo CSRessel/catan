@@ -1,24 +1,38 @@
 package game;
 
+import gui.GameWindow;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 public class GameRunner {
 	
+	public static Player currentPlayer;
+	private static int index = 0;
+	public static ArrayList<Player> players = new ArrayList<Player>();
+	private static Game game;
+
 	public static void main(String[] args) {
 		
-		Player a = new Player("Allen", Color.MAGENTA);
-		Player b = new Player("Bob", Color.CYAN);
-		Player c = new Player("Cliff", Color.YELLOW);
-		Player d = new Player("Denise", Color.GREEN);
+		players.add(new Player("Superman", Color.BLUE));
+		players.add(new Player("Batman", Color.BLACK));
+		players.add(new Player("Spiderman", Color.RED));
+		players.add(new Player("Wonder Woman", Color.GREEN));
+						
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				GameWindow tmp = new GameWindow(players);
+				game = tmp.getBoard().getGame();
+			}
+		});
 		
-		ArrayList<Player> players = new ArrayList<Player>(4);
-		
-		players.add(a);
-		players.add(b);
-		players.add(c);
-		players.add(d);
-		
-		Game game = new Game(players);
+		//TODO setup phase here
+	}
+	
+	public static void nextPlayer() {
+		currentPlayer = players.get((index + 1) % 4);
+		index = (index + 1) % 4;
 	}
 }

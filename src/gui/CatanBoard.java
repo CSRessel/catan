@@ -20,7 +20,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -52,39 +51,34 @@ public class CatanBoard extends JPanel{
 	private Graphics g;
 
 
-	public CatanBoard() {
+	public CatanBoard(ArrayList<Player> players) {
 
-		players = new ArrayList<Player>(); //TODO input players
-
-		// Your temporary names are much better than mine :P
-		players.add(new Player("Superman", Color.BLUE));
-		players.add(new Player("Batman", Color.BLACK));
-		players.add(new Player("Spiderman", Color.RED));
 		game = new Game(players);
 
+		this.players = players;
 		tiles = game.getBoard().getTiles();
 		roads = game.getBoard().getRoads();
 		structures = game.getBoard().getStructures();
 
-		//game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
-		//game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(0));
-		//game.getBoard().placeStructureNoRoad(new VertexLocation(5,3,0), players.get(1));
-		//game.getBoard().placeRoad(new EdgeLocation(5,3,0), players.get(1));
-		//game.getBoard().placeRoad(new EdgeLocation(5,3,1), players.get(1));
-		//game.getBoard().placeRoad(new EdgeLocation(5,3,2), players.get(1));
-		//game.getBoard().placeRoad(new EdgeLocation(3,3,0), players.get(0));
-		//game.getBoard().placeRoad(new EdgeLocation(3,3,1), players.get(0));
-		//game.getBoard().placeRoad(new EdgeLocation(3,3,2), players.get(0));
-		//structures[4][2][1].setType(1);
+//		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
+//		game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(0));
+//		game.getBoard().placeStructureNoRoad(new VertexLocation(5,3,0), players.get(1));
+//		game.getBoard().placeRoad(new EdgeLocation(5,3,0), players.get(1));
+//		game.getBoard().placeRoad(new EdgeLocation(5,3,1), players.get(1));
+//		game.getBoard().placeRoad(new EdgeLocation(5,3,2), players.get(1));
+//		game.getBoard().placeRoad(new EdgeLocation(3,3,0), players.get(0));
+//		game.getBoard().placeRoad(new EdgeLocation(3,3,1), players.get(0));
+//		game.getBoard().placeRoad(new EdgeLocation(3,3,2), players.get(0));
+//		structures[4][2][1].setType(1);
 
 		setBackground(new Color(164,200,218)); //TODO add background
 
-		//boardHeight = getHeight();
-		//hexagonSide = (boardHeight - 2 * heightMargin) / 8;
-		//widthMargin = (getWidth() - (int) (10 * hexagonSide * sqrt3div2)) / 2;
-		//System.out.println("Boardheight: " + boardHeight);
-		//System.out.println("HexagonSide: " + hexagonSide);
-		//System.out.println("WidthMargin: " + widthMargin);
+//		boardHeight = getHeight();
+//		hexagonSide = (boardHeight - 2 * heightMargin) / 8;
+//		widthMargin = (getWidth() - (int) (10 * hexagonSide * sqrt3div2)) / 2;
+//		System.out.println("Boardheight: " + boardHeight);
+//		System.out.println("HexagonSide: " + hexagonSide);
+//		System.out.println("WidthMargin: " + widthMargin);
 
 		this.addComponentListener(new ComponentListener() {
 
@@ -267,20 +261,7 @@ public class CatanBoard extends JPanel{
 
 		return output;
 	}
-	/*
-	public Polygon makeRoad(PxLocation center, int orientation) {
-		int x = center.getX();
-		int y = center.getY();
-		int height = hexagonSide / 15;
-		Polygon output = new Polygon();
-		if (orientation == 0) {
 
-		}
-
-
-		return output;
-	}
-	*/
 	public void drawHex(Tile tile, Graphics2D g2) {
 		int x = tile.getLocation().getXCoord();
 		int y = tile.getLocation().getYCoord();
@@ -309,8 +290,7 @@ public class CatanBoard extends JPanel{
 				g2.setColor(Color.WHITE);
 				break;
 		}
-
-		//g2.setColor(Color.MAGENTA);
+		
 		g2.fillPolygon(poly);
 		g2.setColor(Color.BLACK);
 		g2.drawPolygon(poly);
@@ -1051,7 +1031,6 @@ public class CatanBoard extends JPanel{
 
 	class AMouseListener extends MouseAdapter implements MouseMotionListener{
 		public void mouseClicked(MouseEvent e) {
-			Graphics2D g2 = (Graphics2D)g;
 			System.out.println("Mouse Clicked");
 
 			Point p = new Point(e.getX(), e.getY());
@@ -1103,41 +1082,9 @@ public class CatanBoard extends JPanel{
 			}
 			repaint();
 		}
-		/*
-		public void mouseMoved(MouseEvent e) {
-			
-			Graphics2D g2 = (Graphics2D)g;
-			System.out.println("Mouse Moved");
-
-			if (state == 1) {
-				Point p = new Point(e.getX(), e.getY());
-				if (p != null) {
-					Location loc = pxToTile(p);
-					//System.out.println("Mouse on screen");
-					//System.out.println(p.getX());
-					//System.out.println(p.getY());
-					if (loc != null) {
-						highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
-					}
-				}
-			}
-			else if (state == 2) {
-				Point p = new Point(e.getX(), e.getY());
-				if (p != null){
-					VertexLocation loc = pxToStructure(p);
-					//System.out.println("Mouse on screen");
-					//System.out.println(p.getX());
-					//System.out.println(p.getY());
-					System.out.println(loc);
-					if (loc != null) {
-						System.out.println(loc.getXCoord());
-						System.out.println(loc.getYCoord());
-						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
-
-					}
-				}
-			}
-		}
-		*/
+	}
+	
+	public Game getGame() {
+		return game;
 	}
 }

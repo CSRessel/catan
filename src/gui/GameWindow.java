@@ -16,36 +16,27 @@ import lib.GraphPaperLayout;
 
 public class GameWindow {
 		
-	ArrayList<Player> players = new ArrayList<Player>();
 	CatanBoard board;
-	private Player thisPlayer;
 	public final static int INTERVAL = 20;
 	
 	
-	final static int SCRSIZE = 1000; //TODO specify
+	final static int SCRSIZE = 900; //TODO specify
 	
 	
-	private GameWindow() {
-		board = new CatanBoard();
+	public GameWindow(ArrayList<Player> players) {
+		board = new CatanBoard(players);
 		
 		createAndShowGUI();
 
-		Timer timer = new Timer(INTERVAL, new ActionListener() {
-		public void actionPerformed(ActionEvent evt) {
-		   //Refresh the board
-			board.repaint(); //TODO fix validate
-		    }    
-		});
+		Timer timer = new Timer(INTERVAL,
+				new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						// Refresh the board
+						board.repaint(); //TODO fix validate
+					}
+				});
 
 		timer.start();
-	}
-	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-				new GameWindow();
-				}
-				});
 	}
 	
 	private void createAndShowGUI() {
