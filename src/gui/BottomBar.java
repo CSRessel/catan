@@ -30,9 +30,9 @@ public class BottomBar extends JPanel{
 		
 		setLayout(new GraphPaperLayout(new Dimension(4,7)));
 		
-		for (int i = 0; i < GameRunner.players.size(); i++) {
+		for (int i = 0; i < GameRunner.getNumbPlayers(); i++) {
 			ArrayList<KComponent> components = new ArrayList<KComponent>();
-			components.add(new KComponent(new JLabel(GameRunner.players.get(i).getName()), new Rectangle(i,0,1,1)));
+			components.add(new KComponent(new JLabel(GameRunner.getPlayer(i).getName()), new Rectangle(i,0,1,1)));
 			add(components.get(0).getComponent(), components.get(0).getRectangle());
 			
 			for (int k = 1; k <= 6; k++) {
@@ -48,7 +48,7 @@ public class BottomBar extends JPanel{
 				new ActionListener() {
 					public void actionPerformed(ActionEvent evt) {
 						for (int i = 0; i < playerComponents.size(); i++) {
-							updatePlayer(playerComponents.get(i), GameRunner.players.get(i));
+							updatePlayer(playerComponents.get(i), GameRunner.getPlayer(i));
 						}
 					}
 				});

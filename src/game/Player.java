@@ -54,7 +54,19 @@ public class Player {
 		hand = new ArrayList<DevCard>();
 	}
 
-	public Player(String n, Color c, int brick, int wool, int ore, int grain, int lumber) {
+	/**
+	 * Dev testing constructor to make player w/ predefined fields
+	 * @param n
+	 * @param c
+	 * @param brick
+	 * @param wool
+	 * @param ore
+	 * @param grain
+	 * @param lumber
+	 * @param vP
+	 */
+	public Player(String n, Color c, int brick, int wool, int ore, int grain, int lumber, int vP) {
+
 		this(n,c);
 
 		setNumberResourcesType("BRICK", brick);
@@ -62,7 +74,8 @@ public class Player {
 		setNumberResourcesType("ORE", ore);
 		setNumberResourcesType("GRAIN", grain);
 		setNumberResourcesType("LUMBER", lumber);
-
+		
+		victoryPoints = vP;
 	}
 
 	/**
@@ -341,7 +354,7 @@ public class Player {
 	 * @param str the resource type to increment
 	 */
 	public void giveResourceType(String str) {
-		if (str == null) {
+		if (str == null || str == "DESERT") {
 			return;
 		}
 		resources.put(str, resources.get(str) + 1);

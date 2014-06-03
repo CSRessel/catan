@@ -3,12 +3,14 @@ To Be Completed:
 
 Logic
 -----
-- Setup phase
-- Winning game
-- Lumber bug
 - On seven half cards
-- Road building cards (done?)
 - Trading
+- Dev cards in bottom panel
+
+Bugs
+----
+- Lumber bug
+- Dev card bug
 
 ______________________________________________________________________________
 

@@ -44,6 +44,7 @@ public class SideBar extends JPanel {
 	private boolean done = false;
 	private ComponentList stealPanel		= new ComponentList();
 	private ComponentList placePanel		= new ComponentList();
+
 	private ComponentList setupPanel		= new ComponentList();
 	private boolean secondRound = false;
 	private int count = 0;
@@ -54,7 +55,7 @@ public class SideBar extends JPanel {
 
 	private JComboBox<Player> playerStealBox;
 	private int flag = 0;
-		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel
+		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel, 3 = dev card panel
 
 	public final static int INTERVAL = 20;
 	private Timer timer;
@@ -78,6 +79,12 @@ public class SideBar extends JPanel {
 		JButton roll = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
 				Game g = display.getBoard().getGame();
+				
+				if (g.over()) {
+					GameRunner.setWinner(g.winningPlayer());
+					
+					winPanel();
+				}
 
 				int roll = g.roll(GameRunner.currentPlayer);
 
@@ -142,6 +149,14 @@ public class SideBar extends JPanel {
 
 		JButton endTurn = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
+				
+				if (g.over()) {
+					GameRunner.setWinner(g.winningPlayer());
+					
+					winPanel();
+				}
+				
 				GameRunner.nextPlayer();
 				rollPanel();
 			}
@@ -339,6 +354,7 @@ public class SideBar extends JPanel {
 				case 0: setPanel(mainPanel); break;
 				case 1: setPanel(tradePanel); break;
 				case 2: setPanel(buyPanel); break;
+				case 3: setPanel(devPanel); break;
 				default: setPanel(mainPanel); break;
 				}
 			}
@@ -445,7 +461,7 @@ public class SideBar extends JPanel {
 				if (GameRunner.currentPlayer.hasCard("Road building")) {
 					GameRunner.currentPlayer.removeCard("Road building");
 
-					display.getBoard().placeRoad(1);
+					display.getBoard().placeRoad(2);
 					placePanel("Place a road...");
 					timer = new Timer(INTERVAL,
 							new ActionListener() {
@@ -553,7 +569,7 @@ public class SideBar extends JPanel {
 				//System.out.println(count);
 				if (!secondRound) {
 					
-					if (count == 3) {
+					if (count == GameRunner.getNumbPlayers() - 1) {
 						secondRound = true;
 						count++;
 						//Place capitol commandblock
@@ -658,7 +674,7 @@ public class SideBar extends JPanel {
 											else {
 												timer.stop();
 												//Collections.shuffle(GameRunner.players);
-												GameRunner.currentPlayer = GameRunner.players.get(0);
+												GameRunner.prevPlayer();
 												setCurrentPlayer(GameRunner.currentPlayer);
 												rollPanel();
 											}
@@ -716,9 +732,9 @@ public class SideBar extends JPanel {
 		});
 		begin.setText("place");
 		setupPanel.add(new KComponent(begin, new Rectangle(4,6,6,3)));
-		
-		//-------------------------------------------------------------------
 
+		//-------------------------------------------------------------------
+		
 		setupPanel();
 	}
 
@@ -762,6 +778,7 @@ public class SideBar extends JPanel {
 
 	public void devPanel() {
 		setPanel(devPanel);
+		flag = 3;
 	}
 
 	public void resPanel() {
@@ -810,5 +827,13 @@ public class SideBar extends JPanel {
 	
 	public void setupPanel() {
 		setPanel(setupPanel);
+	}
+	
+	public void winPanel() {
+		this.removeAll();
+
+		JLabel win = new JLabel(GameRunner.getWinner().getName() + " wins!");
+		win.setFont(new Font("Arial", 1, 24));
+		this.add(win, new Rectangle(2,4,10,5));
 	}
 }
