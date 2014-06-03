@@ -179,17 +179,33 @@ public class Game {
 //			}
 //		}
 
-		ArrayList<String> res = new ArrayList<String>(choice.getOwnedResources());
+		ArrayList<String> res = new ArrayList<String>();
+		for (int i = 0; i < choice.getNumberResourcesType("BRICK"); i++) {
+			res.add("BRICK");
+		}
+		for (int i = 0; i < choice.getNumberResourcesType("WOOL"); i++) {
+			res.add("WOOL");
+		}
+		for (int i = 0; i < choice.getNumberResourcesType("ORE"); i++) {
+			res.add("ORE");
+		}
+		for (int i = 0; i < choice.getNumberResourcesType("GRAIN"); i++) {
+			res.add("GRAIN");
+		}
+		for (int i = 0; i < choice.getNumberResourcesType("LUMBER"); i++) {
+			res.add("LUMBER");
+		}
+		
 		Collections.shuffle(res);
 
-		if (res.size() == 0) {
+		if (res.size() <= 0) {
 			return;
 		}
 		String result = res.get(0);
 
 		choice.setNumberResourcesType(result, choice.getNumberResourcesType(result) - 1);
 
-		p.setNumberResourcesType(result, p.getNumberResourcesType(result) - 1);
+		p.setNumberResourcesType(result, p.getNumberResourcesType(result) + 1);
 	}
 
 	/**

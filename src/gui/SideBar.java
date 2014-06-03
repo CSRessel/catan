@@ -583,7 +583,8 @@ public class SideBar extends JPanel {
 		if (playerStealBox.getItemCount() == 0) {
 			errorPanel("No one to steal from");
 		}
-		setPanel(stealPanel);
+		else
+			setPanel(stealPanel);
 	}
 	
 	public void blankPanel() {
