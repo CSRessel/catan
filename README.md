@@ -4,12 +4,11 @@ To Be Completed:
 Logic
 -----
 - Setup phase
-- Dev cards
-- Knights and sevens
-- Buying DevCards
-- Location input into buying
 - Winning game
-
+- Knights / sevens
+- Road building cards
+- Location input after buying
+- Trading
 
 ______________________________________________________________________________
 

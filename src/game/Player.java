@@ -213,4 +213,28 @@ public class Player {
 		else
 			return true;
 	}
+	
+	/**
+	 * Checks if the Player has a dev card of the given type
+	 * @param dC the dev card to check
+	 * @return if a card of its type is in their hand
+	 */
+	public boolean hasCard(String str) {
+
+		for (DevCard dev : hand) {
+			if (dev.getSubType() == str && dev.getType() == str)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public void removeCard(String str) {
+		for (DevCard dC : hand) {
+			if (dC.getSubType() == str || dC.getType() == str) {
+				hand.remove(dC);
+				break;
+			}
+		}
+	}
 }

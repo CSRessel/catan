@@ -18,15 +18,21 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import board.DevCard;
 import lib.GraphPaperLayout;
 
 public class SideBar extends JPanel {
 	
-	private ComponentList rollPanel 	= new ComponentList();
-	private ComponentList mainPanel		= new ComponentList();
-	private ComponentList buyPanel		= new ComponentList();
-	private ComponentList tradePanel	= new ComponentList();
-	private ComponentList errorPanel	= new ComponentList();
+	private ComponentList rollPanel 		= new ComponentList();
+	private ComponentList mainPanel			= new ComponentList();
+	private ComponentList buyPanel			= new ComponentList();
+	private ComponentList tradePanel		= new ComponentList();
+	private ComponentList errorPanel		= new ComponentList();
+	private ComponentList devPanel			= new ComponentList();
+	private ComponentList monopolyPanel		= new ComponentList();
+	private ComponentList yearPanel1		= new ComponentList();
+	private ComponentList yearPanel2		= new ComponentList();
+
 	private KComponent currentPlayer;
 	private int flag = 0;
 		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel
@@ -90,7 +96,15 @@ public class SideBar extends JPanel {
 			}
 		});
 		trade.setText("trade");
-		mainPanel.add(new KComponent(trade, new Rectangle(3,10,8,3)));
+		mainPanel.add(new KComponent(trade, new Rectangle(3,9,8,3)));
+		
+		JButton dev = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				devPanel();
+			}
+		});
+		dev.setText("play development card");
+		mainPanel.add(new KComponent(dev, new Rectangle(3,13,8,3)));
 		
 		JButton endTurn = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
@@ -216,6 +230,13 @@ public class SideBar extends JPanel {
 				int bought = g.buyDevCard(GameRunner.currentPlayer);
 				
 				if (bought == 0) {
+					DevCard dC = g.getDeck().draw();
+					GameRunner.currentPlayer.addDevCard(dC);
+					
+					if (dC.getType().equals("Victory Point")) {
+						GameRunner.currentPlayer.setVictoryPoints(GameRunner.currentPlayer.getVictoryPoints());
+					}
+					
 					buyPanel();
 				}
 				else if (bought == 1) {
@@ -248,6 +269,237 @@ public class SideBar extends JPanel {
 		});
 		accept.setText("continue");
 		errorPanel.add(accept, new Rectangle (3,7,9,2));
+		
+		// Dev card panel:
+		//-------------------------------------------------------------------	
+		
+		JLabel devCard = new JLabel("Play a...");
+		message.setFont(new Font("Arial", 1, 16));
+		devPanel.add(devCard, new Rectangle(4,4,6,2));
+		
+		// Play a knight card
+		JButton knight = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
+				
+				if (GameRunner.currentPlayer.hasCard("Knight")) {
+					GameRunner.currentPlayer.removeCard("Knight");
+					
+					//TODO move robber layout
+					//TODO take cards layout
+					
+					mainPanel();
+				}
+				else {
+					errorPanel("you don't own any knight cards");
+				}
+			}
+		});
+		knight.setText("knight card");
+		devPanel.add(knight, new Rectangle (1,6,6,2));
+
+		// Play a monopoly card
+		JButton monopoly = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {				
+				if (GameRunner.currentPlayer.hasCard("Monopoly")) {
+					GameRunner.currentPlayer.removeCard("Monopoly");
+					
+					monopolyPanel();
+				}
+				else {
+					errorPanel("you don't own any monopoly cards");
+				}
+			}
+		});
+		monopoly.setText("monopoly card");
+		devPanel.add(new KComponent(monopoly, new Rectangle(7,6,6,2)));
+		
+		// Play a year of plenty card
+		JButton year = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				if (GameRunner.currentPlayer.hasCard("Year of plenty")) {
+					GameRunner.currentPlayer.removeCard("Year of plenty");
+					
+					yearPanel1();
+				}
+				else {
+					errorPanel("you don't own any year of plenty cards");
+				}
+			}
+		});
+		year.setText("year 'o plenty card");
+		devPanel.add(new KComponent(year, new Rectangle(1,8,6,2)));
+		
+		// Play a road building card
+		JButton road = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
+				if (GameRunner.currentPlayer.hasCard("Road building")) {
+					GameRunner.currentPlayer.removeCard("Road building");
+					
+					//TODO place road twice
+					
+					mainPanel();
+				}
+				else {
+					errorPanel("you don't own any road building cards");
+				}
+			}
+		});
+		road.setText("road building card");
+		devPanel.add(new KComponent(road, new Rectangle(7,8,6,2)));
+		
+		// Return to main panel
+		devPanel.add(new KComponent(returnMain, new Rectangle(3,12,8,2)));
+		
+		// Monopoly card panel:
+		//-------------------------------------------------------------------
+		
+		JButton wool = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
+				g.takeAll("WOOL", GameRunner.currentPlayer);
+				mainPanel();
+			}
+		});
+		wool.setText("wool");
+		monopolyPanel.add(wool, new Rectangle (4,6,6,2));
+
+		JButton grain = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
+				g.takeAll("GRAIN", GameRunner.currentPlayer);
+				mainPanel();
+			}
+		});
+		grain.setText("grain");
+		monopolyPanel.add(new KComponent(grain, new Rectangle(4,8,6,2)));
+		
+		JButton ore = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
+				g.takeAll("ORE", GameRunner.currentPlayer);
+				mainPanel();
+			}
+		});
+		ore.setText("ore");
+		monopolyPanel.add(new KComponent(ore, new Rectangle(4,10,6,2)));
+		
+		JButton lumber = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
+				g.takeAll("LUMBER", GameRunner.currentPlayer);
+				mainPanel();
+			}
+		});
+		lumber.setText("lumber");
+		monopolyPanel.add(new KComponent(lumber, new Rectangle(4,12,6,2)));
+		
+		JButton brick = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				Game g = display.getBoard().getGame();
+				g.takeAll("BRICK", GameRunner.currentPlayer);
+				mainPanel();
+			}
+		});
+		brick.setText("brick");
+		monopolyPanel.add(new KComponent(brick, new Rectangle(4,14,6,2)));
+
+		// Year of plenty card panel1
+		//-------------------------------------------------------------------
+
+		JButton wool1 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("WOOL", GameRunner.currentPlayer.getNumberResourcesType("WOOL"));
+				yearPanel2();
+			}
+		});
+		wool1.setText("wool");
+		yearPanel1.add(wool1, new Rectangle (4,6,6,2));
+
+		JButton grain1 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("GRAIN", GameRunner.currentPlayer.getNumberResourcesType("GRAIN"));
+				yearPanel2();
+			}
+		});
+		grain1.setText("grain");
+		yearPanel1.add(new KComponent(grain1, new Rectangle(4,4,6,2)));
+		
+		JButton ore1 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("GRAIN", GameRunner.currentPlayer.getNumberResourcesType("GRAIN"));
+				yearPanel2();
+			}
+		});
+		ore1.setText("ore");
+		yearPanel1.add(new KComponent(ore1, new Rectangle(4,8,6,2)));
+		
+		JButton lumber1 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("ORE", GameRunner.currentPlayer.getNumberResourcesType("ORE"));
+				yearPanel2();
+			}
+		});
+		lumber1.setText("lumber");
+		yearPanel1.add(new KComponent(lumber1, new Rectangle(4,10,6,2)));
+		
+		JButton brick1 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("BRICK", GameRunner.currentPlayer.getNumberResourcesType("BRICK"));
+				yearPanel2();
+			}
+		});
+		brick1.setText("brick");
+		yearPanel1.add(new KComponent(brick1, new Rectangle(4,12,6,2)));	
+	
+		// Year of plenty card panel2
+		//-------------------------------------------------------------------
+
+		JButton wool2 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("WOOL", GameRunner.currentPlayer.getNumberResourcesType("WOOL"));
+				devPanel();
+			}
+		});
+		wool2.setText("wool");
+		yearPanel2.add(wool2, new Rectangle (4,6,6,2));
+
+		JButton grain2 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("GRAIN", GameRunner.currentPlayer.getNumberResourcesType("GRAIN"));
+				devPanel();
+			}
+		});
+		grain2.setText("grain");
+		yearPanel2.add(new KComponent(grain2, new Rectangle(4,6,6,2)));
+		
+		JButton ore2 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("ORE", GameRunner.currentPlayer.getNumberResourcesType("ORE"));
+				devPanel();
+			}
+		});
+		ore2.setText("ore");
+		yearPanel2.add(new KComponent(ore2, new Rectangle(4,8,6,2)));
+		
+		JButton lumber2 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("LUMBER", GameRunner.currentPlayer.getNumberResourcesType("LUMBER"));
+				devPanel();
+			}
+		});
+		lumber2.setText("lumber");
+		yearPanel2.add(new KComponent(lumber2, new Rectangle(4,10,6,2)));
+		
+		JButton brick2 = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				GameRunner.currentPlayer.setNumberResourcesType("BRICK", GameRunner.currentPlayer.getNumberResourcesType("BRICK"));
+				devPanel();
+			}
+		});
+		brick2.setText("brick");
+		yearPanel2.add(new KComponent(brick2, new Rectangle(4,12,6,2)));		
 		
 		//-------------------------------------------------------------------
 		
@@ -290,6 +542,22 @@ public class SideBar extends JPanel {
 	public void errorPanel(String str) {
 		((JLabel) errorPanel.get(0).getComponent()).setText(str);
 		setPanel(errorPanel);
+	}
+	
+	public void devPanel() {
+		setPanel(devPanel);
+	}
+	
+	public void monopolyPanel() {
+		setPanel(monopolyPanel);
+	}
+	
+	public void yearPanel1() {
+		setPanel(yearPanel1);
+	}
+	
+	public void yearPanel2() {
+		setPanel(yearPanel2);
 	}
 	
 	public void setCurrentPlayer(Player p) {

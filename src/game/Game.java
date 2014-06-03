@@ -332,6 +332,24 @@ public class Game {
 //			//TODO: throw error about invalid dev card selection
 //		}
 //	}
+	
+	/**
+	 * Causes the given player to take all the specified resource from all other players (for monopoly cards)
+	 * @param res the resource to take
+	 * @param p the player receiving all of that res
+	 */
+	public void takeAll(String res, Player p) {
+		
+		ArrayList<Player> plays = new ArrayList<Player>(players);
+		plays.remove(p);
+		
+		for (Player player : plays) {
+			int tmp = player.getNumberResourcesType(res);
+			
+			player.setNumberResourcesType(res, 0);
+			p.setNumberResourcesType(res, p.getNumberResourcesType(res) + tmp);
+		}
+	}
 
 	/**
 	 * Operates trade between two players with the given resoures
@@ -564,5 +582,13 @@ public class Game {
 	 */
 	public Board getBoard(){
 		return board;
+	}
+	
+	/**
+	 * Getter for the deck
+	 * @return the deck
+	 */
+	public Deck getDeck() {
+		return deck;
 	}
 }

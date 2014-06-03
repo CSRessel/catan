@@ -19,8 +19,8 @@ public class Deck {
 		
 		for (int i = 0; i < 14; i++)
 			cards.add(new DevCard("Knight"));
-		cards.add(new DevCard("Progress", "Road Building"));
-		cards.add(new DevCard("Progress", "Road Building"));
+		cards.add(new DevCard("Progress", "Road building"));
+		cards.add(new DevCard("Progress", "Road building"));
 		cards.add(new DevCard("Progress", "Year of plenty"));
 		cards.add(new DevCard("Progress", "Year of plenty"));
 		cards.add(new DevCard("Progress", "Monopoly"));
