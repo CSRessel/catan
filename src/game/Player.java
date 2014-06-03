@@ -254,6 +254,7 @@ public class Player {
 				break;
 			}
 		}
+	}
 
 	/**
 	 * Sets the corresponding port to true
