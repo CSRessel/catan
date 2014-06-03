@@ -158,8 +158,8 @@ public class Board {
 			// Add all the six structures to the ArrayList
 			rollStructures.add(structures[loc.getXCoord()][loc.getYCoord()][0]);
 			rollStructures.add(structures[loc.getXCoord()][loc.getYCoord()][1]);
-			rollStructures.add(structures[loc.getXCoord()+1][loc.getYCoord()][1]);
-			rollStructures.add(structures[loc.getXCoord()-1][loc.getYCoord()][0]);
+			rollStructures.add(structures[loc.getXCoord()+1][loc.getYCoord()+1][1]);
+			rollStructures.add(structures[loc.getXCoord()-1][loc.getYCoord()-1][0]);
 			rollStructures.add(structures[loc.getXCoord()][loc.getYCoord()+1][1]);
 			rollStructures.add(structures[loc.getXCoord()][loc.getYCoord()-1][0]);
 
@@ -728,10 +728,10 @@ public class Board {
 	 * @return int portTag if port, -1 if not
 	 * 				  0 = general
 					  1 = brick
-					  2 = sheep
+					  2 = wool
 					  3 = ore
-					  4 = wheat
-					  5 = timber
+					  4 = grain
+					  5 = lumber
 	 */
 	private int checkPort(VertexLocation loc) {
 		int x = loc.getXCoord();

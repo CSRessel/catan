@@ -310,7 +310,7 @@ public class SideBar extends JPanel {
 					mainPanel();
 				}
 				else {
-					errorPanel("you don't this card!");
+					errorPanel("you don't own this card!");
 				}
 			}
 		});

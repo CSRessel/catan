@@ -14,7 +14,6 @@ public class Game {
 	private ArrayList<Player> players;
 	private Deck deck;
 
-
 	/**
 	 * Constructor for game, creates the Board.
 	 * @param givenPlayers the players of the game
@@ -383,82 +382,22 @@ public class Game {
 	 * @param a the Player trading
 	 * @param fromA what they are giving up
 	 * @param toA what they are asking for
-	 * @return int 0 = success; 1 = not enough resources; 2 = invalid ratio
-	 * 
+	 * @return whether the trade is possible or not
 	 */
-	public int npcTrade(Player a, String resourceBuying, ArrayList<String> fromA) {
+	public boolean npcTrade(Player a, ArrayList<String> fromA, ArrayList<String> toA) {
 		if (!a.hasResources(fromA))
-			return 1;
+			return false;
 
 		//TODO: check if this npc trade is valid (valid ratios, harbors, etc)
-		boolean[] ports = a.getPorts();
-		ArrayList<Integer> resources = new ArrayList<Integer>();
-		resources.add(Collections.frequency(fromA,"BRICK"));
-		resources.add(Collections.frequency(fromA,"WOOL"));
-		resources.add(Collections.frequency(fromA,"ORE"));
-		resources.add(Collections.frequency(fromA,"GRAIN"));
-		resources.add(Collections.frequency(fromA,"LUMBER"));
-		
-		//int nBrick = Collections.frequency(fromA,"BRICK");
-		//int toBrick = Collections.frequency(toA,"BRICK");
-		//int nWool = Collections.frequency(fromA,"WOOL");
-		//int toWool = Collections.frequency(toA,"WOOL");
-		//int nOre = Collections.frequency(fromA,"ORE");
-		//int toOre = Collections.frequency(toA,"ORE");
-		//int nGrain = Collections.frequency(fromA,"GRAIN");
-		//int toGrain = Collections.frequency(toA,"GRAIN");
-		//int nLumber = Collections.frequency(fromA,"LUMBER");
-		//int toLumber = Collections.frequency(toA,"LUMBER");
-		ArrayList<String> toA = new ArrayList<String>();
 
-		for (int i = 0; i < resources.size(); i++) {
-			if (resources.get(i) == 0) {}
-			else {
-				if (ports[i + 1]) {
-					if (resources.get(i) % 2 == 0) {
-						for (int k = 0; k < resources.get(i) / 2; k++) {
-							toA.add(resourceBuying);
-						}
-					}
-					else {
-						return 2;
-					}
-				}
-				else if (ports[0]) {
-					if (resources.get(i) % 3 == 0) {
-						for (int k = 0; k < resources.get(i) / 3; k++) {
-							toA.add(resourceBuying);
-						}
-					}
-					else {
-						return 2;
-					}
-				}
-				else {
-					if (resources.get(i) % 4 == 0) {
-						for (int k = 0; k < resources.get(i) / 4; k++) {
-							toA.add(resourceBuying);
-						}
-					}
-					else {
-						return 2;
-					}
-				}
-			}
-		}
-		
-		
 		for (String res : fromA) {
 			a.setNumberResourcesType(res, a.getNumberResourcesType(res) - 1);
 		}
-		
-		//ArrayList<String> toA = new ArrayList<String>();
-		//toA.add(resourceBuying);
 		for (String res : toA) {
 			a.setNumberResourcesType(res, a.getNumberResourcesType(res) + 1);
 		}
 
-		return 0;
+		return true;
 	}
 
 	/**
