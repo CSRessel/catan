@@ -14,7 +14,6 @@ public class Game {
 	private ArrayList<Player> players;
 	private Deck deck;
 
-
 	/**
 	 * Constructor for game, creates the Board.
 	 * @param givenPlayers the players of the game

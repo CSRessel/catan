@@ -29,8 +29,6 @@ public class GameRunner {
 				game = tmp.getBoard().getGame();
 			}
 		});
-		
-		//TODO setup phase here
 	}
 	
 	public static void nextPlayer() {

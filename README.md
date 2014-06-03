@@ -5,9 +5,9 @@ Logic
 -----
 - Setup phase
 - Winning game
-- Knights / sevens
+- Lumber bug
+- Seven half cards
 - Road building cards
-- Location input after buying
 - Trading
 
 ______________________________________________________________________________

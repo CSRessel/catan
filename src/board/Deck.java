@@ -37,8 +37,9 @@ public class Deck {
 	 * @return Card a random Card of the deck
 	 */
 	public DevCard draw() {
-		if (cards.size() > 0)
-			return cards.remove(cards.size());
+		if (cards.size() > 0) {
+			return cards.remove(cards.size() - 1);
+		}
 		else
 			return null;
 	}
