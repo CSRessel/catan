@@ -18,7 +18,10 @@ public class Player {
 	private HashMap<String, Integer> resources;
 	private ArrayList<DevCard> hand;
 	private ArrayList<Road> roads;
-	private int numbKnights;
+	private int numbKnights = 0;
+	private int numbSettlements = 2;
+	private int numbRoads = 2;
+	private int numbCities = 0;
 	private boolean hasLargestArmy;
 	private boolean[] ports = {false, false, false, false, false, false};
 					// 0 = general
@@ -283,5 +286,51 @@ public class Player {
 	 */
 	public String toString() {
 		return name;
+	}
+
+	/**
+	 * Getter for numbSettlements
+	 * @return int number of settlements
+	 */
+	public int getNumbSettlements() {
+		return numbSettlements;
+	}
+
+	/**
+	 * Getter for numbCities
+	 * @return int number of cities
+	 */
+	public int getNumbCities() {
+		return numbCities;
+	}
+
+	/**
+	 * Getter for numbRoads
+	 * @return int number of roads
+	 */
+	public int getNumbRoads() {
+		return numbRoads;
+	}
+	
+	/**
+	 * Adds 1 to numbSettlements
+	 */
+	public void addSettlement() {
+		numbSettlements++;
+	}
+	
+	/**
+	 * Adds 1 to numbCities
+	 */
+	public void upCity() {
+		numbSettlements--;
+		numbCities++;
+	}
+	
+	/**
+	 * Adds 1 to numbRoads
+	 */
+	public void addRoadCount() {
+		numbRoads++;
 	}
 }
