@@ -117,7 +117,7 @@ public class Game {
 	/**
 	 * Rolls the die and allocates resources to players
 	 * @param p the Player rolling (in case Player wants to play dev card first)
-	 * @return true if the roll was not a robber (7)
+	 * @return int the roll
 	 */
 	public int roll(Player p) {
 
@@ -183,6 +183,9 @@ public class Game {
 		ArrayList<String> res = new ArrayList<String>(choice.getOwnedResources());
 		Collections.shuffle(res);
 
+		if (res.size() == 0) {
+			return;
+		}
 		String result = res.get(0);
 
 		choice.setNumberResourcesType(result, choice.getNumberResourcesType(result) - 1);
