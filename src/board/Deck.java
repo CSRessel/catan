@@ -38,7 +38,7 @@ public class Deck {
 	 */
 	public DevCard draw() {
 		if (cards.size() > 0)
-			return cards.remove(cards.size());
+			return cards.remove(cards.size() - 1);
 		else
 			return null;
 	}

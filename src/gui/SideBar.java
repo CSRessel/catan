@@ -25,7 +25,6 @@ import lib.GraphPaperLayout;
 
 public class SideBar extends JPanel {
 
-<<<<<<< HEAD
 	private ComponentList rollPanel 		= new ComponentList();
 	private ComponentList mainPanel			= new ComponentList();
 	private ComponentList buyPanel			= new ComponentList();
@@ -35,15 +34,8 @@ public class SideBar extends JPanel {
 	private ComponentList monopolyPanel		= new ComponentList();
 	private ComponentList yearPanel1		= new ComponentList();
 	private ComponentList yearPanel2		= new ComponentList();
+	private ComponentList blankPanel		= new ComponentList();
 
-=======
-	private ComponentList rollPanel 	= new ComponentList();
-	private ComponentList mainPanel		= new ComponentList();
-	private ComponentList buyPanel		= new ComponentList();
-	private ComponentList tradePanel	= new ComponentList();
-	private ComponentList errorPanel	= new ComponentList();
-	private ComponentList blankPanel	= new ComponentList();
->>>>>>> 0708a1bf171515dd5a408f613b4725628665e3dd
 	private KComponent currentPlayer;
 	private int flag = 0;
 		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel
@@ -195,10 +187,10 @@ public class SideBar extends JPanel {
 					timer.start();
 				}
 				else if (bought == 1) {
-					errorPanel("insufficient resources");
+					errorPanel("insufficient resources!");
 				}
 				else if (bought == 2) {
-					errorPanel("structure capacity reached");
+					errorPanel("structure capacity reached!");
 				}
 			}
 		});
@@ -217,10 +209,10 @@ public class SideBar extends JPanel {
 					buyPanel();
 				}
 				else if (bought == 1) {
-					errorPanel("insufficient resources");
+					errorPanel("insufficient resources!");
 				}
 				else if (bought == 2) {
-					errorPanel("structure capacity reached");
+					errorPanel("structure capacity reached!");
 				}
 			}
 		});
@@ -239,10 +231,10 @@ public class SideBar extends JPanel {
 					buyPanel();
 				}
 				else if (bought == 1) {
-					errorPanel("insufficient resources");
+					errorPanel("insufficient resources!");
 				}
 				else if (bought == 2) {
-					errorPanel("structure capacity reached");
+					errorPanel("structure capacity reached!");
 				}
 			}
 		});
@@ -267,7 +259,7 @@ public class SideBar extends JPanel {
 					buyPanel();
 				}
 				else if (bought == 1) {
-					errorPanel("insufficient resources");
+					errorPanel("insufficient resources!");
 				}
 			}
 		});
@@ -318,7 +310,7 @@ public class SideBar extends JPanel {
 					mainPanel();
 				}
 				else {
-					errorPanel("you don't own any knight cards");
+					errorPanel("you don't this card!");
 				}
 			}
 		});
@@ -334,7 +326,7 @@ public class SideBar extends JPanel {
 					monopolyPanel();
 				}
 				else {
-					errorPanel("you don't own any monopoly cards");
+					errorPanel("you don't own this card!");
 				}
 			}
 		});
@@ -350,7 +342,7 @@ public class SideBar extends JPanel {
 					yearPanel1();
 				}
 				else {
-					errorPanel("you don't own any year of plenty cards");
+					errorPanel("you don't own this card!");
 				}
 			}
 		});
@@ -369,7 +361,7 @@ public class SideBar extends JPanel {
 					mainPanel();
 				}
 				else {
-					errorPanel("you don't own any road building cards");
+					errorPanel("you don't own this card!");
 				}
 			}
 		});
