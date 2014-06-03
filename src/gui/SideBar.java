@@ -32,9 +32,9 @@ public class SideBar extends JPanel {
 	private ComponentList tradePanel		= new ComponentList();
 	private ComponentList errorPanel		= new ComponentList();
 	private ComponentList devPanel			= new ComponentList();
-	private ComponentList monopolyPanel		= new ComponentList();
-	private ComponentList yearPanel1		= new ComponentList();
-	private ComponentList yearPanel2		= new ComponentList();
+	private ComponentList resPanel			= new ComponentList();
+	private String resSelection;
+	private boolean done = false;
 	private ComponentList stealPanel		= new ComponentList();
 	private ComponentList blankPanel		= new ComponentList();
 
@@ -340,7 +340,7 @@ public class SideBar extends JPanel {
 					timer = new Timer(INTERVAL,
 							new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
-									if(display.getBoard().getState() == 1){
+									if(display.getBoard().getState() == 1) {
 
 									}
 									else {
@@ -370,7 +370,14 @@ public class SideBar extends JPanel {
 				if (GameRunner.currentPlayer.hasCard("Monopoly")) {
 					GameRunner.currentPlayer.removeCard("Monopoly");
 
-					monopolyPanel();
+					resPanel();
+					//TODO timer checking var "done"
+					done = false;
+					
+					Game g = display.getBoard().getGame();
+					g.takeAll(resSelection, GameRunner.currentPlayer);
+					
+					mainPanel();
 				}
 				else {
 					errorPanel("you don't own this card!");
@@ -386,7 +393,19 @@ public class SideBar extends JPanel {
 				if (GameRunner.currentPlayer.hasCard("Year of plenty")) {
 					GameRunner.currentPlayer.removeCard("Year of plenty");
 
-					yearPanel1();
+					resPanel();
+					//TODO timer checking var "done"
+					done = false;
+					
+					GameRunner.currentPlayer.setNumberResourcesType(resSelection, GameRunner.currentPlayer.getNumberResourcesType(resSelection) + 1);
+					
+					resPanel();
+					//TODO timer checking var "done"
+					done = false;
+					
+					GameRunner.currentPlayer.setNumberResourcesType(resSelection, GameRunner.currentPlayer.getNumberResourcesType(resSelection) + 1);
+					
+					mainPanel();
 				}
 				else {
 					errorPanel("you don't own this card!");
@@ -409,7 +428,6 @@ public class SideBar extends JPanel {
 							new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									if(display.getBoard().getState() == 3){
-
 									}
 									else {
 										mainPanel();
@@ -443,156 +461,54 @@ public class SideBar extends JPanel {
 		});
 		stealPanel.add(playerStealBox, new Rectangle(3,6,8,2));
 		
-		
-		// Monopoly card panel:
+		// Resource selection panel:
 		//-------------------------------------------------------------------
 
 		JButton wool = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				Game g = display.getBoard().getGame();
-				g.takeAll("WOOL", GameRunner.currentPlayer);
-				mainPanel();
+				resSelection = "WOOL";
+				done = true;
 			}
 		});
 		wool.setText("wool");
-		monopolyPanel.add(wool, new Rectangle(4,6,6,2));
+		resPanel.add(wool, new Rectangle(4,6,6,2));
 
 		JButton grain = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				Game g = display.getBoard().getGame();
-				g.takeAll("GRAIN", GameRunner.currentPlayer);
-				mainPanel();
+				resSelection = "GRAIN";
+				done = true;
 			}
 		});
 		grain.setText("grain");
-		monopolyPanel.add(new KComponent(grain, new Rectangle(4,8,6,2)));
-
-		JButton ore = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				Game g = display.getBoard().getGame();
-				g.takeAll("ORE", GameRunner.currentPlayer);
-				mainPanel();
-			}
-		});
-		ore.setText("ore");
-		monopolyPanel.add(new KComponent(ore, new Rectangle(4,10,6,2)));
-
+		resPanel.add(grain, new Rectangle(4,8,6,2));
+		
 		JButton lumber = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				Game g = display.getBoard().getGame();
-				g.takeAll("LUMBER", GameRunner.currentPlayer);
-				mainPanel();
+				resSelection = "LUMBER";
+				done = true;
 			}
 		});
 		lumber.setText("lumber");
-		monopolyPanel.add(new KComponent(lumber, new Rectangle(4,12,6,2)));
-
+		resPanel.add(lumber, new Rectangle(4,10,6,2));
+		
+		JButton ore = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				resSelection = "ORE";
+				done = true;
+			}
+		});
+		ore.setText("ore");
+		resPanel.add(ore, new Rectangle(4,12,6,2));
+		
 		JButton brick = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				Game g = display.getBoard().getGame();
-				g.takeAll("BRICK", GameRunner.currentPlayer);
-				mainPanel();
+				resSelection = "BRICK";
+				done = true;
 			}
 		});
 		brick.setText("brick");
-		monopolyPanel.add(new KComponent(brick, new Rectangle(4,14,6,2)));
-
-		// Year of plenty card panel1
-		//-------------------------------------------------------------------
-
-		JButton wool1 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("WOOL", GameRunner.currentPlayer.getNumberResourcesType("WOOL"));
-				yearPanel2();
-			}
-		});
-		wool1.setText("wool");
-		yearPanel1.add(wool1, new Rectangle (4,6,6,2));
-
-		JButton grain1 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("GRAIN", GameRunner.currentPlayer.getNumberResourcesType("GRAIN"));
-				yearPanel2();
-			}
-		});
-		grain1.setText("grain");
-		yearPanel1.add(new KComponent(grain1, new Rectangle(4,4,6,2)));
-
-		JButton ore1 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("GRAIN", GameRunner.currentPlayer.getNumberResourcesType("GRAIN"));
-				yearPanel2();
-			}
-		});
-		ore1.setText("ore");
-		yearPanel1.add(new KComponent(ore1, new Rectangle(4,8,6,2)));
-
-		JButton lumber1 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("ORE", GameRunner.currentPlayer.getNumberResourcesType("ORE"));
-				yearPanel2();
-			}
-		});
-		lumber1.setText("lumber");
-		yearPanel1.add(new KComponent(lumber1, new Rectangle(4,10,6,2)));
-
-		JButton brick1 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("BRICK", GameRunner.currentPlayer.getNumberResourcesType("BRICK"));
-				yearPanel2();
-			}
-		});
-		brick1.setText("brick");
-		yearPanel1.add(new KComponent(brick1, new Rectangle(4,12,6,2)));
-
-		// Year of plenty card panel2
-		//-------------------------------------------------------------------
-
-		JButton wool2 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("WOOL", GameRunner.currentPlayer.getNumberResourcesType("WOOL"));
-				devPanel();
-			}
-		});
-		wool2.setText("wool");
-		yearPanel2.add(wool2, new Rectangle (4,6,6,2));
-
-		JButton grain2 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("GRAIN", GameRunner.currentPlayer.getNumberResourcesType("GRAIN"));
-				devPanel();
-			}
-		});
-		grain2.setText("grain");
-		yearPanel2.add(new KComponent(grain2, new Rectangle(4,6,6,2)));
-
-		JButton ore2 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("ORE", GameRunner.currentPlayer.getNumberResourcesType("ORE"));
-				devPanel();
-			}
-		});
-		ore2.setText("ore");
-		yearPanel2.add(new KComponent(ore2, new Rectangle(4,8,6,2)));
-
-		JButton lumber2 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("LUMBER", GameRunner.currentPlayer.getNumberResourcesType("LUMBER"));
-				devPanel();
-			}
-		});
-		lumber2.setText("lumber");
-		yearPanel2.add(new KComponent(lumber2, new Rectangle(4,10,6,2)));
-
-		JButton brick2 = new JButton(new AbstractAction() {
-			public void actionPerformed(ActionEvent a) {
-				GameRunner.currentPlayer.setNumberResourcesType("BRICK", GameRunner.currentPlayer.getNumberResourcesType("BRICK"));
-				devPanel();
-			}
-		});
-		brick2.setText("brick");
-		yearPanel2.add(new KComponent(brick2, new Rectangle(4,12,6,2)));
-
+		resPanel.add(brick, new Rectangle(4,14,6,2));
+		
 		//-------------------------------------------------------------------
 
 		setPanel(rollPanel);
@@ -640,16 +556,8 @@ public class SideBar extends JPanel {
 		setPanel(devPanel);
 	}
 
-	public void monopolyPanel() {
-		setPanel(monopolyPanel);
-	}
-
-	public void yearPanel1() {
-		setPanel(yearPanel1);
-	}
-
-	public void yearPanel2() {
-		setPanel(yearPanel2);
+	public void resPanel() {
+		setPanel(resPanel);
 	}
 
 	public void stealPanel() {
