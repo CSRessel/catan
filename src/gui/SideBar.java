@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,9 +35,11 @@ public class SideBar extends JPanel {
 	private ComponentList monopolyPanel		= new ComponentList();
 	private ComponentList yearPanel1		= new ComponentList();
 	private ComponentList yearPanel2		= new ComponentList();
+	private ComponentList stealPanel		= new ComponentList();
 	private ComponentList blankPanel		= new ComponentList();
 
 	private KComponent currentPlayer;
+	private JComboBox<Player> playerStealBox = new JComboBox<Player>();
 	private int flag = 0;
 		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel
 
@@ -330,8 +333,26 @@ public class SideBar extends JPanel {
 				if (GameRunner.currentPlayer.hasCard("Knight")) {
 					GameRunner.currentPlayer.removeCard("Knight");
 
-					//TODO move robber layout
-					//TODO take cards layout
+					display.getBoard().placeRobber();
+					blankPanel();
+					timer = new Timer(INTERVAL,
+							new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									if(display.getBoard().getState() == 1){
+
+									}
+									else {
+										timer.stop();
+										//Choose player to steal from (JComboBox)
+										playerStealBox.removeAllItems();
+										for (Player p : display.getBoard().getGame().getBoard().getRobberAdjacentPlayers()) {
+											playerStealBox.addItem(p);
+										}
+										stealPanel();
+									}
+								}
+							});
+					timer.start();
 
 					mainPanel();
 				}
@@ -382,9 +403,21 @@ public class SideBar extends JPanel {
 				if (GameRunner.currentPlayer.hasCard("Road building")) {
 					GameRunner.currentPlayer.removeCard("Road building");
 
-					//TODO place road twice
+					display.getBoard().placeRoad(1);
+					blankPanel();
+					timer = new Timer(INTERVAL,
+							new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									if(display.getBoard().getState() == 3){
 
-					mainPanel();
+									}
+									else {
+										mainPanel();
+										timer.stop();
+									}
+								}
+							});
+					timer.start();
 				}
 				else {
 					errorPanel("you don't own any road building cards");
@@ -397,6 +430,20 @@ public class SideBar extends JPanel {
 		// Return to main panel
 		devPanel.add(new KComponent(returnMain, new Rectangle(3,12,8,2)));
 
+		// Steal panel:
+		//-------------------------------------------------------------------
+		
+		playerStealBox.setAction(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				 JComboBox<Player> cb = (JComboBox)a.getSource();
+			     Player playerSteal = (Player)cb.getSelectedItem();
+			     //TODO steal from this player
+			     mainPanel();
+			}
+		});
+		stealPanel.add(playerStealBox, new Rectangle(3,6,8,2));
+		
+		
 		// Monopoly card panel:
 		//-------------------------------------------------------------------
 
@@ -408,7 +455,7 @@ public class SideBar extends JPanel {
 			}
 		});
 		wool.setText("wool");
-		monopolyPanel.add(wool, new Rectangle (4,6,6,2));
+		monopolyPanel.add(wool, new Rectangle(4,6,6,2));
 
 		JButton grain = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
@@ -605,6 +652,10 @@ public class SideBar extends JPanel {
 		setPanel(yearPanel2);
 	}
 
+	public void stealPanel() {
+		setPanel(stealPanel);
+	}
+	
 	public void blankPanel() {
 		setPanel(blankPanel);
 	}
@@ -612,5 +663,5 @@ public class SideBar extends JPanel {
 	public void setCurrentPlayer(Player p) {
 		((JLabel) currentPlayer.getComponent()).setText("Player: " + p.getName());
 	}
-
+	
 }

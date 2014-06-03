@@ -1079,6 +1079,12 @@ public class CatanBoard extends JPanel{
 						//System.out.println(loc.getYCoord());
 						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
 						//tiles[loc.getXCoord()][loc.getYCoord()]
+						if (game.getBoard().moveRobber(loc) != null) {
+							index --;
+						}
+						if (index == 0) {
+							state = 0;
+						}
 					}
 				}
 			}

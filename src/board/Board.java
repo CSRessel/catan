@@ -399,6 +399,51 @@ public class Board {
 	public void setRobberLocation(Location loc) {
 		robberLoc = loc;
 	}
+	
+	/**
+	 * Checks location for validity, then moves the robber to that location
+	 * @param loc location to move to
+	 * @return Location the robber moved to
+	 */
+	
+	public Location moveRobber(Location loc) {
+		Location current = getRobberLocation();
+		if (loc.getXCoord() == current.getXCoord() &&
+				loc.getYCoord() == current.getYCoord()) {
+			tiles[current.getXCoord()][current.getYCoord()].setRobber(false);
+			setRobberLocation(loc);
+			tiles[loc.getXCoord()][loc.getYCoord()].setRobber(false);
+			return loc;
+		}
+		else
+			return null;
+	}
+	
+	/**
+	 * Gets all players with structures adjacent to the current robber location
+	 * @return ArrayList of adjacent players
+	 */
+	public ArrayList<Player> getRobberAdjacentPlayers() {
+		Location loc = getRobberLocation();
+		ArrayList<Structure> temp = new ArrayList<Structure>();
+		ArrayList<Player> players = new ArrayList<Player>();
+		temp.add(structures[loc.getXCoord()][loc.getYCoord()][0]);
+		temp.add(structures[loc.getXCoord() + 1][loc.getYCoord() + 1][1]);
+		temp.add(structures[loc.getXCoord()][loc.getYCoord() - 1][0]);
+		temp.add(structures[loc.getXCoord()][loc.getYCoord()][1]);
+		temp.add(structures[loc.getXCoord() - 1][loc.getYCoord() - 1][0]);
+		temp.add(structures[loc.getXCoord()][loc.getYCoord() + 1][1]);
+		
+		for (Structure s : temp) {
+			if (s.getOwner() != null) {
+				if (Collections.frequency(players, s.getOwner()) < 1) {
+					players.add(s.getOwner());
+				}
+			}
+		}
+		
+		return players;
+	}
 
 	/**
 	 * Getter for the Tile at the given Location
