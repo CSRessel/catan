@@ -205,8 +205,21 @@ public class SideBar extends JPanel {
 				int bought = g.buyCity(GameRunner.currentPlayer);
 
 				if (bought == 0) {
-					//TODO place the city
-					buyPanel();
+					display.getBoard().placeCity(1);
+					blankPanel();
+					timer = new Timer(INTERVAL,
+							new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									if(display.getBoard().getState() == 4){
+
+									}
+									else {
+										buyPanel();
+										timer.stop();
+									}
+								}
+							});
+					timer.start();
 				}
 				else if (bought == 1) {
 					errorPanel("insufficient resources!");
@@ -227,8 +240,21 @@ public class SideBar extends JPanel {
 				int bought = g.buyRoad(GameRunner.currentPlayer);
 
 				if (bought == 0) {
-					//TODO place the road
-					buyPanel();
+					display.getBoard().placeRoad(1);
+					blankPanel();
+					timer = new Timer(INTERVAL,
+							new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									if(display.getBoard().getState() == 3){
+
+									}
+									else {
+										buyPanel();
+										timer.stop();
+									}
+								}
+							});
+					timer.start();
 				}
 				else if (bought == 1) {
 					errorPanel("insufficient resources!");

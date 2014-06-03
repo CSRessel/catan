@@ -412,16 +412,7 @@ public class Game {
 		}
 
 		// Check Player has not exceeded capacity for object
-		int numbRoads = 0;
-		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 7; j++) {
-				for (int k = 0; k < 3; k++) {
-					if (board.getRoad(new EdgeLocation(i, j, k)).getOwner().equals(p))
-						numbRoads++;
-				}
-			}
-		}
-		if (numbRoads >= 15) {
+		if (p.getNumbRoads() >= 15) {
 			return 2;
 		}
 
@@ -430,6 +421,7 @@ public class Game {
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
 
+		p.addRoadCount();
 		return 0;
 	}
 
@@ -446,16 +438,7 @@ public class Game {
 		}
 
 		// Check Player has not exceeded capacity for object
-		int numbSettlements = 0;
-		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 7; j++) {
-				for (int k = 0; k < 2; k++) {
-					if (board.getStructure(new VertexLocation(i, j, k)).getType() == 0 && board.getStructure(new VertexLocation(i, j, k)).getOwner().equals(p))
-						numbSettlements++;
-				}
-			}
-		}
-		if (numbSettlements >= 5) {
+		if (p.getNumbSettlements() >= 5) {
 			return 2;
 		}
 
@@ -465,7 +448,8 @@ public class Game {
 		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
-
+		
+		p.addSettlement();
 		return 0;
 	}
 
@@ -482,16 +466,7 @@ public class Game {
 		}
 
 		// Check Player has not exceeded capacity for object
-		int numbCities = 0;
-		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 7; j++) {
-				for (int k = 0; k < 2; k++) {
-					if (board.getStructure(new VertexLocation(i, j, k)).getType() == 1 && board.getStructure(new VertexLocation(i, j, k)).getOwner().equals(p))
-						numbCities++;
-				}
-			}
-		}
-		if (numbCities >= 4) {
+		if (p.getNumbCities() >= 4) {
 			return 2;
 		}
 
@@ -500,6 +475,7 @@ public class Game {
 
 		p.setVictoryPoints(p.getVictoryPoints() + 1);
 
+		p.upCity();
 		return 0;
 	}
 

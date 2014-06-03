@@ -28,14 +28,14 @@ public class BottomBar extends JPanel{
 	public BottomBar() {
 		setBackground(Color.CYAN);
 		
-		setLayout(new GraphPaperLayout(new Dimension(4,6)));
+		setLayout(new GraphPaperLayout(new Dimension(4,7)));
 		
 		for (int i = 0; i < GameRunner.players.size(); i++) {
 			ArrayList<KComponent> components = new ArrayList<KComponent>();
 			components.add(new KComponent(new JLabel(GameRunner.players.get(i).getName()), new Rectangle(i,0,1,1)));
 			add(components.get(0).getComponent(), components.get(0).getRectangle());
 			
-			for (int k = 1; k <= 5; k++) {
+			for (int k = 1; k <= 6; k++) {
 				components.add(new KComponent(new JLabel(""), new Rectangle(i,k,1,1)));
 				components.get(k).getComponent().setFont(new Font("Arial", 1, 16));
 				add(components.get(k).getComponent(), components.get(k).getRectangle());
@@ -79,6 +79,7 @@ public class BottomBar extends JPanel{
 		((JLabel)components.get(3).getComponent()).setText("Ore: " + p.getNumberResourcesType("ORE"));
 		((JLabel)components.get(4).getComponent()).setText("Grain: " + p.getNumberResourcesType("GRAIN"));
 		((JLabel)components.get(5).getComponent()).setText("Lumber: " + p.getNumberResourcesType("LUMBER"));
+		((JLabel)components.get(6).getComponent()).setText("VP: " + p.getVictoryPoints());
 	}
 	
 	

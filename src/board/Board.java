@@ -370,6 +370,21 @@ public class Board {
 	}
 
 	/**
+	 * Checks location for validity for given player, then upgrades settlement into city
+	 * @param loc Location of road
+	 * @param player Player placing the road
+	 * @return boolean true if successful
+	 */
+	public boolean placeCity(VertexLocation loc, Player player) {
+		if (player.equals(structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].getOwner()) &&
+				structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].getType() == 0) {
+			structures[loc.getXCoord()][loc.getYCoord()][loc.getOrientation()].setType(1);
+			return true;
+		}
+		else
+			return false;
+	}
+	/**
 	 * Getter for the Location of the Robber
 	 * @return loc the current Location of the Robber in this board
 	 */
@@ -405,7 +420,7 @@ public class Board {
 			output.add(tiles[loc.getXCoord()][loc.getYCoord()]);
 			output.add(tiles[loc.getXCoord()][loc.getYCoord() + 1]);
 			output.add(tiles[loc.getXCoord() + 1][loc.getYCoord() + 1]);
-		}
+		}	
 		else {
 			output.add(tiles[loc.getXCoord()][loc.getYCoord()]);
 			output.add(tiles[loc.getXCoord()][loc.getYCoord() - 1]);
