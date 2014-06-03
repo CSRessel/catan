@@ -463,14 +463,26 @@ public class Board {
 	public ArrayList<Tile> getAdjacentTilesStructure(VertexLocation loc) {
 		ArrayList<Tile> output = new ArrayList<Tile>();
 		if (loc.getOrientation() == 0) {
-			output.add(tiles[loc.getXCoord()][loc.getYCoord()]);
-			output.add(tiles[loc.getXCoord()][loc.getYCoord() + 1]);
-			output.add(tiles[loc.getXCoord() + 1][loc.getYCoord() + 1]);
+			Tile a = tiles[loc.getXCoord()][loc.getYCoord()];
+			if (a.getType() != null)
+				output.add(a);
+			Tile b = tiles[loc.getXCoord()][loc.getYCoord() + 1];
+			if (b.getType() != null)
+				output.add(b);
+			Tile c = tiles[loc.getXCoord() + 1][loc.getYCoord() + 1];
+			if (c.getType() != null)
+				output.add(c);
 		}	
 		else {
-			output.add(tiles[loc.getXCoord()][loc.getYCoord()]);
-			output.add(tiles[loc.getXCoord()][loc.getYCoord() - 1]);
-			output.add(tiles[loc.getXCoord() - 1][loc.getYCoord() - 1]);
+			Tile a = tiles[loc.getXCoord()][loc.getYCoord()];
+			if (a.getType() != null)
+				output.add(a);
+			Tile b = tiles[loc.getXCoord()][loc.getYCoord() - 1];
+			if (b.getType() != null)
+				output.add(b);
+			Tile c = tiles[loc.getXCoord() - 1][loc.getYCoord() - 1];
+			if (c.getType() != null)
+				output.add(c);
 		}
 		return output;
 	}

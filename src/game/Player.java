@@ -103,6 +103,8 @@ public class Player {
 	 * @return number of resources str owned by this Player
 	 */
 	public int getNumberResourcesType(String str) {
+		if (str == null || str.equals("DESERT"))
+			return 0;		// B/c to lazy to fix problems w/ Board.getAdjacentTilesStructure()
 		return resources.get(str).intValue();
 	}
 

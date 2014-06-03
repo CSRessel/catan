@@ -7,7 +7,7 @@ Logic
 - Winning game
 - Lumber bug
 - On seven half cards
-- Road building cards
+- Road building cards (done?)
 - Trading
 
 ______________________________________________________________________________

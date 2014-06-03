@@ -35,4 +35,9 @@ public class GameRunner {
 		currentPlayer = players.get((index + 1) % 4);
 		index = (index + 1) % 4;
 	}
+	
+	public static void prevPlayer() {
+		currentPlayer = players.get((index - 1) % 4);
+		index = (index - 1) % 4;
+	}
 }

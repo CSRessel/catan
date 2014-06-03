@@ -23,7 +23,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import board.Board;
 import board.DevCard;
+import board.Location;
+import board.Tile;
+import board.VertexLocation;
 import lib.GraphPaperLayout;
 
 public class SideBar extends JPanel {
@@ -38,10 +42,14 @@ public class SideBar extends JPanel {
 	private String resSelection;
 	private boolean done = false;
 	private ComponentList stealPanel		= new ComponentList();
-	private ComponentList blankPanel		= new ComponentList();
+	private ComponentList placePanel		= new ComponentList();
+	private ComponentList setupPanel		= new ComponentList();
+	private boolean secondRound = false;
+	private int count = 1;
 
 	private KComponent currentPlayerBox;
 	private final GameWindow display;
+	private final Font font = new Font("Arial", 1, 16);
 
 	private JComboBox<Player> playerStealBox;
 	private int flag = 0;
@@ -59,7 +67,7 @@ public class SideBar extends JPanel {
 		//-------------------------------------------------------------------
 
 		currentPlayerBox = new KComponent(new JLabel(""), new Rectangle(2,0,10,1));
-		currentPlayerBox.getComponent().setFont(new Font("Arial", 1, 16));
+		currentPlayerBox.getComponent().setFont(font);
 		setCurrentPlayer(GameRunner.currentPlayer);
 		add(currentPlayerBox.getComponent(), currentPlayerBox.getRectangle());
 
@@ -79,7 +87,7 @@ public class SideBar extends JPanel {
 					g.halfCards();
 
 					display.getBoard().placeRobber();
-					blankPanel();
+					placePanel("Move the robber...");
 					timer = new Timer(INTERVAL,
 							new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
@@ -94,8 +102,8 @@ public class SideBar extends JPanel {
 							});
 					timer.start();
 				}
-				JLabel rollNumb = new JLabel("roll value: " + roll);
-				rollNumb.setFont(new Font("Arial", 1, 16));
+				JLabel rollNumb = new JLabel("Roll value: " + roll);
+				rollNumb.setFont(font);
 				add(rollNumb, new Rectangle(2,2,10,1));
 				repaint();
 				validate();
@@ -190,7 +198,7 @@ public class SideBar extends JPanel {
 
 				if (bought == 0) {
 					display.getBoard().placeSettlement(1);
-					blankPanel();
+					placePanel("Place a settlement...");
 					timer = new Timer(INTERVAL,
 							new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
@@ -206,10 +214,10 @@ public class SideBar extends JPanel {
 					timer.start();
 				}
 				else if (bought == 1) {
-					errorPanel("insufficient resources!");
+					errorPanel("Insufficient resources!");
 				}
 				else if (bought == 2) {
-					errorPanel("structure capacity reached!");
+					errorPanel("Structure capacity reached!");
 				}
 			}
 		});
@@ -225,7 +233,7 @@ public class SideBar extends JPanel {
 
 				if (bought == 0) {
 					display.getBoard().placeCity(1);
-					blankPanel();
+					placePanel("Select a settlement...");
 					timer = new Timer(INTERVAL,
 							new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
@@ -241,10 +249,10 @@ public class SideBar extends JPanel {
 					timer.start();
 				}
 				else if (bought == 1) {
-					errorPanel("insufficient resources!");
+					errorPanel("Insufficient resources!");
 				}
 				else if (bought == 2) {
-					errorPanel("structure capacity reached!");
+					errorPanel("Structure capacity reached!");
 				}
 			}
 		});
@@ -260,7 +268,7 @@ public class SideBar extends JPanel {
 
 				if (bought == 0) {
 					display.getBoard().placeRoad(1);
-					blankPanel();
+					placePanel("Place a road...");
 					timer = new Timer(INTERVAL,
 							new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
@@ -276,10 +284,10 @@ public class SideBar extends JPanel {
 					timer.start();
 				}
 				else if (bought == 1) {
-					errorPanel("insufficient resources!");
+					errorPanel("Insufficient resources!");
 				}
 				else if (bought == 2) {
-					errorPanel("structure capacity reached!");
+					errorPanel("Structure capacity reached!");
 				}
 			}
 		});
@@ -304,7 +312,10 @@ public class SideBar extends JPanel {
 					buyPanel();
 				}
 				else if (bought == 1) {
-					errorPanel("insufficient resources!");
+					errorPanel("Insufficient resources!");
+				}
+				else if (bought == 2) {
+					errorPanel("No more dev cards in deck!");
 				}
 			}
 		});
@@ -318,7 +329,7 @@ public class SideBar extends JPanel {
 		//-------------------------------------------------------------------
 
 		JLabel message = new JLabel("");
-		message.setFont(new Font("Arial", 1, 16));
+		message.setFont(font);
 		errorPanel.add(message, new Rectangle(2,4,10,1));
 
 		JButton accept = new JButton(new AbstractAction() {
@@ -338,7 +349,7 @@ public class SideBar extends JPanel {
 		//-------------------------------------------------------------------
 
 		JLabel devCard = new JLabel("Play a...");
-		message.setFont(new Font("Arial", 1, 16));
+		message.setFont(font);
 		devPanel.add(devCard, new Rectangle(4,4,6,2));
 
 		// Play a knight card
@@ -350,12 +361,11 @@ public class SideBar extends JPanel {
 					GameRunner.currentPlayer.removeCard("Knight");
 
 					display.getBoard().placeRobber();
-					blankPanel();
+					placePanel("Move the robber...");
 					timer = new Timer(INTERVAL,
 							new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									if(display.getBoard().getState() == 1) {
-
 									}
 									else {
 										timer.stop();
@@ -369,11 +379,11 @@ public class SideBar extends JPanel {
 					timer.start();
 				}
 				else {
-					errorPanel("you don't own this card!");
+					errorPanel("You don't own this card!");
 				}
 			}
 		});
-		knight.setText("knight card");
+		knight.setText("knight");
 		devPanel.add(knight, new Rectangle (1,6,6,2));
 
 		// Play a monopoly card
@@ -392,11 +402,11 @@ public class SideBar extends JPanel {
 					mainPanel();
 				}
 				else {
-					errorPanel("you don't own this card!");
+					errorPanel("You don't own this card!");
 				}
 			}
 		});
-		monopoly.setText("monopoly card");
+		monopoly.setText("monopoly");
 		devPanel.add(new KComponent(monopoly, new Rectangle(7,6,6,2)));
 
 		// Play a year of plenty card
@@ -420,11 +430,11 @@ public class SideBar extends JPanel {
 					mainPanel();
 				}
 				else {
-					errorPanel("you don't own this card!");
+					errorPanel("You don't own this card!");
 				}
 			}
 		});
-		year.setText("year 'o plenty card");
+		year.setText("year 'o plenty");
 		devPanel.add(new KComponent(year, new Rectangle(1,8,6,2)));
 
 		// Play a road building card
@@ -435,7 +445,7 @@ public class SideBar extends JPanel {
 					GameRunner.currentPlayer.removeCard("Road building");
 
 					display.getBoard().placeRoad(1);
-					blankPanel();
+					placePanel("Place a road...");
 					timer = new Timer(INTERVAL,
 							new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
@@ -450,11 +460,11 @@ public class SideBar extends JPanel {
 					timer.start();
 				}
 				else {
-					errorPanel("you don't own this card!");
+					errorPanel("You don't own this card!");
 				}
 			}
 		});
-		road.setText("road building card");
+		road.setText("road building");
 		devPanel.add(new KComponent(road, new Rectangle(7,8,6,2)));
 
 		// Return to main panel
@@ -523,9 +533,76 @@ public class SideBar extends JPanel {
 		brick.setText("brick");
 		resPanel.add(brick, new Rectangle(4,14,6,2));
 		
+		// Place panel
+		//-------------------------------------------------------------------
+		
+		JLabel mess = new JLabel();
+		mess.setFont(font);
+		placePanel.add(mess, new Rectangle(2,8,10,4));
+		
+		// Setup panel
+		//-------------------------------------------------------------------
+		
+		final JLabel start = new JLabel("Your setup, " + GameRunner.currentPlayer);
+		start.setFont(font);
+		setupPanel.add(new KComponent(start, new Rectangle(2,3,10,2)));
+		
+		JButton begin = new JButton(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				if (!secondRound) {
+					// Place a settlement
+					// Place a road connected to the settlement
+					
+					if (count == 4) {
+						Game g = display.getBoard().getGame();
+						secondRound = true;
+					}
+					else {
+						count++;
+						GameRunner.nextPlayer();
+						setCurrentPlayer(GameRunner.currentPlayer);
+						start.setText("Your setup, " + GameRunner.currentPlayer);
+					}
+				}
+				else {
+					// Place a settlement and keep loc in below
+					VertexLocation loc = new VertexLocation(1, 1, 1);
+					// Place a road connected to the settlement
+					
+					if (count == 1) {
+						Board board = display.getBoard().getGame().getBoard();
+						ArrayList<Tile> tiles = new ArrayList<Tile>();
+						tiles = board.getAdjacentTilesStructure(loc);
+						for (Tile t : tiles){
+							System.out.println(t.getType());
+							GameRunner.currentPlayer.setNumberResourcesType(t.getType(), GameRunner.currentPlayer.getNumberResourcesType(t.getType()));
+						}
+						
+						Game g = display.getBoard().getGame();
+						rollPanel();
+					}
+					else {
+						Board board = display.getBoard().getGame().getBoard();
+						ArrayList<Tile> tiles = new ArrayList<Tile>();
+						tiles = board.getAdjacentTilesStructure(loc);
+						for (Tile t : tiles){
+							GameRunner.currentPlayer.setNumberResourcesType(t.getType(), GameRunner.currentPlayer.getNumberResourcesType(t.getType()));
+						}
+						
+						count--;
+						GameRunner.prevPlayer();
+						setCurrentPlayer(GameRunner.currentPlayer);
+						start.setText("Your setup, " + GameRunner.currentPlayer);
+					}
+				}
+			}
+		});
+		begin.setText("place");
+		setupPanel.add(new KComponent(begin, new Rectangle(4,6,6,3)));
+		
 		//-------------------------------------------------------------------
 
-		setPanel(rollPanel);
+		setupPanel();
 	}
 
 	private void setPanel(ComponentList cL) {
@@ -605,12 +682,16 @@ public class SideBar extends JPanel {
 		}
 	}
 	
-	public void blankPanel() {
-		setPanel(blankPanel);
+	public void placePanel(String str) {
+		((JLabel) placePanel.get(0).getComponent()).setText(str);
+		setPanel(placePanel);
 	}
 
 	public void setCurrentPlayer(Player p) {
 		((JLabel) currentPlayerBox.getComponent()).setText("Player: " + p.getName());
 	}
 	
+	public void setupPanel() {
+		setPanel(setupPanel);
+	}
 }

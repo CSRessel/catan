@@ -41,44 +41,6 @@ public class Game {
 		GameRunner.currentPlayer = players.get(0);
 	}
 
-//TODO move to logic method	
-//	/**
-//	 * Runs the setup phase of the game
-//	 */
-//	private void setup() {
-//
-//		boolean round2 = false;
-//
-//		for (int i = 0; i < 2; i++) {
-//			for (Player p : players) {
-//				boolean settSuccess = false;
-//				VertexLocation sloc;
-//				do{
-//					sloc = new VertexLocation(1,1,0); //TODO: user input sloc
-//					settSuccess = board.placeStructureNoRoad(sloc, p);
-//					if (round2){
-//						ArrayList<Tile> capitolTiles = new ArrayList<Tile>();
-//						capitolTiles = board.getAdjacentTilesStructure(sloc);
-//						for (Tile t : capitolTiles){
-//							board.getStructure(sloc).giveResources(t.getType());
-//						}
-//					}
-//				} while (settSuccess = false);
-//
-//				boolean roadSuccess = false;
-//				EdgeLocation rloc;
-//				do{
-//					rloc = new EdgeLocation(3,3,0); //TODO: user input rloc
-//					roadSuccess = board.placeRoad(rloc, p);
-//				} while (roadSuccess = false);
-//
-//			}
-//			Collections.reverse(players);
-//			round2 = true;
-//		}
-//
-//	}
-
 	/**
 	 * Checks if one player has ten or more victory points and more points than any other player
 	 * @return whether anyone has one yet
@@ -160,24 +122,6 @@ public class Game {
 	 * @param loc the Location of the Tile
 	 */
 	public void takeCard(Player p, Player choice) {
-
-//TODO: move to logic method
-//		ArrayList<Structure> structures = new ArrayList<Structure>(6);
-//
-//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord(), 0)));
-//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord(), 1)));
-//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord()+1, loc.getYCoord(), 1)));
-//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord()-1, loc.getYCoord(), 0)));
-//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord()+1, 1)));
-//		structures.add(board.getStructure(new VertexLocation(loc.getXCoord(), loc.getYCoord()-1, 0)));
-//
-//		ArrayList<Player> playerChoices = new ArrayList<Player>();
-//
-//		for (Structure s : structures) {
-//			if (null != s.getOwner() && !playerChoices.contains(s.getOwner())) {
-//				playerChoices.add(s.getOwner());
-//			}
-//		}
 
 		ArrayList<String> res = new ArrayList<String>();
 		for (int i = 0; i < choice.getNumberResourcesType("BRICK"); i++) {
@@ -267,89 +211,6 @@ public class Game {
 			} while (!done);
 		}
 	}
-
-//TODO: move to logic method
-//	/**
-//	 * Allows the provided Player to play a dev card
-//	 * @param p
-//	 */
-//	private void playDevCard(Player p) {
-//
-//		ArrayList<DevCard> cards = p.getHand();
-//
-//		int input = 0; //TODO: input
-//			/* Possible values:
-//			 * any index within ArrayList cards
-//			 */
-//
-//		if (input >= 0 && input < cards.size()) {
-//			DevCard dC = cards.remove(input);
-//
-//			if (dC.getType().equals("Knight")) {
-//				moveRobber(p);
-//				p.incrementNumbKnights();
-//				if (!p.hasLargestArmy() && p.getNumbKnights() >= 3) {
-//
-//					int mostKnights = p.getNumbKnights();
-//					String biggestArmy = p.getName();
-//
-//					for (Player player : players) {
-//						if (player.hasLargestArmy()) {
-//
-//							player.setHasLargestArmy(false);
-//							player.setVictoryPoints(player.getVictoryPoints() - 1);
-//
-//							mostKnights = player.getNumbKnights();
-//							biggestArmy = player.getName();
-//						}
-//					}
-//
-//					for (Player player : players) {
-//						if (player.getNumbKnights() > mostKnights) {
-//							mostKnights = player.getNumbKnights();
-//							biggestArmy = player.getName();
-//						}
-//					}
-//
-//					for (Player player : players) {
-//						if (player.getName().equals(biggestArmy)) {
-//							player.setHasLargestArmy(true);
-//							player.setVictoryPoints(player.getVictoryPoints() + 1);
-//						}
-//					}
-//				}
-//			}
-//			else if (dC.getType().equals("Progress")) {
-//				if (dC.getSubType().equals("Road Building")) {
-//					buyObject(p, 1);
-//					buyObject(p, 1);
-//				}
-//				else if (dC.getSubType().equals("Monoply")) {
-//					int res = 0;
-//					String choice = "WOOL"; //TODO: input
-//
-//					for (Player player : players) {
-//						res += player.getNumberResourcesType(choice);
-//						player.setNumberResourcesType(choice, 0);
-//					}
-//					p.setNumberResourcesType(choice, res);
-//				}
-//				else if (dC.getSubType().equals("Year of Plenty")) {
-//					String choice1 = "BRICK"; //TODO: input
-//					p.setNumberResourcesType(choice1, p.getNumberResourcesType(choice1) + 1);
-//
-//					String choice2 = "ORE"; //TODO: input
-//					p.setNumberResourcesType(choice2, p.getNumberResourcesType(choice2) + 1);
-//				}
-//			}
-//			else if (dC.getType().equals("Victory Point")) {
-//				p.setVictoryPoints(p.getVictoryPoints() + 1);
-//			}
-//		}
-//		else {
-//			//TODO: throw error about invalid dev card selection
-//		}
-//	}
 	
 	/**
 	 * Causes the given player to take all the specified resource from all other players (for monopoly cards)
@@ -561,7 +422,7 @@ public class Game {
 	/**
 	 * Buys DevCard for given Player
 	 * @param p the given Player
-	 * @return 0=success, 1=insufficient resources
+	 * @return 0=success, 1=insufficient resources, 2=no devcards left in deck
 	 */
 	public int buyDevCard(Player p) {
 		
@@ -574,7 +435,13 @@ public class Game {
 		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
 		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
 
-		p.addDevCard(deck.draw());
+		DevCard dC = deck.draw();
+		
+		if (dC == null) {
+			return 2;
+		}
+		
+		p.addDevCard(dC);
 		
 		return 0;
 	}
@@ -620,15 +487,6 @@ public class Game {
 
 		return true;
 	}
-
-//TODO: move to logic method
-//		DevCard dC = deck.draw();
-//		if (null != dC) {
-//			p.addDevCard(dC);
-//		}
-//		else {
-//			//TODO: throw error about no dev cards left
-//		}
 
 	/**
 	 * Getter for board's tiles
