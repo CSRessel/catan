@@ -115,7 +115,7 @@ public class Board {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				if (tiles[i][j] == null)
-					tiles[i][j] = new Tile(i, j, 0, "");
+					tiles[i][j] = new Tile(i, j, 0, null);
 			}
 		}
 		

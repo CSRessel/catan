@@ -555,10 +555,10 @@ public class SideBar extends JPanel {
 					
 					if (count == 3) {
 						secondRound = true;
-						count ++;
+						count++;
 						//Place capitol commandblock
 						display.getBoard().placeCapitol();
-						placePanel("Place capitol");
+						placePanel("Place first settlement...");
 						timer = new Timer(INTERVAL,
 								new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
@@ -569,7 +569,7 @@ public class SideBar extends JPanel {
 									timer.stop();
 									//Place Road commandblock
 									display.getBoard().placeRoad(1);
-									placePanel("Place a road");
+									placePanel("Place a road...");
 									timer = new Timer(INTERVAL,
 											new ActionListener() {
 										public void actionPerformed(ActionEvent evt) {
@@ -596,7 +596,7 @@ public class SideBar extends JPanel {
 						count++;
 						//Place SettlementNoRoad commandblock
 						display.getBoard().placeSettlementNoRoad(1);
-						placePanel("Place first settlement");
+						placePanel("Place first settlement...");
 						timer = new Timer(INTERVAL,
 								new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
@@ -607,7 +607,7 @@ public class SideBar extends JPanel {
 									timer.stop();
 									//Place Road commandblock
 									display.getBoard().placeRoad(1);
-									placePanel("Place a road");
+									placePanel("Place a road...");
 									timer = new Timer(INTERVAL,
 											new ActionListener() {
 										public void actionPerformed(ActionEvent evt) {
@@ -637,7 +637,7 @@ public class SideBar extends JPanel {
 					if (count == 1) {
 						//Place capitol commandblock
 						display.getBoard().placeCapitol();
-						placePanel("Place capitol");
+						placePanel("Place your capitol...");
 						timer = new Timer(INTERVAL,
 								new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
@@ -648,7 +648,7 @@ public class SideBar extends JPanel {
 									timer.stop();
 									//Place Road commandblock
 									display.getBoard().placeRoad(1);
-									placePanel("Place a road");
+									placePanel("Place a road...");
 									timer = new Timer(INTERVAL,
 											new ActionListener() {
 										public void actionPerformed(ActionEvent evt) {
@@ -676,7 +676,7 @@ public class SideBar extends JPanel {
 						count--;
 						//Place capitol commandblock
 						display.getBoard().placeCapitol();
-						placePanel("Place capitol");
+						placePanel("Place your capitol...");
 						timer = new Timer(INTERVAL,
 								new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
@@ -687,7 +687,7 @@ public class SideBar extends JPanel {
 									timer.stop();
 									//Place Road commandblock
 									display.getBoard().placeRoad(1);
-									placePanel("Place a road");
+									placePanel("Place a road...");
 									timer = new Timer(INTERVAL,
 											new ActionListener() {
 										public void actionPerformed(ActionEvent evt) {

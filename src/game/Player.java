@@ -103,8 +103,8 @@ public class Player {
 	 * @return number of resources str owned by this Player
 	 */
 	public int getNumberResourcesType(String str) {
-		if (str == null || str.equals("DESERT") || str.equals(""))
-			return 0;		// B/c to lazy to fix problems w/ Board.getAdjacentTilesStructure()
+		if (str == null || str.equals("DESERT"))
+			return 0;
 		return resources.get(str).intValue();
 	}
 
@@ -334,5 +334,16 @@ public class Player {
 	 */
 	public void addRoadCount() {
 		numbRoads++;
+	}
+	
+	/**
+	 * Adds one to specified resource
+	 * @param str the resource type to increment
+	 */
+	public void giveResourceType(String str) {
+		if (str == null) {
+			return;
+		}
+		resources.put(str, resources.get(str) + 1);
 	}
 }

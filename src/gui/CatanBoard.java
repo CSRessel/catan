@@ -1162,7 +1162,7 @@ public class CatanBoard extends JPanel{
 								ArrayList<Tile> tiles = getGame().getBoard().getAdjacentTilesStructure(loc);
 								for (Tile t : tiles){
 									if (t != null) {
-										GameRunner.currentPlayer.setNumberResourcesType(t.getType(), GameRunner.currentPlayer.getNumberResourcesType(t.getType()) + 1);
+										GameRunner.currentPlayer.giveResourceType(t.getType());
 									}
 								}
 							}
