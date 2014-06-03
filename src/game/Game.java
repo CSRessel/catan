@@ -480,7 +480,7 @@ public class Game {
 		p.setNumberResourcesType("BRICK", p.getNumberResourcesType("BRICK") - 1);
 		p.setNumberResourcesType("LUMBER", p.getNumberResourcesType("LUMBER") - 1);
 
-		p.setVictoryPoints(p.getVictoryPoints() + 1);
+		//p.setVictoryPoints(p.getVictoryPoints() + 1);  TODO road victory points
 
 		p.addRoadCount();
 		return 0;

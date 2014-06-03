@@ -38,7 +38,8 @@ public class SideBar extends JPanel {
 	private ComponentList stealPanel		= new ComponentList();
 	private ComponentList blankPanel		= new ComponentList();
 
-	private KComponent currentPlayer;
+	private KComponent currentPlayerBox;
+	private final GameWindow display;
 	private JComboBox<Player> playerStealBox = new JComboBox<Player>();
 	private int flag = 0;
 		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel
@@ -48,15 +49,16 @@ public class SideBar extends JPanel {
 
 	public SideBar(final GameWindow display) {
 
+		this.display = display;
 		this.setLayout(new GraphPaperLayout(new Dimension(14,24)));
 
 		// Current player title (always in sidebar)
 		//-------------------------------------------------------------------
 
-		currentPlayer = new KComponent(new JLabel(""), new Rectangle(2,0,10,1));
-		currentPlayer.getComponent().setFont(new Font("Arial", 1, 16));
+		currentPlayerBox = new KComponent(new JLabel(""), new Rectangle(2,0,10,1));
+		currentPlayerBox.getComponent().setFont(new Font("Arial", 1, 16));
 		setCurrentPlayer(GameRunner.currentPlayer);
-		add(currentPlayer.getComponent(), currentPlayer.getRectangle());
+		add(currentPlayerBox.getComponent(), currentPlayerBox.getRectangle());
 
 		// Roll panel:
 		//-------------------------------------------------------------------
@@ -343,11 +345,9 @@ public class SideBar extends JPanel {
 									}
 									else {
 										timer.stop();
+										GameRunner.currentPlayer.incrementNumbKnights();
 										//Choose player to steal from (JComboBox)
-										playerStealBox.removeAllItems();
-										for (Player p : display.getBoard().getGame().getBoard().getRobberAdjacentPlayers()) {
-											playerStealBox.addItem(p);
-										}
+										
 										stealPanel();
 									}
 								}
@@ -437,7 +437,7 @@ public class SideBar extends JPanel {
 			public void actionPerformed(ActionEvent a) {
 				 JComboBox<Player> cb = (JComboBox)a.getSource();
 			     Player playerSteal = (Player)cb.getSelectedItem();
-			     //TODO steal from this player
+			     display.getBoard().getGame().takeCard(GameRunner.currentPlayer, playerSteal);
 			     mainPanel();
 			}
 		});
@@ -600,7 +600,7 @@ public class SideBar extends JPanel {
 
 	private void setPanel(ComponentList cL) {
 		this.removeAll();
-		this.add(currentPlayer.getComponent(), currentPlayer.getRectangle());
+		this.add(currentPlayerBox.getComponent(), currentPlayerBox.getRectangle());
 
 		for (int i = 0; i < cL.size(); i++) {
 			this.add(cL.get(i).getComponent(), cL.get(i).getRectangle());
@@ -653,6 +653,15 @@ public class SideBar extends JPanel {
 	}
 
 	public void stealPanel() {
+		playerStealBox.removeAllItems();
+		for (Player p : display.getBoard().getGame().getBoard().getRobberAdjacentPlayers()) {
+			if (p.equals(GameRunner.currentPlayer)) {
+				
+			}
+			else {
+				playerStealBox.addItem(p);
+			}
+		}
 		setPanel(stealPanel);
 	}
 	
@@ -661,7 +670,7 @@ public class SideBar extends JPanel {
 	}
 
 	public void setCurrentPlayer(Player p) {
-		((JLabel) currentPlayer.getComponent()).setText("Player: " + p.getName());
+		((JLabel) currentPlayerBox.getComponent()).setText("Player: " + p.getName());
 	}
 	
 }
