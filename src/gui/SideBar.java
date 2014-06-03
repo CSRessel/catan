@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -45,7 +46,7 @@ public class SideBar extends JPanel {
 	private ComponentList placePanel		= new ComponentList();
 	private ComponentList setupPanel		= new ComponentList();
 	private boolean secondRound = false;
-	private int count = 1;
+	private int count = 0;
 
 	private KComponent currentPlayerBox;
 	private final GameWindow display;
@@ -549,50 +550,166 @@ public class SideBar extends JPanel {
 		
 		JButton begin = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
+				//System.out.println(count);
 				if (!secondRound) {
-					// Place a settlement
-					// Place a road connected to the settlement
 					
-					if (count == 4) {
-						Game g = display.getBoard().getGame();
+					if (count == 3) {
 						secondRound = true;
+						count ++;
+						//Place capitol commandblock
+						display.getBoard().placeCapitol();
+						placePanel("Place capitol");
+						timer = new Timer(INTERVAL,
+								new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								if(display.getBoard().getState() == 5){
+
+								}
+								else {
+									timer.stop();
+									//Place Road commandblock
+									display.getBoard().placeRoad(1);
+									placePanel("Place a road");
+									timer = new Timer(INTERVAL,
+											new ActionListener() {
+										public void actionPerformed(ActionEvent evt) {
+											if(display.getBoard().getState() == 3){
+
+											}
+											else {
+												timer.stop();
+												setCurrentPlayer(GameRunner.currentPlayer);
+												start.setText("Place your capitol, " + GameRunner.currentPlayer);
+												setupPanel();
+											}
+										}
+									});
+									timer.start();
+									//
+								}
+							}
+						});
+						timer.start();
+						//
 					}
 					else {
 						count++;
-						GameRunner.nextPlayer();
-						setCurrentPlayer(GameRunner.currentPlayer);
-						start.setText("Your setup, " + GameRunner.currentPlayer);
+						//Place SettlementNoRoad commandblock
+						display.getBoard().placeSettlementNoRoad(1);
+						placePanel("Place first settlement");
+						timer = new Timer(INTERVAL,
+								new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								if(display.getBoard().getState() == 5){
+
+								}
+								else {
+									timer.stop();
+									//Place Road commandblock
+									display.getBoard().placeRoad(1);
+									placePanel("Place a road");
+									timer = new Timer(INTERVAL,
+											new ActionListener() {
+										public void actionPerformed(ActionEvent evt) {
+											if(display.getBoard().getState() == 3){
+
+											}
+											else {
+												timer.stop();
+												GameRunner.nextPlayer();
+												setCurrentPlayer(GameRunner.currentPlayer);
+												start.setText("Your setup, " + GameRunner.currentPlayer);
+												setupPanel();
+											}
+										}
+									});
+									timer.start();
+									//
+								}
+							}
+						});
+						timer.start();
+						//
 					}
 				}
 				else {
-					// Place a settlement and keep loc in below
-					VertexLocation loc = new VertexLocation(1, 1, 1);
-					// Place a road connected to the settlement
 					
 					if (count == 1) {
-						Board board = display.getBoard().getGame().getBoard();
-						ArrayList<Tile> tiles = new ArrayList<Tile>();
-						tiles = board.getAdjacentTilesStructure(loc);
-						for (Tile t : tiles){
-							System.out.println(t.getType());
-							GameRunner.currentPlayer.setNumberResourcesType(t.getType(), GameRunner.currentPlayer.getNumberResourcesType(t.getType()));
-						}
-						
-						Game g = display.getBoard().getGame();
-						rollPanel();
+						//Place capitol commandblock
+						display.getBoard().placeCapitol();
+						placePanel("Place capitol");
+						timer = new Timer(INTERVAL,
+								new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								if(display.getBoard().getState() == 5){
+
+								}
+								else {
+									timer.stop();
+									//Place Road commandblock
+									display.getBoard().placeRoad(1);
+									placePanel("Place a road");
+									timer = new Timer(INTERVAL,
+											new ActionListener() {
+										public void actionPerformed(ActionEvent evt) {
+											if(display.getBoard().getState() == 3){
+
+											}
+											else {
+												timer.stop();
+												//Collections.shuffle(GameRunner.players);
+												GameRunner.currentPlayer = GameRunner.players.get(0);
+												setCurrentPlayer(GameRunner.currentPlayer);
+												rollPanel();
+											}
+										}
+									});
+									timer.start();
+									//
+								}
+							}
+						});
+						timer.start();
+						//
 					}
 					else {
-						Board board = display.getBoard().getGame().getBoard();
-						ArrayList<Tile> tiles = new ArrayList<Tile>();
-						tiles = board.getAdjacentTilesStructure(loc);
-						for (Tile t : tiles){
-							GameRunner.currentPlayer.setNumberResourcesType(t.getType(), GameRunner.currentPlayer.getNumberResourcesType(t.getType()));
-						}
-						
 						count--;
-						GameRunner.prevPlayer();
-						setCurrentPlayer(GameRunner.currentPlayer);
-						start.setText("Your setup, " + GameRunner.currentPlayer);
+						//Place capitol commandblock
+						display.getBoard().placeCapitol();
+						placePanel("Place capitol");
+						timer = new Timer(INTERVAL,
+								new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								if(display.getBoard().getState() == 5){
+
+								}
+								else {
+									timer.stop();
+									//Place Road commandblock
+									display.getBoard().placeRoad(1);
+									placePanel("Place a road");
+									timer = new Timer(INTERVAL,
+											new ActionListener() {
+										public void actionPerformed(ActionEvent evt) {
+											if(display.getBoard().getState() == 3){
+
+											}
+											else {
+												timer.stop();
+												GameRunner.prevPlayer();
+												setCurrentPlayer(GameRunner.currentPlayer);
+												start.setText("Place your capitol, " + GameRunner.currentPlayer);
+												setupPanel();
+											}
+										}
+									});
+									timer.start();
+									//
+								}
+							}
+						});
+						timer.start();
+						//
 					}
 				}
 			}

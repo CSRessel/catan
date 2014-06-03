@@ -22,7 +22,7 @@ public class BottomBar extends JPanel{
 	
 	public ArrayList<ArrayList<KComponent>> playerComponents = new ArrayList<ArrayList<KComponent>>();
 	
-	public final static int INTERVAL = 20;
+	public final static int INTERVAL = 50;
 	private Timer timer;
 	
 	public BottomBar() {
@@ -81,6 +81,5 @@ public class BottomBar extends JPanel{
 		((JLabel)components.get(5).getComponent()).setText("Lumber: " + p.getNumberResourcesType("LUMBER"));
 		((JLabel)components.get(6).getComponent()).setText("VP: " + p.getVictoryPoints());
 	}
-	
 	
 }

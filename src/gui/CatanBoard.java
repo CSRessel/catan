@@ -35,6 +35,7 @@ public class CatanBoard extends JPanel{
 		//2 = choosing settlement
 		//3 = choosing road
 		//4 = choosing city
+		//5 = choosing setup settlements
 	private Game game;
 	private int boardHeight;
 	private int hexagonSide;
@@ -52,6 +53,7 @@ public class CatanBoard extends JPanel{
 	//private Graphics g;
 
 	private int index;
+	private boolean capitol = false;
 	
 	
 	
@@ -64,11 +66,11 @@ public class CatanBoard extends JPanel{
 		roads = game.getBoard().getRoads();
 		structures = game.getBoard().getStructures();
 
-		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
-		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,1), players.get(3));
-		game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(1));
-		game.getBoard().placeStructureNoRoad(new VertexLocation(5,3,0), players.get(2));
-		game.getBoard().placeStructureNoRoad(new VertexLocation(1,1,0), players.get(3));
+//		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
+//		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,1), players.get(3));
+//		game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(1));
+//		game.getBoard().placeStructureNoRoad(new VertexLocation(5,3,0), players.get(2));
+//		game.getBoard().placeStructureNoRoad(new VertexLocation(1,1,0), players.get(3));
 //		game.getBoard().placeRoad(new EdgeLocation(5,3,0), players.get(1));
 //		game.getBoard().placeRoad(new EdgeLocation(5,3,1), players.get(1));
 //		game.getBoard().placeRoad(new EdgeLocation(5,3,2), players.get(1));
@@ -219,7 +221,7 @@ public class CatanBoard extends JPanel{
 
 			}
 		}
-		else if (state == 2 || state == 4) {
+		else if (state == 2 || state == 4 || state == 5) {
 			VertexLocation loc = pxToStructure(p);
 			//System.out.println("Blah");
 			//System.out.println(p.getX());
@@ -402,7 +404,7 @@ public class CatanBoard extends JPanel{
 
 	public void drawStructure(Structure s, boolean highlighted, Graphics2D g2) {
 		Player player = s.getOwner();
-		if (state == 2) {
+		if (state == 2 || state == 5) {
 			if (player == null) {
 				if (highlighted)
 					g2.setColor(Color.WHITE);
@@ -604,7 +606,7 @@ public class CatanBoard extends JPanel{
 		}
 		// second column
 		else if (widthMargin + sqrt3div2 * hexagonSide - structSize < x && x < widthMargin + sqrt3div2 * hexagonSide + structSize) {
-			System.out.println("Column 2");
+			//System.out.println("Column 2");
 			if (heightMargin + 2 * hexagonSide - structSize < y && y < heightMargin + 2 * hexagonSide + structSize) {
 				xCoord = 2;
 				yCoord = 5;
@@ -1065,7 +1067,7 @@ public class CatanBoard extends JPanel{
 
 	class AMouseListener extends MouseAdapter{
 		public void mouseClicked(MouseEvent e) {
-			System.out.println("Mouse Clicked");
+			//System.out.println("Mouse Clicked");
 
 			Point p = new Point(e.getX(), e.getY());
 			if (state == 1) {
@@ -1143,6 +1145,36 @@ public class CatanBoard extends JPanel{
 					}
 				}
 			}
+			else if (state == 5) {
+				if (p != null){
+					VertexLocation loc = pxToStructure(p);
+					//System.out.println("Mouse on screen");
+					//System.out.println(p.getX());
+					//System.out.println(p.getY());
+					//System.out.println(loc);
+					if (loc != null) {
+						//System.out.println(loc.getXCoord());
+						//System.out.println(loc.getYCoord());
+						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
+						if (game.getBoard().placeStructureNoRoad(loc, GameRunner.currentPlayer)) {
+							index--;
+							if (capitol) {
+								ArrayList<Tile> tiles = getGame().getBoard().getAdjacentTilesStructure(loc);
+								for (Tile t : tiles){
+									if (t != null) {
+										GameRunner.currentPlayer.setNumberResourcesType(t.getType(), GameRunner.currentPlayer.getNumberResourcesType(t.getType()) + 1);
+									}
+								}
+							}
+							//System.out.println(index);
+						}
+						if (index == 0) {
+							state = 0;
+							//System.out.println("state to 0");
+						}
+					}
+				}
+			}
 			repaint();
 		}
 	}
@@ -1173,5 +1205,24 @@ public class CatanBoard extends JPanel{
 	public void placeRobber() {
 		index = 1;
 		state = 1;
+	}
+	
+	/**
+	 * Puts CatanBoard in placing settlement state in setup
+	 * @param s how many to be placed
+	 */
+	public void placeSettlementNoRoad(int s) {
+		index = s;
+		state = 5;
+	}
+
+	/**
+	 * Puts CatanBoard in placing settlement state in setup
+	 * @param s how many to be placed
+	 */
+	public void placeCapitol() {
+		index = 1;
+		state = 5;
+		capitol = true;
 	}
 }
