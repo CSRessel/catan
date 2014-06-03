@@ -22,4 +22,8 @@ public class KComponent {
 	public Rectangle getRectangle() {
 		return rect;
 	}
+	
+	public void setComponent(JComponent comp) {
+		jComp = comp;
+	}
 }

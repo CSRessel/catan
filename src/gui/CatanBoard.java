@@ -65,6 +65,7 @@ public class CatanBoard extends JPanel{
 		structures = game.getBoard().getStructures();
 
 		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,0), players.get(0));
+		game.getBoard().placeStructureNoRoad(new VertexLocation(3,3,1), players.get(3));
 		game.getBoard().placeStructureNoRoad(new VertexLocation(4,2,1), players.get(1));
 		game.getBoard().placeStructureNoRoad(new VertexLocation(5,3,0), players.get(2));
 		game.getBoard().placeStructureNoRoad(new VertexLocation(1,1,0), players.get(3));

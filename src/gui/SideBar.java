@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -40,7 +42,8 @@ public class SideBar extends JPanel {
 
 	private KComponent currentPlayerBox;
 	private final GameWindow display;
-	private JComboBox<Player> playerStealBox = new JComboBox<Player>();
+
+	private JComboBox<Player> playerStealBox;
 	private int flag = 0;
 		// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel
 
@@ -85,7 +88,6 @@ public class SideBar extends JPanel {
 									}
 									else {
 										timer.stop();
-										GameRunner.currentPlayer.incrementNumbKnights();
 										stealPanel();
 									}
 								}
@@ -461,6 +463,7 @@ public class SideBar extends JPanel {
 		// Steal panel:
 		//-------------------------------------------------------------------
 		
+		playerStealBox = new JComboBox<Player>();
 		playerStealBox.setAction(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
 				 JComboBox<Player> cb = (JComboBox)a.getSource();
@@ -469,6 +472,7 @@ public class SideBar extends JPanel {
 			     mainPanel();
 			}
 		});
+		
 		stealPanel.add(playerStealBox, new Rectangle(3,6,8,2));
 		
 		// Resource selection panel:
@@ -571,20 +575,34 @@ public class SideBar extends JPanel {
 	}
 
 	public void stealPanel() {
+		//JComboBox<Player> newBox = new JComboBox<Player>();
+		AbstractAction action = (AbstractAction) playerStealBox.getAction();
+		playerStealBox.setAction(new AbstractAction() {
+			public void actionPerformed(ActionEvent a) {
+				 
+			}
+		});
 		playerStealBox.removeAllItems();
-		for (Player p : display.getBoard().getGame().getBoard().getRobberAdjacentPlayers()) {
-			if (p.equals(GameRunner.currentPlayer)) {
-				
+		for (int i = 0; i < display.getBoard().getGame().getBoard().getRobberAdjacentPlayers().size(); i++) {
+			if (display.getBoard().getGame().getBoard().getRobberAdjacentPlayers().get(i).equals(GameRunner.currentPlayer)) {
 			}
 			else {
-				playerStealBox.addItem(p);
+				playerStealBox.addItem(display.getBoard().getGame().getBoard().getRobberAdjacentPlayers().get(i));
 			}
 		}
-		if (playerStealBox.getItemCount() == 0) {
+		
+		playerStealBox.setAction(action);
+		System.out.println(playerStealBox.getItemCount());
+		System.out.println(playerStealBox.getItemAt(0));
+		
+		if (playerStealBox.getItemCount() <= 0) {
+			//System.out.println("IF");
 			errorPanel("No one to steal from");
 		}
-		else
+		else {
+			//System.out.println("ELSE");
 			setPanel(stealPanel);
+		}
 	}
 	
 	public void blankPanel() {
