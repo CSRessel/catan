@@ -6,7 +6,7 @@ Logic
 - Setup phase
 - Winning game
 - Lumber bug
-- Seven half cards
+- On seven half cards
 - Road building cards
 - Trading
 
