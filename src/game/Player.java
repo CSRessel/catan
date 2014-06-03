@@ -11,7 +11,7 @@ import board.Road;
  * This class is a Player in the game Settlers of Catan
  */
 public class Player {
-	
+
 	private final String name;
 	private final Color color;
 	private int victoryPoints;
@@ -20,30 +20,48 @@ public class Player {
 	private ArrayList<Road> roads;
 	private int numbKnights;
 	private boolean hasLargestArmy;
-	
-	
+	private boolean[] ports = {false, false, false, false, false, false};
+					// 0 = general
+					// 1 = brick
+					// 2 = wool
+					// 3 = ore
+					// 4 = grain
+					// 5 = lumber
+
+
 	/**
 	 * Constructor takes params for assignment to fields
 	 * @param n is the Player's name
 	 * @param c is the Player's color in game
 	 */
 	public Player(String n, Color c) {
-		
+
 		name = n;
 		color = c;
 		victoryPoints = 0;
 		roads = new ArrayList<Road>();
-		
+
 		resources = new HashMap<String, Integer>(5);
 		resources.put("BRICK", 0);
 		resources.put("WOOL", 0);
-		resources.put("LUMBER", 0);
-		resources.put("GRAIN", 0);
 		resources.put("ORE", 0);
-		
+		resources.put("GRAIN", 0);
+		resources.put("LUMBER", 0);
+
 		hand = new ArrayList<DevCard>();
 	}
-	
+
+	public Player(String n, Color c, int brick, int wool, int ore, int grain, int lumber) {
+		this(n,c);
+
+		setNumberResourcesType("BRICK", brick);
+		setNumberResourcesType("WOOL", wool);
+		setNumberResourcesType("ORE", ore);
+		setNumberResourcesType("GRAIN", grain);
+		setNumberResourcesType("LUMBER", lumber);
+
+	}
+
 	/**
 	 * Getter for the Player's name
 	 * @return name of Player
@@ -51,7 +69,7 @@ public class Player {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Getter for the Player's color
 	 * @return color of Player
@@ -59,7 +77,7 @@ public class Player {
 	public Color getColor() {
 		return color;
 	}
-	
+
 	/**
 	 * Getter for the number of victory points of this Player
 	 * @return number of victory points
@@ -67,7 +85,7 @@ public class Player {
 	public int getVictoryPoints() {
 		return victoryPoints;
 	}
-	
+
 	/**
 	 * Setter for the number of victory points of this Player
 	 * @param vP new number of victory points
@@ -75,7 +93,7 @@ public class Player {
 	public void setVictoryPoints(int vP) {
 		victoryPoints = vP;
 	}
-	
+
 	/**
 	 * Getter for this Player's quantity of given resource type
 	 * @param str resource to work with
@@ -84,7 +102,7 @@ public class Player {
 	public int getNumberResourcesType(String str) {
 		return resources.get(str).intValue();
 	}
-	
+
 	/**
 	 * Setter for this Player's quantity of given resource type
 	 * @param str resource to work with
@@ -93,7 +111,7 @@ public class Player {
 	public void setNumberResourcesType(String str, int n) {
 		resources.put(str, Integer.valueOf(n));
 	}
-	
+
 	/**
 	 * Adds given DevCard to this Player's hand of DevCards
 	 * @param dC the DevCard to give to this Player
@@ -101,7 +119,7 @@ public class Player {
 	public void addDevCard(DevCard dC) {
 		hand.add(dC);
 	}
-	
+
 	/**
 	 * Getter for this Player's hand of DevCards
 	 * @return an ArrayList of DevCards owned by this Player
@@ -109,7 +127,7 @@ public class Player {
 	public ArrayList<DevCard> getHand() {
 		return hand;
 	}
-	
+
 	/**
 	 * Adds given road to list of owned roads
 	 * @param r road added
@@ -117,7 +135,7 @@ public class Player {
 	public void addRoad(Road r){
 		roads.add(r);
 	}
-	
+
 	/**
 	 * Getter for this player's roads
 	 * @return ArrayList<Road> list or owned roads
@@ -125,13 +143,13 @@ public class Player {
 	public ArrayList<Road> getRoads(){
 		return roads;
 	}
-	
+
 	/**
 	 * Method to get an ArrayList of all the resources this Player has one or more of
 	 * @return an ArrayList of resources that this Player as one or more of
 	 */
 	public ArrayList<String> getOwnedResources() {
-		
+
 		ArrayList<String> res = new ArrayList<String>();
 		if (resources.get("BRICK").intValue() > 0) {
 			res.add("BRICK");
@@ -148,17 +166,17 @@ public class Player {
 		if (resources.get("ORE").intValue() > 0) {
 			res.add("ORE");
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Increments the field indicating the number of knights played by this Player
 	 */
 	public void incrementNumbKnights() {
 		numbKnights++;
 	}
-	
+
 	/**
 	 * Getter for the number of knights this Player has played
 	 * @return the number of knights previously played by this player
@@ -166,7 +184,7 @@ public class Player {
 	public int getNumbKnights() {
 		return numbKnights;
 	}
-	
+
 	/**
 	 * Setter for whether this player has the largest army or not
 	 * @param b whether this player has the largest army
@@ -174,7 +192,7 @@ public class Player {
 	public void setHasLargestArmy(Boolean b) {
 		hasLargestArmy = b;
 	}
-	
+
 	/**
 	 * Getter for whether this player has the largest army or not
 	 * @return whether this player has the largest army or not
@@ -182,7 +200,7 @@ public class Player {
 	public boolean hasLargestArmy() {
 		return hasLargestArmy;
 	}
-	
+
 	/**
 	 * Checks if this Player has the specified resources
 	 * @param res the resources to check
@@ -194,7 +212,7 @@ public class Player {
 			lumber = 0,
 			brick = 0,
 			grain = 0;
-		
+
 		for (String s : res) {
 			if (res.equals("WOOL"))
 				wool++;
@@ -207,13 +225,13 @@ public class Player {
 			else if (res.equals("GRAIN"))
 				grain++;
 		}
-		
+
 		if (wool > resources.get("WOOL") || ore > resources.get("ORE") || lumber > resources.get("LUMBER") || brick > resources.get("BRICK") || grain > resources.get("GRAIN"))
 			return false;
 		else
 			return true;
 	}
-	
+
 	/**
 	 * Checks if the Player has a dev card of the given type
 	 * @param dC the dev card to check
@@ -225,10 +243,10 @@ public class Player {
 			if (dev.getSubType() == str && dev.getType() == str)
 				return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public void removeCard(String str) {
 		for (DevCard dC : hand) {
 			if (dC.getSubType() == str || dC.getType() == str) {
@@ -236,5 +254,33 @@ public class Player {
 				break;
 			}
 		}
+
+	/**
+	 * Sets the corresponding port to true
+	 * @param portTag 0 = general
+					  1 = brick
+					  2 = wool
+					  3 = ore
+					  4 = grain
+					  5 = lumber
+	 */
+	public void addPort(int portTag) {
+		ports[portTag] = true;
+	}
+
+	/**
+	 * Getter for list of ports
+	 * @return ports list of ports
+	 */
+	public boolean[] getPorts() {
+		return ports;
+	}
+
+	/**
+	 * Overridden toString method
+	 * @return name
+	 */
+	public String toString() {
+		return name;
 	}
 }

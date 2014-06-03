@@ -16,7 +16,7 @@ public class GameRunner {
 
 	public static void main(String[] args) {
 		
-		players.add(new Player("Superman", Color.BLUE));
+		players.add(new Player("DevMaster", Color.BLUE,8,9,10,11,12));
 		players.add(new Player("Batman", Color.BLACK));
 		players.add(new Player("Spiderman", Color.RED));
 		players.add(new Player("Wonder Woman", Color.GREEN));
