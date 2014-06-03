@@ -406,19 +406,20 @@ public class Board {
 	 * @return Location the robber moved to
 	 */
 	
-	public Location moveRobber(Location loc) {
+	public boolean moveRobber(Location loc) {
 		Location current = getRobberLocation();
 		if (loc.getXCoord() == current.getXCoord() &&
 				loc.getYCoord() == current.getYCoord()) {
+			return false;
+		}
+		else{
 			tiles[current.getXCoord()][current.getYCoord()].setRobber(false);
 			setRobberLocation(loc);
-			tiles[loc.getXCoord()][loc.getYCoord()].setRobber(false);
-			return loc;
+			tiles[loc.getXCoord()][loc.getYCoord()].setRobber(true);
+			return true;
 		}
-		else
-			return null;
 	}
-	
+
 	/**
 	 * Gets all players with structures adjacent to the current robber location
 	 * @return ArrayList of adjacent players

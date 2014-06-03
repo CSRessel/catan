@@ -75,10 +75,22 @@ public class SideBar extends JPanel {
 				else {
 					g.halfCards();
 
-					//TODO move-robber layout
-					//TODO take-cards layout
+					display.getBoard().placeRobber();
+					blankPanel();
+					timer = new Timer(INTERVAL,
+							new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									if(display.getBoard().getState() == 1){
 
-					mainPanel();
+									}
+									else {
+										timer.stop();
+										GameRunner.currentPlayer.incrementNumbKnights();
+										stealPanel();
+									}
+								}
+							});
+					timer.start();
 				}
 				JLabel rollNumb = new JLabel("roll value: " + roll);
 				rollNumb.setFont(new Font("Arial", 1, 16));
@@ -353,8 +365,6 @@ public class SideBar extends JPanel {
 								}
 							});
 					timer.start();
-
-					mainPanel();
 				}
 				else {
 					errorPanel("you don't own this card!");
@@ -569,6 +579,9 @@ public class SideBar extends JPanel {
 			else {
 				playerStealBox.addItem(p);
 			}
+		}
+		if (playerStealBox.getItemCount() == 0) {
+			errorPanel("No one to steal from");
 		}
 		setPanel(stealPanel);
 	}

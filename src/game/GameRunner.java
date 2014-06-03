@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
+import board.DevCard;
+
 public class GameRunner {
 	
 	public static Player currentPlayer;
