@@ -359,4 +359,27 @@ public class Player {
 		}
 		resources.put(str, resources.get(str) + 1);
 	}
+		
+	/**
+	 * Removes all resources in given list from this player
+	 * @param rez list of resources to be removed
+	 */
+	public void removeResources(ArrayList<String> rez) {
+		for (String s: rez) {
+			//System.out.println("Removed " + s);
+			setNumberResourcesType(s, getNumberResourcesType(s) - 1);
+		}
+	}
+	
+	/**
+	 * Gets total amount of resources this player has
+	 * @return int total resources
+	 */
+	public int getTotalResources() {
+		return getNumberResourcesType("BRICK") +
+		getNumberResourcesType("WOOL") +
+		getNumberResourcesType("ORE") +
+		getNumberResourcesType("GRAIN") +
+		getNumberResourcesType("LUMBER");
+	}
 }

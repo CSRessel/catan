@@ -11,7 +11,7 @@ import board.DevCard;
 
 public class GameRunner {
 	
-	public static Player currentPlayer;
+	private static Player currentPlayer;
 	private static int numberPlayers;
 	private static int index = 0;
 	private static ArrayList<Player> players = new ArrayList<Player>();
@@ -35,6 +35,10 @@ public class GameRunner {
 		});
 	}
 	
+	public static Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+	
 	public static void nextPlayer() {
 		currentPlayer = players.get((index + 1) % 4);
 		index = (index + 1) % 4;
@@ -43,6 +47,10 @@ public class GameRunner {
 	public static void prevPlayer() {
 		currentPlayer = players.get((index - 1) % 4);
 		index = (index - 1) % 4;
+	}
+	
+	public static void setFirstPlayer() {
+		currentPlayer = players.get(0);
 	}
 	
 	public static void setWinner(Player p) {

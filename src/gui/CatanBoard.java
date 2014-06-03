@@ -421,7 +421,7 @@ public class CatanBoard extends JPanel{
 		else if (state == 4) {
 			if (player == null)
 				return;
-			else if (player == GameRunner.currentPlayer) {
+			else if (player == GameRunner.getCurrentPlayer()) {
 				if (highlighted){
 					if (s.getType() == 0)
 						g2.setColor(Color.WHITE);
@@ -1102,7 +1102,7 @@ public class CatanBoard extends JPanel{
 						//System.out.println(loc.getXCoord());
 						//System.out.println(loc.getYCoord());
 						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
-						if (game.getBoard().placeStructure(loc, GameRunner.currentPlayer)) {
+						if (game.getBoard().placeStructure(loc, GameRunner.getCurrentPlayer())) {
 							index--;
 						}
 						if (index == 0) {
@@ -1123,7 +1123,7 @@ public class CatanBoard extends JPanel{
 						//System.out.println(loc.getYCoord());
 						//System.out.println(loc.getOrientation());
 						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
-						if (game.getBoard().placeRoad(loc, GameRunner.currentPlayer)) {
+						if (game.getBoard().placeRoad(loc, GameRunner.getCurrentPlayer())) {
 							index--;
 						}
 						if (index == 0) {
@@ -1136,7 +1136,7 @@ public class CatanBoard extends JPanel{
 				if (p != null){
 					VertexLocation loc = pxToStructure(p);
 					if (loc != null) {
-						if (game.getBoard().placeCity(loc, GameRunner.currentPlayer)) {
+						if (game.getBoard().placeCity(loc, GameRunner.getCurrentPlayer())) {
 							index--;
 						}
 						if (index == 0) {
@@ -1156,13 +1156,13 @@ public class CatanBoard extends JPanel{
 						//System.out.println(loc.getXCoord());
 						//System.out.println(loc.getYCoord());
 						//highlightTile(tiles[loc.getXCoord()][loc.getYCoord()], g2);
-						if (game.getBoard().placeStructureNoRoad(loc, GameRunner.currentPlayer)) {
+						if (game.getBoard().placeStructureNoRoad(loc, GameRunner.getCurrentPlayer())) {
 							index--;
 							if (capitol) {
 								ArrayList<Tile> tiles = getGame().getBoard().getAdjacentTilesStructure(loc);
 								for (Tile t : tiles){
 									if (t != null) {
-										GameRunner.currentPlayer.giveResourceType(t.getType());
+										GameRunner.getCurrentPlayer().giveResourceType(t.getType());
 									}
 								}
 							}

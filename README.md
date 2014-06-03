@@ -3,12 +3,12 @@ To Be Completed:
 
 Logic
 -----
-- On seven half cards
 - Trading
 - Dev cards in bottom panel
 
 Bugs
 ----
+- Setup bug
 - Lumber bug
 - Dev card bug
 

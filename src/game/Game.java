@@ -38,7 +38,7 @@ public class Game {
 		board = new Board();
 		deck = new Deck();
 		
-		GameRunner.currentPlayer = players.get(0);
+		GameRunner.setFirstPlayer();
 	}
 
 	/**
