@@ -136,15 +136,18 @@ public class Player {
 	 */
 	public void addDevCard(DevCard dC) {
 		hand.add(dC);
+		if (dC.getType().equals("Victory Point")) {
+			victoryPoints++;
+		}
 	}
 
-	/**
-	 * Getter for this Player's hand of DevCards
-	 * @return an ArrayList of DevCards owned by this Player
-	 */
-	public ArrayList<DevCard> getHand() {
-		return hand;
-	}
+//	/**
+//	 * Getter for this Player's hand of DevCards
+//	 * @return an ArrayList of DevCards owned by this Player
+//	 */
+//	public ArrayList<DevCard> getHand() {
+//		return hand;
+//	}
 
 	/**
 	 * Adds given road to list of owned roads
@@ -258,7 +261,7 @@ public class Player {
 	public boolean hasCard(String str) {
 
 		for (DevCard dev : hand) {
-			if (dev.getSubType() == str && dev.getType() == str)
+			if (dev.getSubType() == str || dev.getType() == str)
 				return true;
 		}
 
@@ -401,8 +404,10 @@ public class Player {
 	 */
 	public int getDevCardsType(String str) {
 		int count = 0;
+		System.out.println(str);
 		for (DevCard dC : hand) {
-			if (dC.getType().equals(str) || dC.getSubType().equals(str))
+			System.out.println(dC.getType() + ", " + dC.getSubType());
+			if (dC.getType().equals(str) || dC.getSubType() != null && dC.getSubType().equals(str))
 				count++;
 		}
 		

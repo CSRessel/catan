@@ -43,4 +43,12 @@ public class Deck {
 		else
 			return null;
 	}
+	
+	/**
+	 * Checks whether there are still cards in the deck
+	 * @return whether the cards have run out
+	 */
+	public boolean isEmpty() {
+		return cards.size() == 0;
+	}
 }

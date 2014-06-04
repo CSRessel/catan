@@ -22,7 +22,7 @@ public class BottomBar extends JPanel{
 	
 	public ArrayList<ArrayList<KComponent>> playerComponents = new ArrayList<ArrayList<KComponent>>();
 	
-	public final static int INTERVAL = 100;
+	public final static int INTERVAL = 50;
 	private Timer timer;
 	
 	public BottomBar() {

@@ -434,15 +434,11 @@ public class Game {
 		p.setNumberResourcesType("ORE", p.getNumberResourcesType("ORE") - 1);
 		p.setNumberResourcesType("WOOL", p.getNumberResourcesType("WOOL") - 1);
 		p.setNumberResourcesType("GRAIN", p.getNumberResourcesType("GRAIN") - 1);
-
-		DevCard dC = deck.draw();
 		
-		if (dC == null) {
+		if (deck.isEmpty()) {
 			return 2;
 		}
-		
-		p.addDevCard(dC);
-		
+				
 		return 0;
 	}
 

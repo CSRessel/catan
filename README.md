@@ -3,11 +3,12 @@ To Be Completed:
 
 Logic
 -----
-- NPC trading
+- Longest road (checking)
+- Largest army (checking))
 
 Bugs
 ----
-- Dev card bug
+NONE
 
 ______________________________________________________________________________
 

@@ -35,24 +35,24 @@ import lib.GraphPaperLayout;
 
 public class SideBar extends JPanel {
 
-	private ComponentList rollPanel 		= new ComponentList();
-	private ComponentList mainPanel			= new ComponentList();
-	private ComponentList buyPanel			= new ComponentList();
-	private ComponentList tradePanel		= new ComponentList();
-	private ComponentList choosePlayerPanel	= new ComponentList();
-	private ComponentList errorPanel		= new ComponentList();
-	private ComponentList devPanel			= new ComponentList();
-	private ComponentList resPanel			= new ComponentList();
+	private ComponentList rollPanel 			= new ComponentList();
+	private ComponentList mainPanel				= new ComponentList();
+	private ComponentList buyPanel				= new ComponentList();
+	private ComponentList tradePanel			= new ComponentList();
+	private ComponentList choosePlayerPanel		= new ComponentList();
+	private ComponentList errorPanel			= new ComponentList();
+	private ComponentList devPanel				= new ComponentList();
+	private ComponentList resPanel				= new ComponentList();
 	private String resSelection;
 	private boolean done = false;
-	private ComponentList stealPanel		= new ComponentList();
-	private ComponentList placePanel		= new ComponentList();
+	private ComponentList stealPanel			= new ComponentList();
+	private ComponentList placePanel			= new ComponentList();
 
-	private ComponentList setupPanel		= new ComponentList();
-	private ComponentList inputResourcesPanel		= new ComponentList();
-	private ArrayList<String> inputResources = new ArrayList<String>();
-	private ArrayList<String> offerResources = new ArrayList<String>();
-	private ArrayList<String> sellResources = new ArrayList<String>();
+	private ComponentList setupPanel			= new ComponentList();
+	private ComponentList inputResourcesPanel	= new ComponentList();
+	private ArrayList<String> inputResources	= new ArrayList<String>();
+	private ArrayList<String> offerResources	= new ArrayList<String>();
+	private ArrayList<String> sellResources		= new ArrayList<String>();
 	private Player tradeChoice;
 	//private final ExecutorService pool;
 	private boolean IRPdone = true;
@@ -65,7 +65,7 @@ public class SideBar extends JPanel {
 	private int flag = 0;
 	// For tracking where we are in turn; 0 = main panel or roll, 1 = trade panel, 2 = buy panel, 3 = dev card panel
 
-	public final static int INTERVAL = 20;
+	public final static int INTERVAL = 50;
 	private Timer timer;
 
 	public SideBar(final GameWindow display) {
@@ -445,10 +445,6 @@ public class SideBar extends JPanel {
 					DevCard dC = g.getDeck().draw();
 					GameRunner.getCurrentPlayer().addDevCard(dC);
 
-					if (dC.getType().equals("Victory Point")) {
-						GameRunner.getCurrentPlayer().setVictoryPoints(GameRunner.getCurrentPlayer().getVictoryPoints());
-					}
-
 					buyPanel();
 				}
 				else if (bought == 1) {
@@ -530,7 +526,7 @@ public class SideBar extends JPanel {
 		// Play a monopoly card
 		JButton monopoly = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				if (!GameRunner.getCurrentPlayer().hasCard("Monopoly")) {
+				if (GameRunner.getCurrentPlayer().hasCard("Monopoly")) {
 					GameRunner.getCurrentPlayer().removeCard("Monopoly");
 
 					resPanel();
@@ -905,12 +901,6 @@ public class SideBar extends JPanel {
 		begin.setText("place");
 		setupPanel.add(new KComponent(begin, new Rectangle(4,6,6,3)));
 
-		//-------------------------------------------------------------------
-
-		setupPanel();
-		//mainPanel();
-		//devPanel();
-
 		// Input Resources Panel
 		//-------------------------------------------------------------------
 
@@ -981,9 +971,21 @@ public class SideBar extends JPanel {
 		JLabel lumberLabel = new JLabel("Lumber");
 		start.setFont(font);
 		inputResourcesPanel.add(new KComponent(lumberLabel, new Rectangle(8,9,4,1)));
-
-
+		
 		//inputResourcesPanel(1, GameRunner.getCurrentPlayer(), "test");
+
+		//-------------------------------------------------------------------
+
+		//setupPanel();
+		//mainPanel();
+//		if (!GameRunner.getCurrentPlayer().getName().equals("DevMaster"))
+//			GameRunner.nextPlayer();
+//		if (!GameRunner.getCurrentPlayer().getName().equals("DevMaster"))
+//			GameRunner.nextPlayer();
+//		if (!GameRunner.getCurrentPlayer().getName().equals("DevMaster"))
+//			GameRunner.nextPlayer();
+//		devPanel();
+		rollPanel();
 	}
 
 	private void setPanel(ComponentList cL) {
