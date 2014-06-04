@@ -393,4 +393,19 @@ public class Player {
 		getNumberResourcesType("GRAIN") +
 		getNumberResourcesType("LUMBER");
 	}
+	
+	/**
+	 * Returns number of dev cards of given type or subtype
+	 * @param str the card type or subtype
+	 * @return the number owned by this Player
+	 */
+	public int getDevCardsType(String str) {
+		int count = 0;
+		for (DevCard dC : hand) {
+			if (dC.getType().equals(str) || dC.getSubType().equals(str))
+				count++;
+		}
+		
+		return count;
+	}
 }

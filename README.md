@@ -3,13 +3,10 @@ To Be Completed:
 
 Logic
 -----
-- Trading
-- Dev cards in bottom panel
+- NPC trading
 
 Bugs
 ----
-- Setup bug
-- Lumber bug
 - Dev card bug
 
 ______________________________________________________________________________

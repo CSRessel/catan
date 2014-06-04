@@ -22,7 +22,7 @@ public class GameWindow {
 	public final static int INTERVAL = 20;
 	
 	
-	final static int SCRSIZE = 900; //TODO specify
+	final static int SCRSIZE = 1000; //TODO specify
 	
 	
 	public GameWindow(ArrayList<Player> players) {
@@ -47,7 +47,7 @@ public class GameWindow {
 		
 		JFrame frame = new JFrame("Catan");
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		Dimension d = new Dimension(5,5);
+		Dimension d = new Dimension(5,6);
 
 		frame.setSize(SCRSIZE + 500, SCRSIZE);
 		//frame.setLayout(new GraphPaperLayout(d));
@@ -59,7 +59,7 @@ public class GameWindow {
 		side = new SideBar(this);
 		content.add(side,new Rectangle(4,0,1,4));
 		
-		content.add(bottom,new Rectangle(0,4,5,1));
+		content.add(bottom,new Rectangle(0,4,5,2));
 		
 		
 		frame.setResizable(true);
