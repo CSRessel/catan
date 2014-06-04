@@ -372,6 +372,17 @@ public class Player {
 	}
 	
 	/**
+	 * Adds all resources in given list to this player
+	 * @param rez list of resources to be added
+	 */
+	public void addResources(ArrayList<String> rez) {
+		for (String s: rez) {
+			//System.out.println("Removed " + s);
+			setNumberResourcesType(s, getNumberResourcesType(s) + 1);
+		}
+	}
+	
+	/**
 	 * Gets total amount of resources this player has
 	 * @return int total resources
 	 */
