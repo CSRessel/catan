@@ -23,6 +23,7 @@ public class BottomBar extends JPanel{
 	public ArrayList<ArrayList<KComponent>> playerComponents = new ArrayList<ArrayList<KComponent>>();
 	
 	public final static int INTERVAL = 50;
+	public final static double LIGHTENING_FACTOR = .05;
 	private Timer timer;
 	
 	public BottomBar() {

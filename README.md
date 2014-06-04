@@ -4,11 +4,6 @@ To Be Completed:
 Logic
 -----
 - Longest road (checking)
-- Largest army (checking))
-
-Bugs
-----
-NONE
 
 ______________________________________________________________________________
 

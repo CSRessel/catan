@@ -14,12 +14,12 @@ public class Player {
 
 	private final String name;
 	private final Color color;
-	private int victoryPoints;
 	private HashMap<String, Integer> resources;
 	private ArrayList<DevCard> hand;
 	private ArrayList<Road> roads;
 	private int numbKnights = 0;
 	private int numbSettlements = 2;
+	private int victoryPoints = 2;
 	private int numbRoads = 2;
 	private int numbCities = 0;
 	private boolean hasLargestArmy;
@@ -41,7 +41,6 @@ public class Player {
 
 		name = n;
 		color = c;
-		victoryPoints = 2;
 		roads = new ArrayList<Road>();
 
 		resources = new HashMap<String, Integer>(5);
@@ -211,6 +210,10 @@ public class Player {
 	 * @param b whether this player has the largest army
 	 */
 	public void setHasLargestArmy(Boolean b) {
+		if (hasLargestArmy == true && b == false)
+			victoryPoints--;
+		else if (hasLargestArmy == false && b == true)
+			victoryPoints++;
 		hasLargestArmy = b;
 	}
 
@@ -404,9 +407,7 @@ public class Player {
 	 */
 	public int getDevCardsType(String str) {
 		int count = 0;
-		System.out.println(str);
 		for (DevCard dC : hand) {
-			System.out.println(dC.getType() + ", " + dC.getSubType());
 			if (dC.getType().equals(str) || dC.getSubType() != null && dC.getSubType().equals(str))
 				count++;
 		}

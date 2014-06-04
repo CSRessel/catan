@@ -4,6 +4,7 @@ import game.Game;
 import game.GameRunner;
 import game.Player;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 //import java.util.concurrent.ExecutorService;
 //import java.util.concurrent.Executors;
+
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -79,6 +81,7 @@ public class SideBar extends JPanel {
 
 		currentPlayerBox = new KComponent(new JLabel(""), new Rectangle(2,0,10,1));
 		currentPlayerBox.getComponent().setFont(font);
+		currentPlayerBox.getComponent().setForeground(Color.WHITE);
 		setCurrentPlayer(GameRunner.getCurrentPlayer());
 		add(currentPlayerBox.getComponent(), currentPlayerBox.getRectangle());
 
@@ -275,6 +278,33 @@ public class SideBar extends JPanel {
 		JButton endTurn = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
 				Game g = display.getBoard().getGame();
+				
+				// Check for largest army
+				if (GameRunner.getCurrentPlayer().getNumbKnights() >= 3) {
+
+					int currMax = GameRunner.getCurrentPlayer().getNumbKnights();
+					Player largestArmy = GameRunner.getCurrentPlayer();
+					Player oldLargestArmy = null;
+					
+					for (int i = 0; i < GameRunner.getNumbPlayers(); i++) {
+						Player p = GameRunner.getPlayer(i);
+
+						if (p.hasLargestArmy()) {
+							oldLargestArmy = p;
+						}
+
+						if (p.getNumbKnights() > currMax) {
+							largestArmy = p;
+							currMax = p.getNumbKnights();
+						}
+					}
+					
+					if (oldLargestArmy != null && oldLargestArmy != largestArmy) {
+						oldLargestArmy.setHasLargestArmy(false);
+					}
+					
+					largestArmy.setHasLargestArmy(true);
+				}
 
 				if (g.over()) {
 					GameRunner.setWinner(g.winningPlayer());
@@ -518,6 +548,7 @@ public class SideBar extends JPanel {
 
 				if (GameRunner.getCurrentPlayer().hasCard("Knight")) {
 					GameRunner.getCurrentPlayer().removeCard("Knight");
+					GameRunner.getCurrentPlayer().incrementNumbKnights();
 
 					display.getBoard().placeRobber();
 					placePanel("Move the robber...");
@@ -1090,15 +1121,15 @@ public class SideBar extends JPanel {
 	
 	public void choosePlayerPanel() {
 		AbstractAction action = (AbstractAction) ((JComboBox<Player>) choosePlayerPanel.get(0).getComponent()).getAction();
-		//Remove action, so that removeAllItems() does not trigger an event
+		// Remove action, so that removeAllItems() does not trigger an event
 		((JComboBox<Player>) choosePlayerPanel.get(0).getComponent()).setAction(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
 				
 			}
 		});
-		//Depopulate combo box
+		// Depopulate combo box
 		((JComboBox<Player>) choosePlayerPanel.get(0).getComponent()).removeAllItems();
-		//Populate combo box
+		// Populate combo box
 		for (int i = 0; i < GameRunner.getNumbPlayers(); i++) {
 			if (GameRunner.getPlayer(i).equals(GameRunner.getCurrentPlayer())) {
 			}
@@ -1106,7 +1137,7 @@ public class SideBar extends JPanel {
 				((JComboBox<Player>) choosePlayerPanel.get(0).getComponent()).addItem(GameRunner.getPlayer(i));
 			}
 		}
-		//Reset action
+		// Reset action
 		((JComboBox<Player>) choosePlayerPanel.get(0).getComponent()).setAction(action);
 		setPanel(choosePlayerPanel);
 	}
@@ -1128,7 +1159,7 @@ public class SideBar extends JPanel {
 		//final ArrayList<String> output = new ArrayList<String>();
 		IRPdone = false;
 
-		//Depopulates / Repopulates the combo boxes
+		// Depopulates / Repopulates the combo boxes
 		for (int i = 0; i < 5; i++) {
 			((JComboBox<Integer>) inputResourcesPanel.get(i).getComponent()).removeAllItems();
 		}
@@ -1170,7 +1201,7 @@ public class SideBar extends JPanel {
 		//Sets player
 		((JLabel) inputResourcesPanel.get(5).getComponent()).setText("Player: " + p.getName());
 
-		//Sets action according to flag and resourceCount
+		// Sets action according to flag and resourceCount
 		((JButton) inputResourcesPanel.get(6).getComponent()).setAction(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
 				int sum = 0;
@@ -1219,7 +1250,7 @@ public class SideBar extends JPanel {
 			}
 		});
 
-		//Sets submit button text
+		// Sets submit button text
 		((JButton) inputResourcesPanel.get(6).getComponent()).setText(str);
 
 		setPanel(inputResourcesPanel);
@@ -1238,7 +1269,10 @@ public class SideBar extends JPanel {
 	}
 
 	public void setCurrentPlayer(Player p) {
-		((JLabel) currentPlayerBox.getComponent()).setText("Player: " + p.getName());
+		JLabel label = (JLabel) currentPlayerBox.getComponent();
+		label.setText("Player: " + p.getName());
+		label.setOpaque(true);
+		label.setBackground(GameRunner.getCurrentPlayer().getColor());
 	}
 
 	public void setupPanel() {
