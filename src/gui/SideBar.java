@@ -307,8 +307,30 @@ public class SideBar extends JPanel {
 		// Trade with stock
 		JButton tradeStock = new JButton(new AbstractAction() {
 			public void actionPerformed(ActionEvent a) {
-				//TODO
-				mainPanel();
+				resPanel();
+				timer = new Timer(INTERVAL,
+						new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						if(done){
+							timer.stop();
+							done = false;
+							final String res = resSelection;
+							inputResourcesPanel(-1, GameRunner.getCurrentPlayer(), "Sell resources", false);
+							timer = new Timer(INTERVAL,
+									new ActionListener() {
+								public void actionPerformed(ActionEvent evt) {
+									if(IRPdone){
+										timer.stop();
+										display.getBoard().getGame().npcTrade(GameRunner.getCurrentPlayer(), res, inputResources);
+										mainPanel();
+									}
+								}
+							});
+							timer.start();
+						}
+					}
+				});
+				timer.start();
 			}
 		});
 		tradeStock.setText("the stock");

@@ -248,6 +248,8 @@ public class CatanBoard extends JPanel{
 			}
 		}
 		//System.out.println("Painted");
+		
+		labelPorts(g2);
 	}
 
 	public void setState(int newState) {
@@ -256,6 +258,119 @@ public class CatanBoard extends JPanel{
 	
 	public int getState() {
 		return state;
+	}
+
+	public void labelPorts(Graphics2D g2) {
+		Graphics2D g2c = (Graphics2D) g2.create();
+
+		//Sheep 2:1
+		AffineTransform transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 4.2), heightMargin - (int)(hexagonSide * 0.2));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		AffineTransform rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(30));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("Sheep 2:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
+		//General 3:1
+		transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 7.0), heightMargin + (int)(hexagonSide * 1.5));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(30));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("General 3:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
+		//General 3:1
+		transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 8.8), heightMargin + (int)(hexagonSide * 3.2));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(90));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("General 3:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
+		//Brick 2:1
+		transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 7.0), heightMargin + (int)(hexagonSide * 7.0));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(-30));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("Brick 2:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
+		//Lumber 2:1
+		transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 4.2), heightMargin + (int)(hexagonSide * 8.5));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(-30));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("Lumber 2:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
+		//General 3:1
+		transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 1.3), heightMargin + (int)(hexagonSide * 7.8));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(30));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("General 3:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
+		//Grain 2:1
+		transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 0.7), heightMargin + (int)(hexagonSide * 6.5));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(270));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("Grain 2:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
+		//Ore 2:1
+		transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 0.7), heightMargin + (int)(hexagonSide * 3.0));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(270));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("Ore 2:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
+		//General 3:1
+		transformer = new AffineTransform();
+		transformer.translate(widthMargin + (int)(hexagonSide * 1.2), heightMargin + (int)(hexagonSide * 0.7));
+		//transformer.translate(-(int) (0.4 * hexagonSide),-height/2);
+		g2c.transform(transformer);
+		rotate = new AffineTransform();
+		rotate.rotate(Math.toRadians(-30));
+		g2c.transform(rotate);
+		g2c.setColor(Color.BLACK);
+		g2c.drawString("General 3:1",0, 0);
+		g2c = (Graphics2D) g2.create();
+
 	}
 
 	public Polygon makeHex(Point center) {
