@@ -998,8 +998,8 @@ public class SideBar extends JPanel {
 
 		//-------------------------------------------------------------------
 
-		//setupPanel();
-		//mainPanel();
+		setupPanel();
+//		mainPanel();
 //		if (!GameRunner.getCurrentPlayer().getName().equals("DevMaster"))
 //			GameRunner.nextPlayer();
 //		if (!GameRunner.getCurrentPlayer().getName().equals("DevMaster"))
@@ -1007,7 +1007,7 @@ public class SideBar extends JPanel {
 //		if (!GameRunner.getCurrentPlayer().getName().equals("DevMaster"))
 //			GameRunner.nextPlayer();
 //		devPanel();
-		rollPanel();
+//		rollPanel();
 	}
 
 	private void setPanel(ComponentList cL) {
