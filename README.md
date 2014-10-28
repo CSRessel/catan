@@ -1,15 +1,21 @@
-To Be Completed:
+Settlers of Catan
 ================
 
-Logic
------
-- Longest road (checking)
+This project is a Java implementation of the classic board game, "Settlers of Catan."   
+Graphics make use of the Swing libraries.  
+Project is currently in alpha.
+
+Much of the graphics will soon be rewritten and re-styled.  
+Networking capabilities are scheduled to be added to the game.  
 
 ______________________________________________________________________________
 
 
-License (b/c of code from The Java Tutorials):
-==============================================
+License:
+========
+(for small amount of code from "Java Tutorials", which will eventually be replaced)  
+
+
 Copyright (c) 2014, Oracle America, Inc.
 All rights reserved.
 
